@@ -1,0 +1,18 @@
+.button {
+  width: 100%;
+  font-size: 16px;
+  padding: 6px;
+  color: #ffffff;
+  background: none;
+  color: #4267b2;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.text {
+  display: inline;
+  margin-left: 3px;
+  position: relative;
+  top: -8px;
+}
