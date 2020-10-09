@@ -2,7 +2,7 @@
 
 CREATE TABLE user(userId INT NOT NULL AUTO_INCREMENT,
 				  fullName VARCHAR(30) NOT NULL, 
-                  userName  VARCHAR(15) NOT NULL, 
+                  userName  VARCHAR(15) NOT NULL UNIQUE, 
                   email     VARCHAR(50) NOT NULL UNIQUE, 
                   password  VARCHAR(1000) NOT NULL,
 				  PRIMARY KEY(userId));
