@@ -4,3 +4,16 @@
   box-sizing: border-box;
   font-family: "Open sans";
 }
+
+::placeholder {
+  color: #9c9691;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #9c9691;
+}
+
+::-ms-input-placeholder {
+  color: #9c9691;
+}
