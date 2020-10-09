@@ -17,11 +17,23 @@ module.exports = {
     });
   },
 
-  createUser: (con, firstName, lastName, email, password) => {
+  getUserByUserName: (con, userName) => {
     return new Promise((resolve, reject) => {
       con.query(
-        `INSERT INTO user (firstName, lastName, email, password) VALUES 
-		("${firstName}", "${lastName}", "${email}", "${password}")`,
+        `SELECT * FROM user WHERE userName="${userName}"`,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
+  createUser: (con, fullName, userName, email, password) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `INSERT INTO user (fullName, userName, email, password) VALUES 
+		("${fullName}", "${userName}", "${email}", "${password}")`,
         (err, result) => {
           if (err) reject(err);
           else resolve(result);
