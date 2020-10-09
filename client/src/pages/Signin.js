@@ -4,9 +4,8 @@ import FormInput from "../components/FormInput";
 import Button from "../components/Button";
 import FormDivider from "../components/FormDivider";
 import IconButton from "../components/IconButton";
+import AppInfo from "../components/AppInfo";
 import { mdiFacebook } from "@mdi/js";
-import AppStore from "../img/App-store.png";
-import GooglePlay from "../img/Google-play.png";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
@@ -92,35 +91,7 @@ export default function Signin() {
           Sign up
         </Button>
       </div>
-      <div className={styles.appInfo}>
-        <p>Get the app:</p>
-        <div className={styles.appButtons}>
-          <Button
-            style={{
-              background: "none",
-              padding: "0",
-              width: "fit-content",
-              marginRight: "10px",
-            }}
-          >
-            <img className={styles.logoImg} src={AppStore} alt="App store" />
-          </Button>
-
-          <Button
-            style={{
-              background: "none",
-              padding: "0",
-              width: "fit-content",
-            }}
-          >
-            <img
-              className={styles.logoImg}
-              src={GooglePlay}
-              alt="Google Play"
-            />
-          </Button>
-        </div>
-      </div>
+      <AppInfo />
     </div>
   );
 }

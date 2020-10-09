@@ -45,26 +45,6 @@
   margin-right: 4px;
 }
 
-.appInfo {
-  margin-top: 40px;
-}
-
-.appInfo p {
-  font-size: 14px;
-  color: #262626;
-  text-align: center;
-}
-
-.appButtons {
-  margin-top: 20px;
-}
-
-.logoImg {
-  width: 130px;
-  height: 50px;
-  cursor: pointer;
-}
-
 @media (min-width: 450px) {
   .topContainer {
     background-color: #fafafa;
