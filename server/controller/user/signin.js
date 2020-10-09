@@ -2,15 +2,18 @@ const bcrypt = require("bcryptjs");
 const User = require("../../model/User");
 
 module.exports = async (req, res) => {
-  const { email, password } = req.body;
+  const { user, password } = req.body;
 
   try {
-    const result = await User.getUserByEmail(req.con, email);
+    let result = await User.getUserByEmail(req.con, user);
     if (!result.length) {
-      return res.status(406).send({
-        field: "email",
-        msg: "User with same E-mail doesn't exist",
-      });
+      result = await User.getUserByUserName(req.con, user);
+      if (!result.length) {
+        return res.status(406).send({
+          field: "Username or email",
+          msg: "No such username or email exists",
+        });
+      }
     }
 
     const validPassword = await bcrypt.compare(password, result[0].password);
