@@ -17,3 +17,8 @@
 ::-ms-input-placeholder {
   color: #9c9691;
 }
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
