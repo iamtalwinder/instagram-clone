@@ -23,7 +23,6 @@ export default function FormInput(props) {
   useEffect(() => {
     const container = document.getElementById(containerId);
     const input = document.getElementById(inputId);
-    console.log(input);
     input.addEventListener("focus", () => {
       container.style.borderColor = "#262626";
       setFocus(true);
@@ -49,10 +48,20 @@ export default function FormInput(props) {
       <label>{props.placeholder}</label>
       <div className={styles.box}>
         {!focus && props.wrong && (
-          <Icon path={mdiAlphaXCircleOutline} size={1} verticle color="red" />
+          <Icon
+            path={mdiAlphaXCircleOutline}
+            size={1}
+            verticle="true"
+            color="red"
+          />
         )}
         {props.correct && (
-          <Icon path={mdiCheckCircleOutline} size={1} verticle color="green" />
+          <Icon
+            path={mdiCheckCircleOutline}
+            size={1}
+            verticle="true"
+            color="green"
+          />
         )}
         {props.type === "password" && props.value !== "" && (
           <button type="button" onClick={handleChange}>
