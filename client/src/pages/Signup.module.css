@@ -18,19 +18,32 @@
   font-family: "Yesteryear";
   font-size: 50px;
   font-weight: 300;
-  padding: 20px 0 30px 0;
+  margin: 10px 0 5px 0;
+}
+
+.subHeading {
+  font-size: 14px;
+  text-align: center;
+  color: #706868;
 }
 
 .form > * {
   margin-bottom: 8px;
 }
 
-.signup {
-  width: fit-content;
-  margin: 40px 0;
+.policy {
+  font-size: 12px;
+  text-align: center;
+  color: #706868;
+  margin: 20px 0;
 }
 
-.signup p {
+.signin {
+  width: fit-content;
+  margin: 30px 0;
+}
+
+.signin p {
   display: inline;
   font-size: 14px;
   color: #706868;
@@ -44,7 +57,7 @@
   }
 
   .form,
-  .signup {
+  .signin {
     width: 350px;
     background-color: #ffffff;
     border: 1px solid #cfccca;
@@ -52,11 +65,12 @@
   }
 
   .form {
-    margin-top: 30px;
+    margin-top: 10px;
   }
 
-  .signup {
+  .signin {
     text-align: center;
     padding: 20px 0;
+    margin: 10px 0;
   }
 }

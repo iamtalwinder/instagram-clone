@@ -4,7 +4,7 @@ import FormInput from "../components/FormInput";
 import Button from "../components/Button";
 import FormDivider from "../components/FormDivider";
 import IconButton from "../components/IconButton";
-import FormErrorBox from "../components/FormErrorBox";
+import FormMessageBox from "../components/FormMessageBox";
 import AppInfo from "../components/AppInfo";
 import { mdiFacebook } from "@mdi/js";
 import axios from "axios";
@@ -16,7 +16,8 @@ export default function Signin(props) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [loginDisable, setLoginDisable] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,12 +26,13 @@ export default function Signin(props) {
       await axios.post("/api/signin", { user, password });
       history.push("/dashboard");
     } catch (err) {
+      setError(true);
       if (err.response) {
-        setError(err.response.data.msg);
+        setMessage(err.response.data.msg);
       } else if (err.request) {
-        setError("Something went wrong. Try again!");
+        setMessage("Something went wrong. Try again!");
       } else {
-        setError("Network error");
+        setMessage("Network error");
       }
     }
     setLoading(false);
@@ -86,7 +88,13 @@ export default function Signin(props) {
         <IconButton style={{ padding: "0" }} path={mdiFacebook} type="button">
           Log In with Facebook
         </IconButton>
-        {error !== "" && <FormErrorBox error={error} />}
+        {message !== "" && (
+          <FormMessageBox
+            message={message}
+            error={error}
+            style={{ marginTop: "" }}
+          />
+        )}
         <Button
           style={{
             background: "none",
