@@ -4,34 +4,53 @@ import FormInput from "../components/FormInput";
 import Button from "../components/Button";
 import FormDivider from "../components/FormDivider";
 import IconButton from "../components/IconButton";
+import FormErrorBox from "../components/FormErrorBox";
 import AppInfo from "../components/AppInfo";
 import { mdiFacebook } from "@mdi/js";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-export default function Signin() {
-  const [email, setEmail] = useState("");
+export default function Signin(props) {
+  let history = useHistory();
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [disabled, setDisabled] = useState(true);
-  const handleSubmit = (e) => {
+  const [loginDisable, setLoginDisable] = useState(true);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    try {
+      await axios.post("/api/signin", { user, password });
+      history.push("/dashboard");
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data.msg);
+      } else if (err.request) {
+        setError("Something went wrong. Try again!");
+      } else {
+        setError("Network error");
+      }
+    }
+    setLoading(false);
   };
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-    checkDisabled(e.target.value, password);
+  const handleUser = (e) => {
+    setUser(e.target.value);
+    checkDisable(e.target.value, password);
   };
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    checkDisabled(email, e.target.value);
+    checkDisable(user, e.target.value);
   };
 
-  const checkDisabled = (email, password) => {
-    if (email === "" || password === "") {
-      setDisabled(true);
+  const checkDisable = (user, password) => {
+    if (user === "" || password === "") {
+      setLoginDisable(true);
     } else {
-      setDisabled(false);
+      setLoginDisable(false);
     }
   };
   return (
@@ -39,11 +58,11 @@ export default function Signin() {
       <form className={styles.form}>
         <h4>Instagram</h4>
         <FormInput
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleEmail}
+          name="user"
+          type="text"
+          placeholder="Username or email"
+          value={user}
+          onChange={handleUser}
           required
         />
         <FormInput
@@ -57,7 +76,7 @@ export default function Signin() {
         <Button
           type="submit"
           loading={loading}
-          disabled={disabled}
+          disabled={loginDisable}
           onClick={handleSubmit}
           style={{ marginTop: "12px" }}
         >
@@ -67,6 +86,7 @@ export default function Signin() {
         <IconButton style={{ padding: "0" }} path={mdiFacebook} type="button">
           Log In with Facebook
         </IconButton>
+        {error !== "" && <FormErrorBox error={error} />}
         <Button
           style={{
             background: "none",
@@ -87,6 +107,7 @@ export default function Signin() {
             padding: "0",
             width: "fit-content",
           }}
+          onClick={() => history.push("/signup")}
         >
           Sign up
         </Button>
