@@ -2,6 +2,7 @@
   width: 100%;
   background-color: #fafafa;
   border: 1px solid #cfccca;
+  display: flex;
   position: relative;
 }
 
@@ -23,9 +24,12 @@ input:placeholder-shown {
 input:placeholder-shown + label {
   opacity: 0;
   transform: translateY(10px);
+  visibility: hidden;
 }
 
 input + label {
+  visibility: visible;
+  flex: 1;
   font-size: 12px;
   color: #9c9691;
   position: absolute;
@@ -34,4 +38,21 @@ input + label {
   transition: all 0.1s;
   opacity: 1;
   transform: translateY(3px);
+}
+
+.box {
+  display: flex;
+}
+
+.box > * {
+  margin-right: 4px;
+  align-self: center;
+  font-size: 16px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
 }
