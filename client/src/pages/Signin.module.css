@@ -25,16 +25,9 @@
   margin-bottom: 8px;
 }
 
-.logInWithFacebook {
-  padding: 0px;
-  color: #ffffff;
-  background: none;
-  color: #4267b2;
-}
-
 .signup {
   width: fit-content;
-  margin-top: 40px;
+  margin: 40px 0;
 }
 
 .signup p {
@@ -48,7 +41,6 @@
 @media (min-width: 450px) {
   .topContainer {
     background-color: #fafafa;
-    justify-content: center;
   }
 
   .form,
