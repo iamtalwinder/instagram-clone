@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+  border: 1px solid #ccc;
+  height: 200vh;
+  margin: 45px auto;
+}
+
+@media (min-width: 600px) {
+  .container {
+    width: 600px;
+  }
+}
