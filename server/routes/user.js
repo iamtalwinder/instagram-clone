@@ -1,0 +1,12 @@
+const express = require("express");
+const userController = require("../controller/user");
+const auth = require("./middleware/auth");
+
+const router = express.Router();
+
+router.post("/signup", userController.signup);
+router.post("/signin", userController.signin);
+router.delete("/signout", auth, userController.signout);
+router.get("/isAuthorized", auth, userController.isAuthorized);
+
+module.exports = router;
