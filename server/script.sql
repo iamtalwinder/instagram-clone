@@ -6,6 +6,16 @@ CREATE TABLE user(userId INT NOT NULL AUTO_INCREMENT,
                   email     VARCHAR(50) NOT NULL UNIQUE, 
                   password  VARCHAR(1000) NOT NULL,
 				  PRIMARY KEY(userId));
+                  
+CREATE TABLE follow(userId INT NOT NULL,
+					followerId INT NOT NULL,
+                    PRIMARY KEY(userId, followerId),
+                    FOREIGN KEY (userId) 
+						REFERENCES user (userId)
+						ON DELETE CASCADE,
+					FOREIGN KEY (followerId) 
+						REFERENCES user (userId)
+						ON DELETE CASCADE);
 
 /*Creating new database user*/
 
