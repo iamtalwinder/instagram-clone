@@ -1,4 +1,25 @@
 module.exports = {
+  getFollow: (con, userId, followerId) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `
+        SELECT
+            * 
+        FROM
+          follow
+        WHERE
+          userId=${userId}
+        AND
+          followerId=${followerId}
+        `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
   follow: (con, userId, followerId) => {
     return new Promise((resolve, reject) => {
       con.query(
