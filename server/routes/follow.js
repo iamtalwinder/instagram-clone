@@ -5,5 +5,6 @@ const auth = require("./middleware/auth");
 const router = express.Router();
 
 router.post("/follow", auth, followController.follow);
+router.delete("/unfollow", auth, followController.unfollow);
 
 module.exports = router;
