@@ -20,7 +20,7 @@ module.exports = {
     });
   },
 
-  follow: (con, userId, followerId) => {
+  createFollow: (con, userId, followerId) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
@@ -37,7 +37,7 @@ module.exports = {
     });
   },
 
-  unFollow: (con, userId, followerId) => {
+  deleteFollow: (con, userId, followerId) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
@@ -53,7 +53,7 @@ module.exports = {
     });
   },
 
-  followersCount: (con, userId) => {
+  getFollowersCount: (con, userId) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
@@ -72,7 +72,7 @@ module.exports = {
     });
   },
 
-  followers: (con, userId) => {
+  getFollowers: (con, userId) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
@@ -96,7 +96,7 @@ module.exports = {
     });
   },
 
-  followingCount: (con, userId) => {
+  getFollowingCount: (con, userId) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
@@ -115,7 +115,7 @@ module.exports = {
     });
   },
 
-  following: (con, userId) => {
+  getFollowing: (con, userId) => {
     return new Promise((resolve, reject) => {
       con.query(
         `

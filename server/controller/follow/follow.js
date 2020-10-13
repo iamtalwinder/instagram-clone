@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
     if (result.length) {
       return res.status(400).send({ msg: "Already following this user" });
     }
-    await Follow.follow(req.con, userToFollow, follower);
+    await Follow.createFollow(req.con, userToFollow, follower);
     return res.status(200).send({ msg: "Follow successful" });
   } catch (err) {
     console.log(err);
