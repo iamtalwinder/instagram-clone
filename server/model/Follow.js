@@ -58,7 +58,7 @@ module.exports = {
       con.query(
         `
         SELECT 
-            COUNT(followerId) 
+            COUNT(followerId) AS COUNT
         FROM 
             follow 
         WHERE 
