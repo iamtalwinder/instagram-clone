@@ -101,7 +101,7 @@ module.exports = {
       con.query(
         `
         SELECT 
-            COUNT(userId) 
+            COUNT(userId) AS COUNT
         FROM 
             follow 
         WHERE 
