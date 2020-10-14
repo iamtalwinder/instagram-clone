@@ -9,6 +9,7 @@ CREATE TABLE user(userId INT NOT NULL AUTO_INCREMENT,
                   
 CREATE TABLE follow(userId INT NOT NULL,
 					followerId INT NOT NULL,
+                    dateAndTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     PRIMARY KEY(userId, followerId),
                     FOREIGN KEY (userId) 
 						REFERENCES user (userId)
