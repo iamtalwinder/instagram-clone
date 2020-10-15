@@ -56,6 +56,7 @@ module.exports = {
   createTempPostTable: (con, userId) => {
     return new Promise((resolve, reject) => {
       const TABLE_NAME = `post${userId.toString()}`;
+
       con.query(
         `
         CREATE TEMPORARY TABLE IF NOT EXISTS
@@ -93,7 +94,7 @@ module.exports = {
     });
   },
 
-  getPostsByUserId: (con, userId, start, offset) => {
+  getPostsByUserId: (con, userId, start = 0, offset = 12) => {
     return new Promise((resolve, reject) => {
       const TABLE_NAME = `post${userId.toString()}`;
       con.query(
