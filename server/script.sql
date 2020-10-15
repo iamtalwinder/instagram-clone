@@ -30,7 +30,7 @@ CREATE TABLE follow (
 CREATE TABLE post (
     postId VARCHAR(50) NOT NULL,
     userId INT NOT NULL,
-    imageURL VARCHAR(70) NOT NULL,
+    path VARCHAR(70) NOT NULL,
     caption VARCHAR(100) NOT NULL,
     dateAndTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (postId),

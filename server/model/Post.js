@@ -1,12 +1,12 @@
 module.exports = {
-  createPost: (con, postId, userId, imageURL, caption) => {
+  createPost: (con, postId, userId, path, caption) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
           INSERT INTO post
-            (postId, userId, imageURL, caption) 
+            (postId, userId, path, caption) 
           VALUES 
-            ("${postId}", ${userId}, "${imageURL}", "${caption}")
+            ("${postId}", ${userId}, "${path}", "${caption}")
           `,
         (err, result) => {
           if (err) reject(err);
@@ -16,13 +16,15 @@ module.exports = {
     });
   },
 
-  deletePost: (con, postId) => {
+  deletePost: (con, userId, postId) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
         DELETE FROM post
         WHERE 
-            postId = "${postId}"
+          userId = ${userId}
+        AND
+          postId = "${postId}"  
           `,
         (err, result) => {
           if (err) reject(err);

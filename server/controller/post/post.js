@@ -45,7 +45,7 @@ module.exports = (req, res) => {
           req.con,
           req.file.filename,
           userId,
-          req.file.path,
+          `uploads/${req.file.filename}`,
           req.body.caption
         );
         res.status(200).send({ msg: "Uploaded" });
