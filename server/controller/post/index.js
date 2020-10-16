@@ -1,9 +1,9 @@
 const post = require("./post");
 const deletePost = require("./deletePost");
-const userPosts = require("./userPosts");
+const getUserPosts = require("./getUserPosts");
 
 module.exports = {
   post,
   deletePost,
-  userPosts,
+  getUserPosts,
 };

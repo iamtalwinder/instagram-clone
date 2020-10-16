@@ -1,15 +1,15 @@
 const follow = require("./follow");
 const unfollow = require("./unfollow");
-const followersCount = require("./followersCount");
-const followers = require("./followers");
-const followingCount = require("./followingCount");
-const following = require("./following");
+const getFollowersCount = require("./getFollowersCount");
+const getFollowers = require("./getFollowers");
+const getFollowingCount = require("./getFollowingCount");
+const getFollowing = require("./getFollowing");
 
 module.exports = {
   follow,
   unfollow,
-  followersCount,
-  followers,
-  followingCount,
-  following,
+  getFollowersCount,
+  getFollowers,
+  getFollowingCount,
+  getFollowing,
 };
