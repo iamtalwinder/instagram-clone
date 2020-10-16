@@ -24,7 +24,7 @@ CREATE TABLE follow (
         REFERENCES user (userId)
         ON DELETE CASCADE
 );
-                        
+					
 /*Post table*/
 
 CREATE TABLE post (
@@ -36,6 +36,24 @@ CREATE TABLE post (
     PRIMARY KEY (postId),
     FOREIGN KEY (userId)
         REFERENCES user (userId)
+        ON DELETE CASCADE
+);
+
+/*comment table*/
+
+CREATE TABLE comment (
+	commentId VARCHAR(50) NOT NULL,
+    postId VARCHAR(50) NOT NULL,
+    userId INT NOT NULL,
+    comment VARCHAR(100) NOT NULL,
+    dateAndTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (commentId),
+    FOREIGN KEY (postId)
+		REFERENCES post(postId)
+        ON DELETE CASCADE,
+    FOREIGN KEY (userId)
+        REFERENCES user (userId)
+        ON DELETE CASCADE
 );
 
 /*Creating new database user*/
