@@ -1,7 +1,9 @@
-const comment = require("./comment");
+const postComment = require("./postComment");
 const deleteComment = require("./deleteComment");
+const getComments = require("./getComments");
 
 module.exports = {
-  comment,
+  postComment,
   deleteComment,
+  getComments,
 };
