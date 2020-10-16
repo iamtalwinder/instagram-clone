@@ -31,6 +31,7 @@ app.use(
 app.use("/api/", routes.user);
 app.use("/api/", routes.follow);
 app.use("/api/", routes.post);
+app.use("/api/", routes.comment);
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening at ${process.env.PORT}`);
