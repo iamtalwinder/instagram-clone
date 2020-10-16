@@ -8,7 +8,7 @@ module.exports = {
         FROM
           comment
         WHERE
-          commentId = ${commentId}
+          commentId = "${commentId}"
         `,
         (err, result) => {
           if (err) reject(err);
@@ -62,13 +62,15 @@ module.exports = {
     });
   },
 
-  deleteComment: (con, commentId) => {
+  deleteComment: (con, userId, commentId) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
         DELETE FROM comment
         WHERE
-            commentId = "${commentId}"  
+          userId = ${userId}  
+        AND 
+          commentId = "${commentId}"
         `,
         (err, result) => {
           if (err) reject(err);
