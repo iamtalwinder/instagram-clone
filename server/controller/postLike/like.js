@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
   let userId = req.session.user.userId,
     { postId } = req.body;
   try {
-    const like = await PostLike.getLike(req.con, userId, postId);
+    const result = await PostLike.getLike(req.con, userId, postId);
     if (result.length) {
       return res.status(400).send({ msg: "You've already liked this post" });
     }
