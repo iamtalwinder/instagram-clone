@@ -56,6 +56,21 @@ CREATE TABLE comment (
         ON DELETE CASCADE
 );
 
+/*like table*/
+
+CREATE TABLE postLike (
+	userId INT NOT NULL,
+    postId VARCHAR(50) NOT NULL,
+    dateAndTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (userId, postId),
+    FOREIGN KEY (userId)
+        REFERENCES user (userId)
+        ON DELETE CASCADE,
+    FOREIGN KEY (postId)
+		REFERENCES post(postId)
+        ON DELETE CASCADE
+);
+
 /*Creating new database user*/
 
 CREATE USER 'instagram_clone'@'localhost' IDENTIFIED BY 'instagram_clone';
