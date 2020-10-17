@@ -1,7 +1,9 @@
 const bcrypt = require("bcryptjs");
 const User = require("../../model/User");
+const Utils = require("../../model/Utils");
+const Followers = require("../../model/Followers");
+const Following = require("../../model/Following");
 const validation = require("./validation");
-const { getUserByUserName, getUserByEmail } = require("../../model/User");
 
 module.exports = async (req, res) => {
   const { fullName, userName, email, password } = req.body;
@@ -14,7 +16,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    let result = await getUserByUserName(req.con, userName);
+    let result = await User.getUserByUserName(req.con, userName);
+
     if (result.length) {
       return res.status(406).send({
         field: "userName",
@@ -22,7 +25,8 @@ module.exports = async (req, res) => {
       });
     }
 
-    result = await getUserByEmail(req.con, email);
+    result = await User.getUserByEmail(req.con, email);
+
     if (result.length) {
       return res.status(406).send({
         field: "email",
@@ -32,7 +36,17 @@ module.exports = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    await Utils.startTransaction(req.con);
+
     await User.createUser(req.con, fullName, userName, email, hashedPassword);
+
+    result = await User.getUserByUserName(req.con, userName);
+    const { userId } = result[0];
+
+    await Followers.create(req.con, userId, 0);
+    await Following.create(req.con, userId, 0);
+
+    await Utils.commit(req.con);
 
     return res.status(201).send({ msg: "User has been created." });
   } catch (err) {
