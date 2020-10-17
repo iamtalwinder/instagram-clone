@@ -1,5 +1,5 @@
 module.exports = {
-  create: (con, userId, following) => {
+  create: (con, userId, following = 0) => {
     return new Promise((resolve, reject) => {
       con.query(
         `

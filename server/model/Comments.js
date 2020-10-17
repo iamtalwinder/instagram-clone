@@ -1,5 +1,5 @@
 module.exports = {
-  create: (con, postId, comments) => {
+  create: (con, postId, comments = 0) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
