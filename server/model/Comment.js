@@ -1,4 +1,25 @@
 module.exports = {
+  getComment: (con, userId, commentId) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `
+        SELECT 
+            *
+        FROM
+          comment
+        WHERE
+          userId = ${userId}
+        AND
+          commentId = "${commentId}"
+        `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
   getCommentByCommentId: (con, commentId) => {
     return new Promise((resolve, reject) => {
       con.query(

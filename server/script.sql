@@ -1,6 +1,3 @@
-
-/*User table*/
-
 CREATE TABLE user (
     userId INT NOT NULL AUTO_INCREMENT,
     fullName VARCHAR(30) NOT NULL,
@@ -9,8 +6,6 @@ CREATE TABLE user (
     password VARCHAR(1000) NOT NULL,
     PRIMARY KEY (userId)
 );
-        
-/*Follow table*/
 
 CREATE TABLE follow (
     userId INT NOT NULL,
@@ -25,8 +20,6 @@ CREATE TABLE follow (
         ON DELETE CASCADE
 );
 					
-/*Post table*/
-
 CREATE TABLE post (
     postId VARCHAR(50) NOT NULL,
     userId INT NOT NULL,
@@ -38,8 +31,6 @@ CREATE TABLE post (
         REFERENCES user (userId)
         ON DELETE CASCADE
 );
-
-/*comment table*/
 
 CREATE TABLE comment (
 	commentId VARCHAR(50) NOT NULL,
@@ -56,8 +47,6 @@ CREATE TABLE comment (
         ON DELETE CASCADE
 );
 
-/*like table*/
-
 CREATE TABLE postLike (
 	userId INT NOT NULL,
     postId VARCHAR(50) NOT NULL,
@@ -68,6 +57,44 @@ CREATE TABLE postLike (
         ON DELETE CASCADE,
     FOREIGN KEY (postId)
 		REFERENCES post(postId)
+        ON DELETE CASCADE
+);
+
+/*Below are the tables to store aggregate information*/
+
+CREATE TABLE postLikes (
+	postId VARCHAR(50) NOT NULL,
+    likes INT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY(postId),
+    FOREIGN KEY (postId)
+		REFERENCES post(postId)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE comments (
+	postId VARCHAR(50) NOT NULL,
+    comments INT UNSIGNED NOT NULL DEFAULT 0, 
+    PRIMARY KEY(postId),
+    FOREIGN KEY (postId)
+		REFERENCES post(postId)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE followers (
+	userId INT NOT NULL,
+    followers INT UNSIGNED NOT NULL DEFAULT 0, 
+    PRIMARY KEY(userId),
+    FOREIGN KEY (userId)
+		REFERENCES user(userId)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE following (
+	userId INT NOT NULL,
+    following INT UNSIGNED NOT NULL DEFAULT 0, 
+    PRIMARY KEY(userId),
+    FOREIGN KEY (userId)
+		REFERENCES user(userId)
         ON DELETE CASCADE
 );
 

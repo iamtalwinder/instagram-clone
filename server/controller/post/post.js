@@ -3,6 +3,9 @@ const path = require("path");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const Post = require("../../model/Post");
+const PostLikes = require("../../model/PostLikes");
+const Comments = require("../../model/Comments");
+const Utils = require("../../model/Utils");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -40,15 +43,20 @@ module.exports = (req, res) => {
     } else if (!req.file) {
       res.status(400).send({ msg: "Select a file" });
     } else {
+      const postId = req.file.filename;
       try {
+        await Utils.startTransaction(req.con);
         await Post.createPost(
           req.con,
-          req.file.filename,
+          postId,
           userId,
           `uploads/${req.file.filename}`,
           req.body.caption
         );
-        res.status(200).send({ msg: "Uploaded" });
+        await PostLikes.create(req.con, postId, 0);
+        await Comments.create(req.con, postId, 0);
+        await Utils.commit(req.con);
+        res.status(200).send({ postId: postId, msg: "Uploaded" });
       } catch (err) {
         console.log(err);
 
