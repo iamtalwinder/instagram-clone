@@ -60,15 +60,26 @@ module.exports = {
       con.query(
         `
         CREATE TEMPORARY TABLE IF NOT EXISTS
-            ${TABLE_NAME}
-        SELECT
-            *
+          ${TABLE_NAME}
+        SELECT 
+          post.*,
+          user.userName,
+          postLikes.likes,
+          comments.comments,
+          postLike.userId AS isLiked
         FROM
-            post
-        WHERE
-            userId = ${userId}
-        ORDER BY
-            dateAndTime DESC;
+          post
+            INNER JOIN
+          user ON user.userId = post.userId
+            AND post.userId = 1
+            INNER JOIN
+          postLikes ON postLikes.postId = post.postId
+            INNER JOIN
+          comments ON comments.postId = post.postId
+            LEFT JOIN
+          postLike ON postLike.userId = post.userId
+            AND postLike.postId = post.postId
+        ORDER BY dateAndTime DESC;
         `,
         (err, result) => {
           if (err) reject(err);
