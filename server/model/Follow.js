@@ -53,25 +53,6 @@ module.exports = {
     });
   },
 
-  getFollowersCount: (con, userId) => {
-    return new Promise((resolve, reject) => {
-      con.query(
-        `
-        SELECT 
-            COUNT(followerId) AS COUNT
-        FROM 
-            follow 
-        WHERE 
-            userId = ${userId}
-        `,
-        (err, result) => {
-          if (err) reject(err);
-          else resolve(result);
-        }
-      );
-    });
-  },
-
   getFollowers: (con, userId) => {
     return new Promise((resolve, reject) => {
       con.query(
@@ -87,25 +68,6 @@ module.exports = {
                 follow
             WHERE
                 userId = ${userId})
-        `,
-        (err, result) => {
-          if (err) reject(err);
-          else resolve(result);
-        }
-      );
-    });
-  },
-
-  getFollowingCount: (con, userId) => {
-    return new Promise((resolve, reject) => {
-      con.query(
-        `
-        SELECT 
-            COUNT(userId) AS COUNT
-        FROM 
-            follow 
-        WHERE 
-            followerId = ${userId}
         `,
         (err, result) => {
           if (err) reject(err);
