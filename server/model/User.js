@@ -1,4 +1,41 @@
 module.exports = {
+  getUserProfile: (con, signedInUser, userToFind) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `
+        SELECT 
+          user.userId,
+          user.fullname,
+          user.userName,
+          followers.followers,
+          following.following,
+          posts.posts,
+          follow.userId AS isFollowing
+        FROM
+          user
+            INNER JOIN
+          followers ON user.userId = followers.userId
+            AND user.userId = ${userToFind}
+            INNER JOIN
+          following ON user.userId = following.userId
+            INNER JOIN
+          (SELECT 
+              COUNT(*) AS posts 
+          FROM 
+              post 
+          WHERE 
+              userId = ${userToFind}) AS posts
+		        LEFT JOIN
+	        follow ON follow.userId = ${userToFind} AND follow.followerId = ${signedInUser} 
+        `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
   getUserById: (con, userId) => {
     return new Promise((resolve, reject) => {
       con.query(
