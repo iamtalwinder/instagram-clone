@@ -105,7 +105,7 @@ module.exports = {
     });
   },
 
-  getPostsByUserId: (con, userId, start = 0, offset = 12) => {
+  getPostsByUserId: (con, userId, start, offset) => {
     return new Promise((resolve, reject) => {
       const TABLE_NAME = `post${userId.toString()}`;
       con.query(
