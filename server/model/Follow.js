@@ -58,7 +58,7 @@ module.exports = {
       con.query(
         `
         SELECT 
-            userId, fullName, userName
+            userId, fullName, userName, dpPath
         FROM
             user
         WHERE
@@ -82,7 +82,7 @@ module.exports = {
       con.query(
         `
         SELECT 
-            userId, fullName, userName
+            userId, fullName, userName, dpPath
         FROM
             user
         WHERE

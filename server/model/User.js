@@ -7,6 +7,7 @@ module.exports = {
           user.userId,
           user.fullname,
           user.userName,
+          user.dpPath,
           followers.followers,
           following.following,
           posts.posts,
