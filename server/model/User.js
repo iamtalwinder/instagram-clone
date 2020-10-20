@@ -8,6 +8,7 @@ module.exports = {
           user.fullname,
           user.userName,
           user.dpPath,
+          user.dateAndTime AS joinedOn,
           followers.followers,
           following.following,
           posts.posts,
