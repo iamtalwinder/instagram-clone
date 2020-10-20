@@ -20,5 +20,6 @@ router.patch(
   resizeDP,
   userController.changeDP
 );
+router.patch("/remove-dp", auth, removeDP, userController.removeDP);
 
 module.exports = router;
