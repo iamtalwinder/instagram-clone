@@ -48,7 +48,8 @@ module.exports = {
             comment.userId,
             comment.comment,
             comment.dateAndTime,
-            user.userName
+            user.userName,
+            user.dpPath
         FROM
             comment
                 INNER JOIN

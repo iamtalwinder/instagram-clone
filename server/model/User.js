@@ -7,6 +7,7 @@ module.exports = {
           user.userId,
           user.fullname,
           user.userName,
+          user.dpPath,
           followers.followers,
           following.following,
           posts.posts,
@@ -101,6 +102,38 @@ module.exports = {
           (fullName, userName, email, password) 
         VALUES 
           ("${fullName}", "${userName}", "${email}", "${password}")
+        `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
+  changeDP: (con, userId, dpPath) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `
+        UPDATE user
+        SET dpPath = "${dpPath}"
+          WHERE userId = ${userId}
+        `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
+  removeDP: (con, userId) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `
+        UPDATE user
+        SET dpPath = null
+          WHERE userId = ${userId}
         `,
         (err, result) => {
           if (err) reject(err);

@@ -26,7 +26,8 @@ module.exports = {
         `
         SELECT 
             postLike.*,
-            user.userName 
+            user.userName,
+            user.dpPath 
         FROM
             postLike
                 INNER JOIN

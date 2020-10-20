@@ -64,6 +64,7 @@ module.exports = {
         SELECT 
           post.*,
           user.userName,
+          user.dpPath,
           postLikes.likes,
           comments.comments,
           postLike.userId AS isLiked
