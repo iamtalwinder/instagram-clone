@@ -110,4 +110,36 @@ module.exports = {
       );
     });
   },
+
+  changeDP: (con, userId, dpPath) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `
+        UPDATE user
+        SET dpPath = "${dpPath}"
+          WHERE userId = ${userId}
+        `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
+  removeDP: (con, userId) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `
+        UPDATE user
+        SET dpPath = null
+          WHERE userId = ${userId}
+        `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
 };
