@@ -41,14 +41,16 @@ module.exports = async (req, res) => {
     await User.createUser(req.con, fullName, userName, email, hashedPassword);
 
     result = await User.getUserByUserName(req.con, userName);
-    const { userId } = result[0];
+    const user = result[0];
 
-    await Followers.create(req.con, userId, 0);
-    await Following.create(req.con, userId, 0);
+    await Followers.create(req.con, user.userId, 0);
+    await Following.create(req.con, user.userId, 0);
 
     await Utils.commit(req.con);
 
-    return res.status(201).send({ msg: "User has been created." });
+    delete user.password;
+
+    return res.status(201).send({ user: user, msg: "Signup successful" });
   } catch (err) {
     console.log(err);
     return res.status(500).send({ msg: "Internal server error" });
