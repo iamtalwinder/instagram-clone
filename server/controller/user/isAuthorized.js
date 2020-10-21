@@ -1,3 +1,3 @@
 module.exports = (req, res) => {
-  res.status(200).send("Authorized");
+  res.status(200).send({ msg: "Authorized" });
 };
