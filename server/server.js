@@ -23,7 +23,7 @@ app.use(
     store: new MySQLStore({}, con),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 2, //2 days
-      httpOnly: false,
+      httpOnly: true,
     },
   })
 );
