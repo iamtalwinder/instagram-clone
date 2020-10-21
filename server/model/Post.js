@@ -63,7 +63,7 @@ module.exports = {
           ${TABLE_NAME}
         SELECT 
           post.*,
-          user.userName,
+          user.username,
           user.dpPath,
           postLikes.likes,
           comments.comments,

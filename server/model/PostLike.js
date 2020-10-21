@@ -26,7 +26,7 @@ module.exports = {
         `
         SELECT 
             postLike.*,
-            user.userName,
+            user.username,
             user.dpPath 
         FROM
             postLike

@@ -48,7 +48,7 @@ module.exports = {
             comment.userId,
             comment.comment,
             comment.dateAndTime,
-            user.userName,
+            user.username,
             user.dpPath
         FROM
             comment

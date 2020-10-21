@@ -6,7 +6,7 @@ module.exports = {
         SELECT 
           user.userId,
           user.fullname,
-          user.userName,
+          user.username,
           user.dpPath,
           user.dateAndTime AS joinedOn,
           followers.followers,
@@ -76,7 +76,7 @@ module.exports = {
     });
   },
 
-  getUserByUserName: (con, userName) => {
+  getUserByUsername: (con, username) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
@@ -85,7 +85,7 @@ module.exports = {
         FROM 
           user 
         WHERE 
-          userName = "${userName}"
+          username = "${username}"
         `,
         (err, result) => {
           if (err) reject(err);
@@ -95,14 +95,14 @@ module.exports = {
     });
   },
 
-  createUser: (con, fullName, userName, email, password) => {
+  createUser: (con, fullname, username, email, password) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
         INSERT INTO user 
-          (fullName, userName, email, password) 
+          (fullname, username, email, password) 
         VALUES 
-          ("${fullName}", "${userName}", "${email}", "${password}")
+          ("${fullname}", "${username}", "${email}", "${password}")
         `,
         (err, result) => {
           if (err) reject(err);
