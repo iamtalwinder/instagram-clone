@@ -9,16 +9,19 @@ module.exports = async (req, res, next) => {
 
     const { dpPath } = result[0];
 
-    if (dpPath) {
+    if (dpPath && fs.existsSync(`${dpPath}_thumb.jpeg`)) {
       fs.unlinkSync(`${dpPath}_thumb.jpeg`);
-      fs.unlinkSync(`${dpPath}.jpeg`);
+    }
+
+    if (dpPath && fs.existsSync(`${dpPath}_thumb.jpeg`)) {
+      fs.unlinkSync(`${dpPath}_thumb.jpeg`);
     }
 
     next();
   } catch (err) {
     console.log(err);
     return res
-      .status(400)
+      .status(500)
       .send({ msg: "An error has occurred while changing DP" });
   }
 };

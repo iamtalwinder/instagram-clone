@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res
-      .status(400)
+      .status(500)
       .send({ msg: "An error has occurred while uploading" });
   }
 };

@@ -1,5 +1,5 @@
-const User = require("../../model/User");
 const fs = require("fs");
+const User = require("../../model/User");
 
 module.exports = async (req, res) => {
   const userId = req.session.user.userId,

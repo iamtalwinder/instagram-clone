@@ -31,17 +31,18 @@ const uploadFile = upload.single("img");
 
 module.exports = (req, res, next) => {
   uploadFile(req, res, (err) => {
-    if (!req.file) {
-      return res.status(400).send({ msg: "Select a file" });
-    }
     if (err) {
       if (err.name === "MulterError") {
-        return res.status(400).send({ msg: err.message });
+        return res.status(406).send({ msg: err.message });
       }
       console.log(err);
       return res
         .status(400)
         .send({ msg: "An error has occurred while uploading" });
+    }
+
+    if (!req.file) {
+      return res.status(406).send({ msg: "Select a file" });
     }
 
     next();
