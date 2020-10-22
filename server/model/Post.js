@@ -62,7 +62,11 @@ module.exports = {
         CREATE TEMPORARY TABLE IF NOT EXISTS
           ${TABLE_NAME}
         SELECT 
-          post.*,
+          post.postId,
+          post.userId,
+          post.path,
+          post.caption,
+          post.dateAndTime AS postedOn,
           user.username,
           user.dpPath,
           postLikes.likes,
@@ -80,7 +84,7 @@ module.exports = {
             LEFT JOIN
           postLike ON postLike.userId = post.userId
             AND postLike.postId = post.postId
-        ORDER BY dateAndTime DESC;
+        ORDER BY postedOn DESC;
         `,
         (err, result) => {
           if (err) reject(err);
