@@ -25,7 +25,9 @@ module.exports = {
       con.query(
         `
         SELECT 
-            postLike.*,
+            postLike.userId,
+            postLike.postId,
+            postLike.dateAndTime AS likedOn,
             user.username,
             user.dpPath 
         FROM
@@ -35,7 +37,7 @@ module.exports = {
         WHERE
             postLike.userId = user.userId
                 AND postLike.postId = "${postId}"
-        ORDER BY dateAndTime DESC   
+        ORDER BY likedOn DESC   
         `,
         (err, result) => {
           if (err) reject(err);
