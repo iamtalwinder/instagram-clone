@@ -24,6 +24,7 @@ module.exports = async (req, res) => {
     const { commentId } = req.body;
 
     const result = await Comment.getComment(req.con, userId, commentId);
+
     if (!result.length) {
       return res.status(400).send({ msg: "No such comment exists" });
     }
