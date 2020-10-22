@@ -1,9 +1,9 @@
-const fs = require("fs");
 const Joi = require("joi");
 const Post = require("../../model/Post");
 const PostLikes = require("../../model/PostLikes");
 const Comments = require("../../model/Comments");
 const Utils = require("../../model/Utils");
+const { deleteUpload } = require("../utils");
 
 const validate = (data) => {
   const schema = Joi.object({
@@ -20,8 +20,8 @@ module.exports = async (req, res) => {
     const { error } = validate(req.body);
 
     if (error) {
-      fs.unlinkSync(`${filePath}.jpeg`);
-      fs.unlinkSync(`${filePath}_thumb.jpeg`);
+      deleteUpload(filePath);
+
       return res.status(406).send({
         field: error.details[0].context.label,
         msg: error.details[0].message,
@@ -43,14 +43,7 @@ module.exports = async (req, res) => {
     res.status(201).send({ postId: postId, msg: "Uploaded" });
   } catch (err) {
     console.log(err);
-
-    fs.unlink(`${filePath}.jpeg`, (err) => {
-      console.log(err);
-    });
-
-    fs.unlink(`${filePath}_thumb.jpeg`, (err) => {
-      console.log(err);
-    });
+    deleteUpload(filePath);
     return res.status(500).send({ msg: "Internal server error" });
   }
 };
