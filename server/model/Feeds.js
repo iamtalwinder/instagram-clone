@@ -11,7 +11,7 @@ module.exports = {
             post.userId,
             post.path,
             post.caption,
-            post.dateAndTime AS postedOn
+            post.dateAndTime AS postedOn,
             user.username,
             user.dpPath,
             postLikes.likes,
