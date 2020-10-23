@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import styles from "./FormInput.module.css";
 import Icon from "@mdi/react";
 import { mdiAlphaXCircleOutline } from "@mdi/js";
@@ -18,11 +17,10 @@ export default function FormInput(props) {
       setText("Show");
     }
   };
-  const containerId = uuidv4();
-  const inputId = uuidv4();
+  const containerId = props.id;
   useEffect(() => {
     const container = document.getElementById(containerId);
-    const input = document.getElementById(inputId);
+    const input = document.querySelector(`#${containerId} > input`);
     input.addEventListener("focus", () => {
       container.style.borderColor = "#262626";
       setFocus(true);
@@ -32,12 +30,11 @@ export default function FormInput(props) {
       container.style.borderColor = "#cfccca";
       setFocus(false);
     });
-  }, [containerId, inputId]);
+  }, [containerId]);
 
   return (
     <div className={styles.container} id={containerId}>
       <input
-        id={inputId}
         name={props.name}
         type={type}
         placeholder={props.placeholder}

@@ -1,13 +1,22 @@
 const bcrypt = require("bcryptjs");
+const Joi = require("joi");
 const User = require("../../model/User");
 const Utils = require("../../model/Utils");
 const Followers = require("../../model/Followers");
 const Following = require("../../model/Following");
-const validation = require("./validation");
+
+const validate = (data) => {
+  const schema = Joi.object({
+    fullname: Joi.string().min(1).max(30).required(),
+    username: Joi.string().alphanum().min(3).max(15).required(),
+    email: Joi.string().max(50).email().required(),
+    password: Joi.string().min(6).max(20).required(),
+  });
+  return schema.validate(data);
+};
 
 module.exports = async (req, res) => {
-  const { fullName, userName, email, password } = req.body;
-  const { error } = validation.signup(req.body);
+  const { error } = validate(req.body);
   if (error) {
     return res.status(406).send({
       field: error.details[0].context.label,
@@ -16,21 +25,23 @@ module.exports = async (req, res) => {
   }
 
   try {
-    let result = await User.getUserByUserName(req.con, userName);
+    const { fullname, username, email, password } = req.body;
+
+    let result = await User.getUserByUsername(req.con, username);
 
     if (result.length) {
-      return res.status(406).send({
-        field: "userName",
-        msg: "Username already in use.",
+      return res.status(409).send({
+        field: "username",
+        msg: "Username already in use",
       });
     }
 
     result = await User.getUserByEmail(req.con, email);
 
     if (result.length) {
-      return res.status(406).send({
+      return res.status(409).send({
         field: "email",
-        msg: "Email already in use.",
+        msg: "Email already in use",
       });
     }
     const salt = await bcrypt.genSalt(10);
@@ -38,9 +49,9 @@ module.exports = async (req, res) => {
 
     await Utils.startTransaction(req.con);
 
-    await User.createUser(req.con, fullName, userName, email, hashedPassword);
+    await User.createUser(req.con, fullname, username, email, hashedPassword);
 
-    result = await User.getUserByUserName(req.con, userName);
+    result = await User.getUserByUsername(req.con, username);
     const user = result[0];
 
     await Followers.create(req.con, user.userId, 0);

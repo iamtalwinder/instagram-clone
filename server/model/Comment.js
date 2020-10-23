@@ -47,8 +47,8 @@ module.exports = {
             comment.commentId,
             comment.userId,
             comment.comment,
-            comment.dateAndTime,
-            user.userName,
+            comment.dateAndTime AS commentedOn,
+            user.username,
             user.dpPath
         FROM
             comment
@@ -57,7 +57,7 @@ module.exports = {
         WHERE
             comment.userId = user.userId
                 AND comment.postId = "${postId}"
-        ORDER BY dateAndTime DESC
+        ORDER BY commentedOn DESC
         `,
         (err, result) => {
           if (err) reject(err);

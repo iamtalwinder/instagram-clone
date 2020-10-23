@@ -2,7 +2,6 @@ const express = require("express");
 const userController = require("../controller/user");
 const auth = require("./middleware/auth");
 const uploadImage = require("./middleware/uploadImage");
-const removeDP = require("./middleware/removeDP");
 const resizeDP = require("./middleware/resizeDP");
 
 const router = express.Router();
@@ -15,11 +14,10 @@ router.get("/user-profile", auth, userController.getUserProfile);
 router.patch(
   "/change-dp",
   auth,
-  removeDP,
   uploadImage,
   resizeDP,
   userController.changeDP
 );
-router.patch("/remove-dp", auth, removeDP, userController.removeDP);
+router.patch("/remove-dp", auth, userController.removeDP);
 
 module.exports = router;

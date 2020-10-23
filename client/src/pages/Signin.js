@@ -24,7 +24,7 @@ export default function Signin(props) {
     setLoading(true);
     try {
       await axios.post("/api/signin", { user, password });
-      history.push("/dashboard");
+      history.push("/home");
     } catch (err) {
       setError(true);
       if (err.response) {
@@ -60,6 +60,7 @@ export default function Signin(props) {
       <form className={styles.form}>
         <h4>Instagram</h4>
         <FormInput
+          id="user"
           name="user"
           type="text"
           placeholder="Username or email"
@@ -68,6 +69,7 @@ export default function Signin(props) {
           required
         />
         <FormInput
+          id="password"
           name="password"
           type="password"
           placeholder="Password"

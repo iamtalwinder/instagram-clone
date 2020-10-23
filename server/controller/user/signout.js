@@ -6,7 +6,7 @@ module.exports = (req, res) => {
       res
         .status(200)
         .clearCookie(process.env.SESSION_COOKIE_NAME)
-        .send("Signout successful");
+        .send({ msg: "Signout successful" });
     }
   });
 };

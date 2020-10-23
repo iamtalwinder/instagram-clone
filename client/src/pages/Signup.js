@@ -13,8 +13,8 @@ import { useHistory } from "react-router-dom";
 export default function Signin(props) {
   let history = useHistory();
   const [email, setEmail] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [userName, setUserName] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [signupDisable, setSignupDisable] = useState(true);
@@ -27,8 +27,8 @@ export default function Signin(props) {
     try {
       const response = await axios.post("/api/signup", {
         email,
-        fullName,
-        userName,
+        fullname,
+        username,
         password,
       });
       setError(false);
@@ -48,26 +48,26 @@ export default function Signin(props) {
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    checkDisable(e.target.value, fullName, userName, password);
+    checkDisable(e.target.value, fullname, username, password);
   };
 
-  const handleFullName = (e) => {
-    setFullName(e.target.value);
-    checkDisable(email, e.target.value, userName, password);
+  const handlefullname = (e) => {
+    setFullname(e.target.value);
+    checkDisable(email, e.target.value, username, password);
   };
 
-  const handleUserName = (e) => {
-    setUserName(e.target.value);
-    checkDisable(email, fullName, e.target.value, password);
+  const handleusername = (e) => {
+    setUsername(e.target.value);
+    checkDisable(email, fullname, e.target.value, password);
   };
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    checkDisable(email, fullName, userName, e.target.value);
+    checkDisable(email, fullname, username, e.target.value);
   };
 
-  const checkDisable = (email, fullName, userName, password) => {
-    if (email === "" || fullName === "" || userName === "" || password === "") {
+  const checkDisable = (email, fullname, username, password) => {
+    if (email === "" || fullname === "" || username === "" || password === "") {
       setSignupDisable(true);
     } else {
       setSignupDisable(false);
@@ -93,6 +93,7 @@ export default function Signin(props) {
         </IconButton>
         <FormDivider style={{ margin: "25px 0 0 0" }} />
         <FormInput
+          id="email"
           name="email"
           type="email"
           placeholder="Email"
@@ -101,22 +102,25 @@ export default function Signin(props) {
           required
         />
         <FormInput
-          name="fullName"
+          id="fullname"
+          name="fullname"
           type="text"
-          placeholder="Fullname"
-          value={fullName}
-          onChange={handleFullName}
+          placeholder="fullname"
+          value={fullname}
+          onChange={handlefullname}
           required
         />
         <FormInput
-          name="userName"
+          id="username"
+          name="username"
           type="text"
-          placeholder="Username"
-          value={userName}
-          onChange={handleUserName}
+          placeholder="username"
+          value={username}
+          onChange={handleusername}
           required
         />
         <FormInput
+          id="password"
           name="password"
           type="password"
           placeholder="Password"
