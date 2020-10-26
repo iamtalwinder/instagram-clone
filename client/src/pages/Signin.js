@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./Signin.module.css";
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";
@@ -9,9 +9,11 @@ import AppInfo from "../components/AppInfo";
 import { mdiFacebook } from "@mdi/js";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../context/user";
 
 export default function Signin(props) {
   let history = useHistory();
+
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,11 +21,14 @@ export default function Signin(props) {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
 
+  const setUserContext = useContext(UserContext)[1];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("/api/signin", { user, password });
+      const { data } = await axios.post("/api/signin", { user, password });
+      setUserContext(data.user);
       history.push("/home");
     } catch (err) {
       setError(true);

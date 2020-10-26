@@ -22,9 +22,6 @@ export default function Nav(props) {
     style = bottomStyle;
   }
 
-  if (props.itemsCenter) {
-    style.justifyContent = "center";
-  }
   return (
     <div className={styles.nav} style={style}>
       {props.children}

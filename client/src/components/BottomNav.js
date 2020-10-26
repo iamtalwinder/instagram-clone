@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Nav from "./Nav";
 import Icon from "@mdi/react";
 import {
@@ -9,19 +9,27 @@ import {
   mdiPlusBoxOutline,
   mdiHeart,
   mdiHeartOutline,
-  mdiAccountCircle,
-  mdiAccountCircleOutline,
 } from "@mdi/js";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../context/user";
+import dpThumb from "../img/dp_thumb.jpeg";
 
 export default function BottomNav(props) {
-  let history = useHistory();
+  const history = useHistory();
+
   const ICON_SIZE = 1.4;
+
   let homeIcon = mdiHomeOutline,
     searchIcon = mdiSearchWeb,
     plusBoxIcon = mdiPlusBoxOutline,
-    heartIcon = mdiHeartOutline,
-    accountCircleIcon = mdiAccountCircleOutline;
+    heartIcon = mdiHeartOutline;
+
+  const user = useContext(UserContext)[0];
+  let dpPath = user.dpPath;
+
+  if (dpPath) {
+    dpPath += "_thumb.jpeg";
+  }
 
   if (props.active === "home") {
     homeIcon = mdiHome;
@@ -29,8 +37,6 @@ export default function BottomNav(props) {
     plusBoxIcon = mdiPlusBox;
   } else if (props.active === "activity") {
     heartIcon = mdiHeart;
-  } else if (props.active === "myAccount") {
-    accountCircleIcon = mdiAccountCircle;
   }
   return (
     <Nav bottomNav={true}>
@@ -60,10 +66,21 @@ export default function BottomNav(props) {
       </button>
       <button
         onClick={() => {
-          history.push("/myaccount");
+          history.push({
+            pathname: "/account",
+            state: { userId: user.userId },
+          });
         }}
       >
-        <Icon path={accountCircleIcon} size={ICON_SIZE} verticle="true" />
+        <img
+          style={{
+            borderRadius: "50%",
+            width: `${ICON_SIZE * 25}px`,
+            height: `${ICON_SIZE * 25}px`,
+          }}
+          src={dpPath || dpThumb}
+          alt=""
+        />
       </button>
     </Nav>
   );

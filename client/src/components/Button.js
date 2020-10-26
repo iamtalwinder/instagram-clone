@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Button.module.css";
-import Icon from "@mdi/react";
-import { mdiLoading } from "@mdi/js";
+import Spinner from "./Spinner";
 
 export default function Button(props) {
   return (
@@ -12,11 +11,7 @@ export default function Button(props) {
       onClick={props.onClick}
       disabled={props.disabled}
     >
-      {props.loading ? (
-        <Icon path={mdiLoading} size={0.6} horizontal color="#ffffff" spin />
-      ) : (
-        props.children
-      )}
+      {props.loading ? <Spinner color="#ffffff" /> : props.children}
     </button>
   );
 }
