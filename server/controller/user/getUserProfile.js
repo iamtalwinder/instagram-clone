@@ -21,6 +21,13 @@ module.exports = async (req, res) => {
     const signedInUser = req.session.user.userId;
     const { userToFind } = req.query;
     let result = await User.getUserProfile(req.con, signedInUser, userToFind);
+
+    if (result[0].isFollowing) {
+      result[0].isFollowing = true;
+    } else {
+      result[0].isFollowing = false;
+    }
+
     return res.status(200).send({ userProfile: result[0] });
   } catch (err) {
     console.log(err);
