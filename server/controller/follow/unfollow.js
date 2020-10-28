@@ -12,7 +12,7 @@ const validate = (data) => {
 };
 
 module.exports = async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validate(req.query);
   if (error) {
     return res.status(406).send({
       field: error.details[0].context.label,
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const userToUnfollow = req.body.userToUnfollow,
+    const userToUnfollow = req.query.userToUnfollow,
       follower = req.session.user.userId;
 
     const result = await Follow.getFollow(req.con, userToUnfollow, follower);
