@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Icon from "@mdi/react";
-import { mdiCogOutline, mdiAccountPlusOutline, mdiChevronLeft } from "@mdi/js";
+import { mdiCogOutline, mdiAccountPlusOutline } from "@mdi/js";
 import { useLocation } from "react-router-dom";
 import millify from "millify";
 import styles from "./Account.module.css";
@@ -13,6 +13,7 @@ import { VisitedUserContext } from "../context/VisitedUser";
 import Spinner from "../components/Spinner";
 import Follow from "../components/Follow";
 import DpPreview from "../components/DpPreview";
+import GoBack from "../components/GoBack";
 
 export default function Account() {
   const ICON_SIZE = 1.4;
@@ -54,9 +55,7 @@ export default function Account() {
             <Icon path={mdiCogOutline} size={ICON_SIZE} verticle="true" />
           </button>
         ) : (
-          <button>
-            <Icon path={mdiChevronLeft} size={ICON_SIZE} verticle="true" />
-          </button>
+          <GoBack ICON_SIZE={ICON_SIZE} />
         )}
 
         <h5 style={{ fontSize: "15px" }}>
