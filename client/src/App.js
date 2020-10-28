@@ -6,7 +6,8 @@ import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Activity from "./pages/Activity";
 import Account from "./pages/Account";
-import { UserContextProvider } from "./context/user";
+import { LoggedInUserContextProvider } from "./context/LoggedInUser";
+import { VisitedUserContextProvider } from "./context/VisitedUser";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
         <Route exact path="/signup">
           <Signup />
         </Route>
-        <UserContextProvider>
+        <LoggedInUserContextProvider>
           <Route exact path="/">
             <Signin />
           </Route>
@@ -28,10 +29,12 @@ function App() {
           <Route exact path="/activity">
             <Activity />
           </Route>
-          <Route exact path="/account">
-            <Account />
-          </Route>
-        </UserContextProvider>
+          <VisitedUserContextProvider>
+            <Route exact path="/account">
+              <Account />
+            </Route>
+          </VisitedUserContextProvider>
+        </LoggedInUserContextProvider>
       </Switch>
     </Router>
   );

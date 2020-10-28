@@ -11,7 +11,7 @@ import {
   mdiHeartOutline,
 } from "@mdi/js";
 import { useHistory } from "react-router-dom";
-import { UserContext } from "../context/user";
+import { LoggedInUserContext } from "../context/LoggedInUser";
 import dpThumb from "../img/dp_thumb.jpeg";
 
 export default function BottomNav(props) {
@@ -24,8 +24,8 @@ export default function BottomNav(props) {
     plusBoxIcon = mdiPlusBoxOutline,
     heartIcon = mdiHeartOutline;
 
-  const user = useContext(UserContext)[0];
-  let dpPath = user.dpPath;
+  const loggedInUser = useContext(LoggedInUserContext)[0];
+  let dpPath = loggedInUser.dpPath;
 
   if (dpPath) {
     dpPath += "_thumb.jpeg";
@@ -68,7 +68,7 @@ export default function BottomNav(props) {
         onClick={() => {
           history.push({
             pathname: "/account",
-            state: { userId: user.userId },
+            state: { userId: loggedInUser.userId },
           });
         }}
       >

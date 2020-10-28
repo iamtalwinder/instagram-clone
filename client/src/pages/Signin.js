@@ -9,9 +9,9 @@ import AppInfo from "../components/AppInfo";
 import { mdiFacebook } from "@mdi/js";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { UserContext } from "../context/user";
+import { LoggedInUserContext } from "../context/LoggedInUser";
 
-export default function Signin(props) {
+export default function Signin() {
   let history = useHistory();
 
   const [user, setUser] = useState("");
@@ -21,17 +21,18 @@ export default function Signin(props) {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
 
-  const setUserContext = useContext(UserContext)[1];
+  const setLoggedInUser = useContext(LoggedInUserContext)[1];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const { data } = await axios.post("/api/signin", { user, password });
-      setUserContext(data.user);
+      setLoggedInUser(data.user);
       history.push("/home");
     } catch (err) {
       setError(true);
+      setLoading(false);
       if (err.response) {
         setMessage(err.response.data.msg);
       } else if (err.request) {
@@ -40,7 +41,6 @@ export default function Signin(props) {
         setMessage("Network error");
       }
     }
-    setLoading(false);
   };
 
   const handleUser = (e) => {

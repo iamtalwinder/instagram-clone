@@ -61,7 +61,11 @@ export default function FormInput(props) {
           />
         )}
         {props.type === "password" && props.value !== "" && (
-          <button type="button" onClick={handleChange}>
+          <button
+            className={styles.button}
+            type="button"
+            onClick={handleChange}
+          >
             {text}
           </button>
         )}

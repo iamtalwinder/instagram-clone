@@ -49,7 +49,7 @@ input + label {
   font-size: 12px;
 }
 
-button {
+.button {
   cursor: pointer;
   border: none;
   outline: none;

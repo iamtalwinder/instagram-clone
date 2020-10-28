@@ -3,20 +3,26 @@ import axios from "axios";
 import Icon from "@mdi/react";
 import { mdiCogOutline, mdiAccountPlusOutline, mdiChevronLeft } from "@mdi/js";
 import { useLocation } from "react-router-dom";
+import millify from "millify";
+import styles from "./Account.module.css";
 import Nav from "../components/Nav";
 import DashboardContainer from "../components/DashboardContainer";
 import BottomNav from "../components/BottomNav";
-import { UserContext } from "../context/user";
+import { LoggedInUserContext } from "../context/LoggedInUser";
+import { VisitedUserContext } from "../context/VisitedUser";
 import Spinner from "../components/Spinner";
+import Follow from "../components/Follow";
+import DpPreview from "../components/DpPreview";
 
 export default function Account() {
   const ICON_SIZE = 1.4;
 
   const location = useLocation();
-  const user = useContext(UserContext)[0];
-
-  const [userProfile, setUserProfile] = useState();
+  const loggedInUser = useContext(LoggedInUserContext)[0];
+  const [visitedUser, setVisitedUser] = useContext(VisitedUserContext);
   const [loading, setLoading] = useState(true);
+
+  const MY_ACCOUNT = loggedInUser.userId === location.state.userId;
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -25,7 +31,7 @@ export default function Account() {
         const { data } = await axios.get("/api/user-profile", {
           params: { userToFind: location.state.userId },
         });
-        setUserProfile(data.userProfile);
+        setVisitedUser(data.userProfile);
       } catch (err) {
         if (err.response) {
           alert(err.response.data.msg);
@@ -38,12 +44,12 @@ export default function Account() {
       setLoading(false);
     };
     fetchUserProfile();
-  }, [location.state.userId]);
+  }, [location.state.userId, setVisitedUser]);
 
   return (
     <>
       <Nav topNav={true} itemsCenter={true}>
-        {user.userId === location.state.userId ? (
+        {MY_ACCOUNT ? (
           <button>
             <Icon path={mdiCogOutline} size={ICON_SIZE} verticle="true" />
           </button>
@@ -54,10 +60,10 @@ export default function Account() {
         )}
 
         <h5 style={{ fontSize: "15px" }}>
-          {loading ? <Spinner /> : userProfile.username}
+          {loading ? <Spinner /> : visitedUser.username}
         </h5>
 
-        {user.userId === location.state.userId ? (
+        {MY_ACCOUNT ? (
           <button>
             <Icon
               path={mdiAccountPlusOutline}
@@ -69,7 +75,43 @@ export default function Account() {
           <div></div>
         )}
       </Nav>
-      <DashboardContainer></DashboardContainer>
+      <DashboardContainer>
+        <div className={styles.top}>
+          <div className={styles.dp}>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                <DpPreview dpPath={visitedUser.dpPath} />
+                <p> {visitedUser.fullname} </p>
+              </>
+            )}
+          </div>
+          <div className={styles.profile}>
+            <p>{loading ? <Spinner /> : visitedUser.username}</p>
+            {MY_ACCOUNT ? (
+              <button className={styles.button}>Edit Profile</button>
+            ) : (
+              <Follow loading={loading} />
+            )}
+          </div>
+        </div>
+        <div className={styles.numbers}>
+          <div>
+            <p>{loading ? <Spinner /> : millify(visitedUser.posts)}</p>
+            <label>posts</label>
+          </div>
+          <div>
+            <p>{loading ? <Spinner /> : millify(visitedUser.followers)}</p>
+            <label>followers</label>
+          </div>
+          <div>
+            <p>{loading ? <Spinner /> : millify(visitedUser.following)}</p>
+            <label>following</label>
+          </div>
+        </div>
+        <div>posts</div>
+      </DashboardContainer>
       <BottomNav active="account" />
     </>
   );
