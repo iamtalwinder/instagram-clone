@@ -12,9 +12,9 @@ import {
 } from "@mdi/js";
 import { useHistory } from "react-router-dom";
 import { LoggedInUserContext } from "../context/LoggedInUser";
-import dpThumb from "../img/dp_thumb.jpeg";
+import DpThumb from "./DpThumb";
 
-export default function BottomNav(props) {
+export default function BottomNav({ active }) {
   const history = useHistory();
 
   const ICON_SIZE = 1.4;
@@ -25,19 +25,22 @@ export default function BottomNav(props) {
     heartIcon = mdiHeartOutline;
 
   const loggedInUser = useContext(LoggedInUserContext)[0];
-  let dpPath = loggedInUser.dpPath;
 
-  if (dpPath) {
-    dpPath += "_thumb.jpeg";
-  }
+  let dpStyle = {
+    width: `${ICON_SIZE * 25}px`,
+    height: `${ICON_SIZE * 25}px`,
+  };
 
-  if (props.active === "home") {
+  if (active === "home") {
     homeIcon = mdiHome;
-  } else if (props.active === "upload") {
+  } else if (active === "upload") {
     plusBoxIcon = mdiPlusBox;
-  } else if (props.active === "activity") {
+  } else if (active === "activity") {
     heartIcon = mdiHeart;
+  } else if (active === "account") {
+    dpStyle = { ...dpStyle, border: "2px solid black" };
   }
+
   return (
     <Nav bottomNav={true}>
       <button
@@ -72,15 +75,7 @@ export default function BottomNav(props) {
           });
         }}
       >
-        <img
-          style={{
-            borderRadius: "50%",
-            width: `${ICON_SIZE * 25}px`,
-            height: `${ICON_SIZE * 25}px`,
-          }}
-          src={dpPath || dpThumb}
-          alt=""
-        />
+        <DpThumb style={dpStyle} dpPath={loggedInUser.dpPath} />
       </button>
     </Nav>
   );
