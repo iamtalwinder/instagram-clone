@@ -12,7 +12,11 @@ export default function GoBack(props) {
 
   return (
     <button onClick={goBack}>
-      <Icon path={mdiChevronLeft} size={props.ICON_SIZE} verticle="true" />
+      <Icon
+        path={mdiChevronLeft}
+        size={props.ICON_SIZE || 1.4}
+        verticle="true"
+      />
     </button>
   );
 }
