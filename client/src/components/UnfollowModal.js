@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./UnfollowModal.module.css";
 import DpPreview from "./DpPreview";
 import Button from "./Button";
+import Modal from "./Modal";
 import { VisitedUserContext } from "../context/VisitedUser";
 
 export default function UnfollowModal(props) {
@@ -30,48 +31,21 @@ export default function UnfollowModal(props) {
     props.setLoading(false);
   };
 
-  const closeModel = (e) => {
-    const id = e.target.id;
-    if (id === "cancle" || id === "container") {
-      props.setOpenModal(false);
-    }
-  };
-
-  const buttonStyles = {
-    background: "none",
-    borderRadius: "none",
-    borderTop: "1px solid #ccc",
-    padding: "10px",
-  };
-
   return (
-    <div className={styles.container} id="container" onClick={closeModel}>
-      <div className={styles.modelContent}>
-        <div className={styles.dp}>
-          <DpPreview
-            dpPath={visitedUser.dpPath}
-            style={{
-              margin: "auto",
-            }}
-          />
-          <p>unfollow @{visitedUser.username}</p>
-        </div>
-        <div>
-          <Button style={{ ...buttonStyles, color: "red" }} onClick={unfollow}>
-            Unfollow
-          </Button>
-          <Button
-            style={{
-              ...buttonStyles,
-              color: "black",
-            }}
-            id="cancle"
-            onClick={closeModel}
-          >
-            Cancle
-          </Button>
-        </div>
+    <Modal setOpenModal={props.setOpenModal}>
+      <div className={styles.dp}>
+        <DpPreview
+          dpPath={visitedUser.dpPath}
+          style={{
+            margin: "auto",
+          }}
+        />
+        <p>unfollow @{visitedUser.username}</p>
       </div>
-    </div>
+
+      <Button style={{ color: "red" }} onClick={unfollow}>
+        Unfollow
+      </Button>
+    </Modal>
   );
 }
