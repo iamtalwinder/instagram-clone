@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Activity from "./pages/Activity";
 import Account from "./pages/Account";
+import EditProfile from "./pages/EditProfile";
 import { LoggedInUserContextProvider } from "./context/LoggedInUser";
 import { VisitedUserContextProvider } from "./context/VisitedUser";
 
@@ -32,6 +33,9 @@ function App() {
           <VisitedUserContextProvider>
             <Route exact path="/account">
               <Account />
+            </Route>
+            <Route exact path="/edit-profile">
+              <EditProfile />
             </Route>
           </VisitedUserContextProvider>
         </LoggedInUserContextProvider>

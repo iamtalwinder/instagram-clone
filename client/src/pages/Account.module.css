@@ -28,16 +28,6 @@
   margin-bottom: 20px;
 }
 
-.profile .button {
-  cursor: pointer;
-  outline: none;
-  width: 100%;
-  padding: 5px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
 .numbers {
   margin-top: 40px;
   border-top: 1px solid #ccc;

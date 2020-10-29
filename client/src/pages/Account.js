@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Icon from "@mdi/react";
 import { mdiCogOutline, mdiAccountPlusOutline } from "@mdi/js";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import millify from "millify";
 import styles from "./Account.module.css";
 import Nav from "../components/Nav";
@@ -13,6 +13,7 @@ import { VisitedUserContext } from "../context/VisitedUser";
 import Spinner from "../components/Spinner";
 import Follow from "../components/Follow";
 import DpPreview from "../components/DpPreview";
+import Button from "../components/Button";
 import GoBack from "../components/GoBack";
 
 export default function Account() {
@@ -22,6 +23,7 @@ export default function Account() {
   const loggedInUser = useContext(LoggedInUserContext)[0];
   const [visitedUser, setVisitedUser] = useContext(VisitedUserContext);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
 
   const MY_ACCOUNT = loggedInUser.userId === location.state.userId;
 
@@ -49,7 +51,7 @@ export default function Account() {
 
   return (
     <>
-      <Nav topNav={true} itemsCenter={true}>
+      <Nav topNav={true}>
         {MY_ACCOUNT ? (
           <button>
             <Icon path={mdiCogOutline} size={ICON_SIZE} verticle="true" />
@@ -89,7 +91,18 @@ export default function Account() {
           <div className={styles.profile}>
             <p>{loading ? <Spinner /> : visitedUser.username}</p>
             {MY_ACCOUNT ? (
-              <button className={styles.button}>Edit Profile</button>
+              <Button
+                style={{
+                  background: "white",
+                  border: "1px solid #ccc",
+                  color: "black",
+                }}
+                onClick={() => {
+                  history.push("edit-profile");
+                }}
+              >
+                Edit Profile
+              </Button>
             ) : (
               <Follow loading={loading} />
             )}
@@ -111,6 +124,7 @@ export default function Account() {
         </div>
         <div>posts</div>
       </DashboardContainer>
+
       <BottomNav active="account" />
     </>
   );
