@@ -35,6 +35,7 @@ export default function FormInput(props) {
   return (
     <div className={styles.container} id={containerId}>
       <input
+        className={styles.input}
         name={props.name}
         type={type}
         placeholder={props.placeholder}
@@ -42,7 +43,7 @@ export default function FormInput(props) {
         onChange={props.onChange}
         required={props.required}
       />
-      <label>{props.placeholder}</label>
+      <label className={styles.label}>{props.placeholder}</label>
       <div className={styles.box}>
         {!focus && props.wrong && (
           <Icon

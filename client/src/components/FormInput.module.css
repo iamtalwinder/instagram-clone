@@ -6,7 +6,7 @@
   position: relative;
 }
 
-input {
+.input {
   width: 100%;
   font-size: 11px;
   padding: 15px 6px 3px 6px;
@@ -15,18 +15,18 @@ input {
   outline: none;
 }
 
-input:placeholder-shown {
+.input:placeholder-shown {
   font-size: 12px;
   padding: 8px 6px;
 }
 
-input:placeholder-shown + label {
+.input:placeholder-shown + .label {
   opacity: 0;
   transform: translateY(10px);
   visibility: hidden;
 }
 
-input + label {
+.input + .label {
   visibility: visible;
   flex: 1;
   font-size: 11px;
