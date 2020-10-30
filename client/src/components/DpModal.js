@@ -1,7 +1,7 @@
 import React from "react";
+import styles from "./DpModal.module.css";
 import Modal from "./Modal";
 import Button from "./Button";
-import styles from "./DpModal.module.css";
 
 export default function UnfollowModal(props) {
   return (
@@ -11,9 +11,13 @@ export default function UnfollowModal(props) {
     >
       <h3 className={styles.heading}>Change Profile Photo</h3>
 
-      <Button style={{ color: "#0095f6" }}>Upload Photo</Button>
+      <Button style={{ color: "#0095f6" }} onClick={props.clickFileInput}>
+        Upload Photo
+      </Button>
 
-      <Button style={{ color: "red" }}>Remove Current Photo</Button>
+      <Button style={{ color: "red" }} onClick={props.removeDP}>
+        Remove Current Photo
+      </Button>
     </Modal>
   );
 }

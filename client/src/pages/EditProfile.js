@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
+import axios from "axios";
 import styles from "./EditProfile.module.css";
 import Nav from "../components/Nav";
 import BottomNav from "../components/BottomNav";
@@ -7,9 +8,84 @@ import DpThumb from "../components/DpThumb";
 import { LoggedInUserContext } from "../context/LoggedInUser";
 import Button from "../components/Button";
 import TextButton from "../components/TextButton";
+import Spinner from "../components/Spinner";
+import toast from "../components/toast";
+import DpModal from "../components/DpModal";
 
 export default function () {
-  const loggedInUser = useContext(LoggedInUserContext)[0];
+  const [loggedInUser, setLoggedInUser] = useContext(LoggedInUserContext);
+  const [loading, setLoading] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
+  const upload = async (event) => {
+    setOpenModal(false);
+    setLoading(true);
+    const file = event.target.files[0];
+    const data = new FormData();
+    data.append("img", file);
+
+    try {
+      const response = await axios.patch("/api/change-dp", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log(response);
+      setLoggedInUser((prevstate) => {
+        return {
+          ...prevstate,
+          dpPath: response.data.dpPath,
+        };
+      });
+      toast.open({
+        type: "info",
+        message: response.data.msg,
+      });
+    } catch (err) {
+      console.log(err);
+      toast.open({
+        type: "error",
+        message: "Something went wrong. Try again!",
+      });
+    }
+    setLoading(false);
+  };
+
+  const removeDP = async () => {
+    setOpenModal(false);
+    setLoading(true);
+    try {
+      const response = await axios.patch("/api/remove-dp");
+      setLoggedInUser((prevstate) => {
+        return {
+          ...prevstate,
+          dpPath: null,
+        };
+      });
+      toast.open({
+        type: "info",
+        message: response.data.msg,
+      });
+    } catch (err) {
+      console.log(err);
+      toast.open({
+        type: "error",
+        message: "Something went wrong. Try again!",
+      });
+    }
+    setLoading(false);
+  };
+
+  const changeProfilePhoto = () => {
+    if (loggedInUser.dpPath) {
+      setOpenModal(true);
+    } else {
+      clickFileInput();
+    }
+  };
+
+  const clickFileInput = () => {
+    document.getElementById("inputFile").click();
+  };
+
   return (
     <>
       <Nav topNav={true}>
@@ -20,11 +96,25 @@ export default function () {
       <form className={styles.form}>
         <div className={styles.row}>
           <label className={styles.label}>
-            <DpThumb />
+            {loading ? <Spinner /> : <DpThumb dpPath={loggedInUser.dpPath} />}
           </label>
           <div>
             <p>{loggedInUser.username}</p>
-            <TextButton type="button">Change Profile Photo</TextButton>
+            <input
+              id="inputFile"
+              type="file"
+              name="file"
+              accept="image/png, image/jpg, image/jpeg"
+              onChange={upload}
+              style={{ display: "none" }}
+            />
+            <TextButton
+              type="button"
+              onClick={changeProfilePhoto}
+              disabled={loading}
+            >
+              Change Profile Photo
+            </TextButton>
           </div>
         </div>
         <div className={styles.row}>
@@ -115,6 +205,13 @@ export default function () {
           </div>
         </div>
       </form>
+      {openModal && (
+        <DpModal
+          setOpenModal={setOpenModal}
+          clickFileInput={clickFileInput}
+          removeDP={removeDP}
+        />
+      )}
       <BottomNav active="account" />
     </>
   );
