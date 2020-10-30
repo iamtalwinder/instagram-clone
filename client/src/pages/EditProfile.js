@@ -83,7 +83,7 @@ export default function () {
   };
 
   const clickFileInput = () => {
-    document.getElementById("inputFile").click();
+    document.getElementById("dpInput").click();
   };
 
   return (
@@ -101,7 +101,7 @@ export default function () {
           <div>
             <p>{loggedInUser.username}</p>
             <input
-              id="inputFile"
+              id="dpInput"
               type="file"
               name="file"
               accept="image/png, image/jpg, image/jpeg"

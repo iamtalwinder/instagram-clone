@@ -41,8 +41,27 @@ export default function BottomNav({ active }) {
     dpStyle = { ...dpStyle, border: "2px solid black" };
   }
 
+  const clickInput = (e) => {
+    document.getElementById("postInput").click();
+  };
+
+  const handleInputChange = (e) => {
+    history.push({
+      pathname: "/new-post",
+      state: { img: e.target.files[0] },
+    });
+  };
+
   return (
     <Nav bottomNav={true}>
+      <input
+        id="postInput"
+        type="file"
+        name="file"
+        accept="image/png, image/jpg, image/jpeg"
+        onChange={handleInputChange}
+        style={{ display: "none" }}
+      />
       <button
         onClick={() => {
           history.push("/home");
@@ -57,7 +76,7 @@ export default function BottomNav({ active }) {
       >
         <Icon path={searchIcon} size={ICON_SIZE} verticle="true" />
       </button>
-      <button>
+      <button onClick={clickInput}>
         <Icon path={plusBoxIcon} size={ICON_SIZE} verticle="true" />
       </button>
       <button

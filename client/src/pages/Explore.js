@@ -12,7 +12,7 @@ export default function Explore() {
         <div></div>
       </Nav>
       <DashboardContainer></DashboardContainer>
-      <BottomNav />
+      <BottomNav active="explore" />
     </>
   );
 }

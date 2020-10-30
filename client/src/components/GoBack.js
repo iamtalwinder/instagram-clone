@@ -11,7 +11,7 @@ export default function GoBack(props) {
   };
 
   return (
-    <button onClick={goBack}>
+    <button onClick={goBack} disabled={props.disabled}>
       <Icon
         path={mdiChevronLeft}
         size={props.ICON_SIZE || 1.4}

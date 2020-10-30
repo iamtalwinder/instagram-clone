@@ -7,6 +7,7 @@ import Explore from "./pages/Explore";
 import Activity from "./pages/Activity";
 import Account from "./pages/Account";
 import EditProfile from "./pages/EditProfile";
+import NewPost from "./pages/NewPost";
 import { LoggedInUserContextProvider } from "./context/LoggedInUser";
 import { VisitedUserContextProvider } from "./context/VisitedUser";
 
@@ -34,10 +35,13 @@ function App() {
             <Route exact path="/account">
               <Account />
             </Route>
-            <Route exact path="/edit-profile">
-              <EditProfile />
-            </Route>
           </VisitedUserContextProvider>
+          <Route exact path="/edit-profile">
+            <EditProfile />
+          </Route>
+          <Route exact path="/new-post">
+            <NewPost />
+          </Route>
         </LoggedInUserContextProvider>
       </Switch>
     </Router>
