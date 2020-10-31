@@ -4,7 +4,7 @@ import styles from "./Posts.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Posts(props) {
-  const PER_PAGE = 9;
+  const PER_PAGE = 6;
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
@@ -21,7 +21,7 @@ export default function Posts(props) {
       });
 
       const { data } = response;
-
+      console.log("dd");
       if (!data.posts.length) {
         setHasMore(false);
         return;

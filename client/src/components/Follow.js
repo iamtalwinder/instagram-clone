@@ -2,26 +2,23 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import Button from "./Button";
 import UnfollowModal from "./UnfollowModal";
-import { VisitedUserContext } from "../context/VisitedUser";
+import {
+  Context as VisitedUserContext,
+  actionTypes as VisitedUserActionTypes,
+} from "../context/VisitedUser";
 
 export default function Follow(props) {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
-  const [visitedUser, setVisitedUser] = useContext(VisitedUserContext);
+  const [visitedUser, visitedUserDispatch] = useContext(VisitedUserContext);
 
   const follow = async () => {
     setLoading(true);
     try {
       await axios.post("/api/follow", { userToFollow: visitedUser.userId });
 
-      setVisitedUser((prevState) => {
-        return {
-          ...prevState,
-          followers: ++prevState.followers,
-          isFollowing: true,
-        };
-      });
+      visitedUserDispatch({ type: VisitedUserActionTypes.FOLLOW });
     } catch (err) {
       console.log(err);
       alert("Something went wrong!");

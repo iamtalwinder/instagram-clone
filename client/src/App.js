@@ -9,7 +9,7 @@ import Account from "./pages/Account";
 import EditProfile from "./pages/EditProfile";
 import NewPost from "./pages/NewPost";
 import { LoggedInUserContextProvider } from "./context/LoggedInUser";
-import { VisitedUserContextProvider } from "./context/VisitedUser";
+import { ContextProvider as VisitedUserContextProvider } from "./context/VisitedUser";
 
 function App() {
   return (

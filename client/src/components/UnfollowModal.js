@@ -4,10 +4,13 @@ import styles from "./UnfollowModal.module.css";
 import DpPreview from "./DpPreview";
 import Button from "./Button";
 import Modal from "./Modal";
-import { VisitedUserContext } from "../context/VisitedUser";
+import {
+  Context as VisitedUserContext,
+  actionTypes as VisitedUserActionTypes,
+} from "../context/VisitedUser";
 
 export default function UnfollowModal(props) {
-  const [visitedUser, setVisitedUser] = useContext(VisitedUserContext);
+  const [visitedUser, visitedUserDispatch] = useContext(VisitedUserContext);
 
   const unfollow = async () => {
     props.setLoading(true);
@@ -17,13 +20,7 @@ export default function UnfollowModal(props) {
         params: { userToUnfollow: visitedUser.userId },
       });
 
-      setVisitedUser((prevState) => {
-        return {
-          ...prevState,
-          followers: --prevState.followers,
-          isFollowing: false,
-        };
-      });
+      visitedUserDispatch({ type: VisitedUserActionTypes.UNFOLLOW });
     } catch (err) {
       console.log(err.response);
       alert("Something went wrong!");

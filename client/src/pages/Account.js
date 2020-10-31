@@ -9,7 +9,10 @@ import Nav from "../components/Nav";
 import DashboardContainer from "../components/DashboardContainer";
 import BottomNav from "../components/BottomNav";
 import { LoggedInUserContext } from "../context/LoggedInUser";
-import { VisitedUserContext } from "../context/VisitedUser";
+import {
+  Context as VisitedUserContext,
+  actionTypes as VisitedUserActionTypes,
+} from "../context/VisitedUser";
 import Spinner from "../components/Spinner";
 import Follow from "../components/Follow";
 import DpPreview from "../components/DpPreview";
@@ -21,7 +24,7 @@ export default function Account() {
   const ICON_SIZE = 1.4;
 
   const loggedInUser = useContext(LoggedInUserContext)[0];
-  const [visitedUser, setVisitedUser] = useContext(VisitedUserContext);
+  const [visitedUser, visitedUserDispatch] = useContext(VisitedUserContext);
 
   const location = useLocation();
   const history = useHistory();
@@ -37,7 +40,11 @@ export default function Account() {
         const { data } = await axios.get("/api/user-profile", {
           params: { userToFind: location.state.userId },
         });
-        setVisitedUser(data.userProfile);
+
+        visitedUserDispatch({
+          type: VisitedUserActionTypes.SET_USER,
+          user: data.userProfile,
+        });
       } catch (err) {
         if (err.response) {
           alert(err.response.data.msg);
@@ -50,7 +57,7 @@ export default function Account() {
       setLoading(false);
     };
     fetchUserProfile();
-  }, [location.state.userId, setVisitedUser]);
+  }, [location.state.userId, visitedUserDispatch]);
 
   return (
     <>
@@ -125,10 +132,14 @@ export default function Account() {
             <label>following</label>
           </div>
         </div>
-        <Posts
-          userId={visitedUser.userId}
-          refreshPosts={location.state.refreshPosts}
-        />
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Posts
+            userId={visitedUser.userId}
+            refreshPosts={location.state.refreshPosts}
+          />
+        )}
       </DashboardContainer>
 
       <BottomNav active="account" />
