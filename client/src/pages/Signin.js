@@ -65,7 +65,6 @@ export default function Signin() {
       <form className={styles.form}>
         <h4>Instagram</h4>
         <FormInput
-          id="user"
           name="user"
           type="text"
           placeholder="Username or email"
@@ -74,7 +73,6 @@ export default function Signin() {
           required
         />
         <FormInput
-          id="password"
           name="password"
           type="password"
           placeholder="Password"
