@@ -9,13 +9,14 @@ import { LoggedInUserContext } from "../context/LoggedInUser";
 import Button from "../components/Button";
 import TextButton from "../components/TextButton";
 import Spinner from "../components/Spinner";
-import toast from "../components/toast";
 import DpModal from "../components/DpModal";
+import { useToast } from "../hooks";
 
 export default function () {
   const [loggedInUser, setLoggedInUser] = useContext(LoggedInUserContext);
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const toast = useToast();
 
   const upload = async (event) => {
     setOpenModal(false);
@@ -28,7 +29,6 @@ export default function () {
       const response = await axios.patch("/api/change-dp", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(response);
       setLoggedInUser((prevstate) => {
         return {
           ...prevstate,

@@ -21,7 +21,7 @@ export default function usePersistedState(key, init) {
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(state));
-  }, [state]);
+  }, [key, state]);
 
   return [state, setState];
 }

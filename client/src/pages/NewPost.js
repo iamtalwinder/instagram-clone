@@ -8,7 +8,7 @@ import GoBack from "../components/GoBack";
 import TextButton from "../components/TextButton";
 import DpThumb from "../components/DpThumb";
 import { LoggedInUserContext } from "../context/LoggedInUser";
-import toast from "../components/toast";
+import { useToast } from "../hooks";
 
 export default function NewPost() {
   const [caption, setCaption] = useState("");
@@ -16,6 +16,8 @@ export default function NewPost() {
   const loggedInUser = useContext(LoggedInUserContext)[0];
   const location = useLocation();
   const history = useHistory();
+
+  const toast = useToast();
 
   const share = async () => {
     setLoading(true);

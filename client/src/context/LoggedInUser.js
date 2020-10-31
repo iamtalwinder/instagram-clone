@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import usePersistedState from "../hooks/usePersistedState";
+import { usePersistedState } from "../hooks";
 
 export const LoggedInUserContext = createContext({});
 
