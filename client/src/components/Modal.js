@@ -4,10 +4,7 @@ import styles from "./Modal.module.css";
 
 export default function Modal(props) {
   const closeModel = (e) => {
-    const id = e.target.id;
-    if (id === "cancle" || id === "container") {
-      props.setOpenModal(false);
-    }
+    props.setOpenModal(false);
   };
 
   const buttonStyles = {
@@ -28,10 +25,10 @@ export default function Modal(props) {
   });
 
   return (
-    <div className={styles.container} id="container" onClick={closeModel}>
-      <div className={styles.modelContent} style={props.style}>
+    <div className={styles.container} onClick={closeModel}>
+      <div className={styles.modalContent} style={props.style}>
         {children}
-        <Button style={buttonStyles} id="cancle" onClick={closeModel}>
+        <Button style={buttonStyles} onClick={closeModel}>
           Cancle
         </Button>
       </div>
