@@ -9,7 +9,6 @@ export default function Button(props) {
   }
   return (
     <button
-      id={props.id}
       className={props.disabled ? styles.disabled : styles.active}
       style={props.style}
       type={props.type}
