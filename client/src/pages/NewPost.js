@@ -28,7 +28,6 @@ export default function NewPost() {
       const response = await axios.post("/api/post", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(response);
       toast.open({
         type: "info",
         message: response.data.msg,
@@ -48,7 +47,10 @@ export default function NewPost() {
         });
       }
     }
-    history.goBack();
+    history.push({
+      pathname: "/account",
+      state: { userId: loggedInUser.userId, refreshPosts: true },
+    });
   };
 
   return (

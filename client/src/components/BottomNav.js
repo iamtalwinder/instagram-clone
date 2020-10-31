@@ -90,7 +90,7 @@ export default function BottomNav({ active }) {
         onClick={() => {
           history.push({
             pathname: "/account",
-            state: { userId: loggedInUser.userId },
+            state: { userId: loggedInUser.userId, refreshPosts: false },
           });
         }}
       >

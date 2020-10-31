@@ -15,15 +15,18 @@ import Follow from "../components/Follow";
 import DpPreview from "../components/DpPreview";
 import Button from "../components/Button";
 import GoBack from "../components/GoBack";
+import Posts from "../components/Posts";
 
 export default function Account() {
   const ICON_SIZE = 1.4;
 
-  const location = useLocation();
   const loggedInUser = useContext(LoggedInUserContext)[0];
   const [visitedUser, setVisitedUser] = useContext(VisitedUserContext);
-  const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
   const history = useHistory();
+
+  const [loading, setLoading] = useState(true);
 
   const MY_ACCOUNT = loggedInUser.userId === location.state.userId;
 
@@ -122,7 +125,10 @@ export default function Account() {
             <label>following</label>
           </div>
         </div>
-        <div>posts</div>
+        <Posts
+          userId={visitedUser.userId}
+          refreshPosts={location.state.refreshPosts}
+        />
       </DashboardContainer>
 
       <BottomNav active="account" />

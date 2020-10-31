@@ -6,10 +6,14 @@ export const LoggedInUserContextProvider = (props) => {
   const [loggedInUser, setLoggedInUser] = useState({});
 
   useEffect(() => {
-    const data = localStorage.getItem("loggedInUser");
-    if (data) {
-      setLoggedInUser(JSON.parse(data));
-    } else {
+    try {
+      const data = JSON.parse(localStorage.getItem("loggedInUser"));
+      if (data) {
+        setLoggedInUser(data);
+      } else {
+        setLoggedInUser({});
+      }
+    } catch (err) {
       setLoggedInUser({});
     }
   }, []);
