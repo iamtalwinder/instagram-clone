@@ -8,7 +8,7 @@ import styles from "./Account.module.css";
 import Nav from "../components/Nav";
 import DashboardContainer from "../components/DashboardContainer";
 import BottomNav from "../components/BottomNav";
-import { LoggedInUserContext } from "../context/LoggedInUser";
+import { Context as LoggedInUserContext } from "../context/LoggedInUser";
 import {
   Context as VisitedUserContext,
   actionTypes as VisitedUserActionTypes,

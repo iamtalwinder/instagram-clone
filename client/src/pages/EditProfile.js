@@ -5,7 +5,10 @@ import Nav from "../components/Nav";
 import BottomNav from "../components/BottomNav";
 import GoBack from "../components/GoBack";
 import DpThumb from "../components/DpThumb";
-import { LoggedInUserContext } from "../context/LoggedInUser";
+import {
+  Context as LoggedInUserContext,
+  actionTypes as LoggedInUserActionTypes,
+} from "../context/LoggedInUser";
 import Button from "../components/Button";
 import TextButton from "../components/TextButton";
 import Spinner from "../components/Spinner";
@@ -13,7 +16,7 @@ import DpModal from "../components/DpModal";
 import { useToast } from "../hooks";
 
 export default function () {
-  const [loggedInUser, setLoggedInUser] = useContext(LoggedInUserContext);
+  const [loggedInUser, loggedInUserDispatch] = useContext(LoggedInUserContext);
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const toast = useToast();
@@ -29,12 +32,12 @@ export default function () {
       const response = await axios.patch("/api/change-dp", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setLoggedInUser((prevstate) => {
-        return {
-          ...prevstate,
-          dpPath: response.data.dpPath,
-        };
+
+      loggedInUserDispatch({
+        type: LoggedInUserActionTypes.CHANGE_DP,
+        dpPath: response.data.dpPath,
       });
+
       toast.open({
         type: "info",
         message: response.data.msg,
@@ -54,12 +57,12 @@ export default function () {
     setLoading(true);
     try {
       const response = await axios.patch("/api/remove-dp");
-      setLoggedInUser((prevstate) => {
-        return {
-          ...prevstate,
-          dpPath: null,
-        };
+
+      loggedInUserDispatch({
+        type: LoggedInUserActionTypes.REMOVE_DP,
+        dpPath: null,
       });
+
       toast.open({
         type: "info",
         message: response.data.msg,

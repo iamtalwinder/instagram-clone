@@ -9,7 +9,10 @@ import AppInfo from "../components/AppInfo";
 import { mdiFacebook } from "@mdi/js";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { LoggedInUserContext } from "../context/LoggedInUser";
+import {
+  Context as LoggedInUserContext,
+  actionTypes as LoggedInUserActionTypes,
+} from "../context/LoggedInUser";
 
 export default function Signin() {
   let history = useHistory();
@@ -21,14 +24,19 @@ export default function Signin() {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
 
-  const setLoggedInUser = useContext(LoggedInUserContext)[1];
+  const loggedInUserDispatch = useContext(LoggedInUserContext)[1];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const { data } = await axios.post("/api/signin", { user, password });
-      setLoggedInUser(data.user);
+
+      loggedInUserDispatch({
+        type: LoggedInUserActionTypes.SET_USER,
+        user: data.user,
+      });
+
       history.push("/home");
     } catch (err) {
       setError(true);

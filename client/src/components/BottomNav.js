@@ -11,7 +11,7 @@ import {
   mdiHeartOutline,
 } from "@mdi/js";
 import { useHistory } from "react-router-dom";
-import { LoggedInUserContext } from "../context/LoggedInUser";
+import { Context as LoggedInUserContext } from "../context/LoggedInUser";
 import DpThumb from "./DpThumb";
 
 export default function BottomNav({ active }) {

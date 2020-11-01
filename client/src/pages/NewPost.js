@@ -7,7 +7,7 @@ import DashboardContainer from "../components/DashboardContainer";
 import GoBack from "../components/GoBack";
 import TextButton from "../components/TextButton";
 import DpThumb from "../components/DpThumb";
-import { LoggedInUserContext } from "../context/LoggedInUser";
+import { Context as LoggedInUserContext } from "../context/LoggedInUser";
 import { useToast } from "../hooks";
 
 export default function NewPost() {

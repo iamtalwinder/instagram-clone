@@ -21,7 +21,6 @@ export default function Posts(props) {
       });
 
       const { data } = response;
-      console.log("dd");
       if (!data.posts.length) {
         setHasMore(false);
         return;
