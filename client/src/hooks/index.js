@@ -1,2 +1,2 @@
-export { default as usePersistedState } from "./usePersistedState";
+export { default as usePersistedReducer } from "./usePersistedReducer";
 export { default as useToast } from "./useToast";
