@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import styles from "./Signin.module.css";
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";
+import TextButton from "../components/TextButton";
 import FormDivider from "../components/FormDivider";
 import IconButton from "../components/IconButton";
 import FormMessageBox from "../components/FormMessageBox";
@@ -108,30 +109,19 @@ export default function Signin() {
             style={{ marginTop: "" }}
           />
         )}
-        <Button
+        <TextButton
           style={{
-            background: "none",
             color: "#00376b",
             fontSize: "12px",
           }}
           type="button"
         >
           Forgot Password?
-        </Button>
+        </TextButton>
       </form>
       <div className={styles.signup}>
         <p>Don't have an account?</p>
-        <Button
-          style={{
-            background: "none",
-            color: "#0095f6",
-            padding: "0",
-            width: "fit-content",
-          }}
-          onClick={() => history.push("/signup")}
-        >
-          Sign up
-        </Button>
+        <TextButton onClick={() => history.push("/signup")}>Sign up</TextButton>
       </div>
       <AppInfo />
     </div>
