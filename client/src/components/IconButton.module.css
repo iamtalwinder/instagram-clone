@@ -8,11 +8,11 @@
   outline: none;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .text {
-  display: inline;
   margin-left: 3px;
-  position: relative;
-  top: -8px;
 }

@@ -10,7 +10,7 @@ export default function IconButton(props) {
       type={props.type}
       onClick={props.onClick}
     >
-      {<Icon path={props.path} size={1.2} verticle="true" />}
+      {<Icon path={props.path} size={props.iconSize || 1.2} verticle="true" />}
       {<p className={styles.text}>{props.children}</p>}
     </button>
   );
