@@ -1,9 +1,9 @@
 import React from "react";
-import styles from "./Button.module.css";
+import styles from "./TextButton.module.css";
 import Spinner from "./Spinner";
 
 export default function Button(props) {
-  let spinnerColor = "white";
+  let spinnerColor = "#0095f6";
   if (props.style && props.style.color) {
     spinnerColor = props.style.color;
   }

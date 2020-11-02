@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./Signin.module.css";
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";
@@ -9,9 +9,14 @@ import AppInfo from "../components/AppInfo";
 import { mdiFacebook } from "@mdi/js";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import {
+  Context as LoggedInUserContext,
+  actionTypes as LoggedInUserActionTypes,
+} from "../context/LoggedInUser";
 
-export default function Signin(props) {
+export default function Signin() {
   let history = useHistory();
+
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,14 +24,23 @@ export default function Signin(props) {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
 
+  const loggedInUserDispatch = useContext(LoggedInUserContext)[1];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("/api/signin", { user, password });
+      const { data } = await axios.post("/api/signin", { user, password });
+
+      loggedInUserDispatch({
+        type: LoggedInUserActionTypes.SET_USER,
+        user: data.user,
+      });
+
       history.push("/home");
     } catch (err) {
       setError(true);
+      setLoading(false);
       if (err.response) {
         setMessage(err.response.data.msg);
       } else if (err.request) {
@@ -35,7 +49,6 @@ export default function Signin(props) {
         setMessage("Network error");
       }
     }
-    setLoading(false);
   };
 
   const handleUser = (e) => {
@@ -60,7 +73,6 @@ export default function Signin(props) {
       <form className={styles.form}>
         <h4>Instagram</h4>
         <FormInput
-          id="user"
           name="user"
           type="text"
           placeholder="Username or email"
@@ -69,7 +81,6 @@ export default function Signin(props) {
           required
         />
         <FormInput
-          id="password"
           name="password"
           type="password"
           placeholder="Password"

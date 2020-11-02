@@ -48,15 +48,7 @@ module.exports = async (req, res) => {
     delete userInfo.password;
     req.session.user = userInfo;
 
-    result = await User.getUserProfile(
-      req.con,
-      userInfo.userId,
-      userInfo.userId
-    );
-    delete result[0].isFollowing;
-    result[0].email = userInfo.email;
-
-    return res.status(200).send({ user: result[0], msg: "Signin successful" });
+    return res.status(200).send({ user: userInfo, msg: "Signin successful" });
   } catch (err) {
     console.log(err);
     return res.status(500).send({ msg: "Internal server error" });

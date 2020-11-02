@@ -1,0 +1,46 @@
+.top {
+  display: flex;
+  padding: 10px;
+}
+
+.dp {
+  flex: 1 1 40%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.dp p {
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.profile {
+  flex: 2 1 60%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.profile p {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.numbers {
+  margin-top: 40px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.numbers div {
+  text-align: center;
+}
+
+.numbers label {
+  color: #8e8e8e;
+}

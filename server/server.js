@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const con = require("./config/db.js");
@@ -27,6 +28,8 @@ app.use(
     },
   })
 );
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/", routes.user);
 app.use("/api/", routes.follow);

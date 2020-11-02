@@ -43,7 +43,13 @@ module.exports = {
       con.query(
         `
         SELECT 
-          * 
+          userId,
+          fullname,
+          username,
+          email,
+          password,
+          dpPath,
+          dateAndTime AS joinedOn
         FROM 
           user 
         WHERE 
@@ -62,7 +68,13 @@ module.exports = {
       con.query(
         `
         SELECT 
-          * 
+          userId,
+          fullname,
+          username,
+          email,
+          password,
+          dpPath,
+          dateAndTime AS joinedOn 
         FROM 
           user 
         WHERE 
@@ -81,7 +93,13 @@ module.exports = {
       con.query(
         `
         SELECT 
-          * 
+          userId,
+          fullname,
+          username,
+          email,
+          password,
+          dpPath,
+          dateAndTime AS joinedOn
         FROM 
           user 
         WHERE 

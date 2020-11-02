@@ -93,7 +93,6 @@ export default function Signin(props) {
         </IconButton>
         <FormDivider style={{ margin: "25px 0 0 0" }} />
         <FormInput
-          id="email"
           name="email"
           type="email"
           placeholder="Email"
@@ -102,7 +101,6 @@ export default function Signin(props) {
           required
         />
         <FormInput
-          id="fullname"
           name="fullname"
           type="text"
           placeholder="fullname"
@@ -111,7 +109,6 @@ export default function Signin(props) {
           required
         />
         <FormInput
-          id="username"
           name="username"
           type="text"
           placeholder="username"
@@ -120,7 +117,6 @@ export default function Signin(props) {
           required
         />
         <FormInput
-          id="password"
           name="password"
           type="password"
           placeholder="Password"

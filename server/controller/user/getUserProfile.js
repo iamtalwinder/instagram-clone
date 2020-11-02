@@ -9,7 +9,7 @@ const validate = (data) => {
 };
 
 module.exports = async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validate(req.query);
   if (error) {
     return res.status(406).send({
       field: error.details[0].context.label,
@@ -19,8 +19,15 @@ module.exports = async (req, res) => {
 
   try {
     const signedInUser = req.session.user.userId;
-    const { userToFind } = req.body;
+    const { userToFind } = req.query;
     let result = await User.getUserProfile(req.con, signedInUser, userToFind);
+
+    if (result[0].isFollowing) {
+      result[0].isFollowing = true;
+    } else {
+      result[0].isFollowing = false;
+    }
+
     return res.status(200).send({ userProfile: result[0] });
   } catch (err) {
     console.log(err);

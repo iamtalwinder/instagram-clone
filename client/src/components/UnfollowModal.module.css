@@ -1,0 +1,11 @@
+.dp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.dp p {
+  font-size: 14px;
+  margin-top: 10px;
+}

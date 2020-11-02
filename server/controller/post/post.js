@@ -7,7 +7,7 @@ const { deleteUpload } = require("../utils");
 
 const validate = (data) => {
   const schema = Joi.object({
-    caption: Joi.string().max(100),
+    caption: Joi.string().allow("").max(100),
   });
   return schema.validate(data);
 };
@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
     await Comments.create(req.con, postId, 0);
     await Utils.commit(req.con);
 
-    res.status(201).send({ postId: postId, msg: "Uploaded" });
+    res.status(201).send({ postId: postId, msg: "Post Shared" });
   } catch (err) {
     console.log(err);
     deleteUpload(filePath);

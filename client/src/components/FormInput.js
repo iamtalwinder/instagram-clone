@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./FormInput.module.css";
 import Icon from "@mdi/react";
 import { mdiAlphaXCircleOutline } from "@mdi/js";
@@ -8,6 +8,7 @@ export default function FormInput(props) {
   const [type, setType] = useState(props.type);
   const [text, setText] = useState("Show");
   const [focus, setFocus] = useState(false);
+
   const handleChange = () => {
     if (type === "password") {
       setType("text");
@@ -17,24 +18,27 @@ export default function FormInput(props) {
       setText("Show");
     }
   };
-  const containerId = props.id;
+
+  const container = useRef(null);
+  const input = useRef(null);
+
   useEffect(() => {
-    const container = document.getElementById(containerId);
-    const input = document.querySelector(`#${containerId} > input`);
-    input.addEventListener("focus", () => {
-      container.style.borderColor = "#262626";
+    input.current.addEventListener("focus", () => {
+      container.current.style.borderColor = "#262626";
       setFocus(true);
     });
 
-    input.addEventListener("blur", () => {
-      container.style.borderColor = "#cfccca";
+    input.current.addEventListener("blur", () => {
+      container.current.style.borderColor = "#cfccca";
       setFocus(false);
     });
-  }, [containerId]);
+  }, []);
 
   return (
-    <div className={styles.container} id={containerId}>
+    <div className={styles.container} ref={container}>
       <input
+        ref={input}
+        className={styles.input}
         name={props.name}
         type={type}
         placeholder={props.placeholder}
@@ -42,7 +46,7 @@ export default function FormInput(props) {
         onChange={props.onChange}
         required={props.required}
       />
-      <label>{props.placeholder}</label>
+      <label className={styles.label}>{props.placeholder}</label>
       <div className={styles.box}>
         {!focus && props.wrong && (
           <Icon
@@ -61,7 +65,11 @@ export default function FormInput(props) {
           />
         )}
         {props.type === "password" && props.value !== "" && (
-          <button type="button" onClick={handleChange}>
+          <button
+            className={styles.button}
+            type="button"
+            onClick={handleChange}
+          >
             {text}
           </button>
         )}
