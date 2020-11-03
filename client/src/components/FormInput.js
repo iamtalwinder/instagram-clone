@@ -9,6 +9,8 @@ export default function FormInput(props) {
   const [text, setText] = useState("Show");
   const [focus, setFocus] = useState(false);
 
+  const isMounted = useRef(true);
+
   const handleChange = () => {
     if (type === "password") {
       setType("text");
@@ -29,9 +31,15 @@ export default function FormInput(props) {
     });
 
     input.current.addEventListener("blur", () => {
-      container.current.style.borderColor = "#cfccca";
+      if (isMounted.current) {
+        container.current.style.borderColor = "#cfccca";
+      }
       setFocus(false);
     });
+
+    return () => {
+      isMounted.current = false;
+    };
   }, []);
 
   return (
