@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import styles from "./Posts.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -8,6 +9,8 @@ export default function Posts(props) {
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+
+  const history = useHistory();
 
   const fetchPosts = async () => {
     try {
@@ -42,7 +45,6 @@ export default function Posts(props) {
       dataLength={posts.length}
       next={fetchPosts}
       hasMore={hasMore}
-      loader={<h4>Loading...</h4>}
     >
       <div className={styles.imageGrid}>
         {posts.map((post) => (
@@ -51,6 +53,12 @@ export default function Posts(props) {
             className={styles.img}
             src={`${post.path}_thumb.jpeg`}
             alt=""
+            onClick={() => {
+              history.push({
+                pathname: "/photo",
+                state: { post: post },
+              });
+            }}
           />
         ))}
       </div>
