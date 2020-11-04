@@ -11,7 +11,7 @@ const validate = (data) => {
 };
 
 module.exports = async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validate(req.query);
   if (error) {
     return res.status(406).send({
       field: error.details[0].context.label,
@@ -21,12 +21,12 @@ module.exports = async (req, res) => {
 
   try {
     const userId = req.session.user.userId,
-      { postId } = req.body;
+      { postId } = req.query;
 
     const like = await PostLike.getLike(req.con, userId, postId);
 
     if (!like.length) {
-      return res.status(409).send({ msg: "No such like exists" });
+      return res.status(400).send({ msg: "No such like exists" });
     }
 
     await Utils.startTransaction(req.con);
