@@ -4,7 +4,7 @@ const { deleteUpload } = require("../utils");
 
 module.exports = async (req, res) => {
   const userId = req.session.user.userId,
-    postId = req.body.postId;
+    { postId } = req.query;
   try {
     const result = await Post.getPostByPostId(req.con, postId);
     if (!result.length) {
