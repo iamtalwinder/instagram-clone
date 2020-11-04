@@ -1,0 +1,31 @@
+.post,
+.post > div,
+.imgContainer img {
+  width: 100%;
+}
+
+.header,
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.header {
+  border-top: 0.5px solid #ccc;
+}
+
+.footer {
+  border-bottom: 0.5px solid #ccc;
+}
+
+@media (min-width: 400px) {
+  .post {
+    width: 400px;
+    margin: auto;
+  }
+
+  .imgContainer img {
+    height: 450px;
+  }
+}
