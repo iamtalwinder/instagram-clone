@@ -1,5 +1,4 @@
 .post,
-.post > div,
 .imgContainer img {
   width: 100%;
 }
@@ -17,6 +16,10 @@
 
 .footer {
   border-bottom: 0.5px solid #ccc;
+}
+
+.infoContainer {
+  margin: 10px;
 }
 
 @media (min-width: 400px) {
