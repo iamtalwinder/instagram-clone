@@ -1,6 +1,17 @@
-.username {
+.container {
+  display: flex;
+}
+
+.container .text {
   margin-left: 10px;
   font-size: 14px;
   line-height: 25px;
+  vertical-align: middle;
+}
+
+.username {
+  font-size: 15px;
+  line-height: 25px;
+  font-weight: bold;
   vertical-align: middle;
 }
