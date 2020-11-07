@@ -8,7 +8,7 @@ export default function ToAccount(props) {
   const history = useHistory();
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={props.style}>
       <EmptyButton
         style={{ display: "flex" }}
         onClick={() => {
@@ -18,7 +18,7 @@ export default function ToAccount(props) {
           });
         }}
       >
-        {props.dpPath && (
+        {props.includeDP && (
           <DpThumb
             style={{ height: "25px", width: "25px", marginRight: "10px" }}
             dpPath={props.dpPath}
