@@ -14,6 +14,7 @@ import millify from "millify";
 import { Context as LoggedInUserContext } from "../context/LoggedInUser";
 import EmptyButton from "../components/EmptyButton";
 import DeletePostModal from "../components/DeletePostModal";
+import CommentModal from "../components/CommentModal";
 
 export default function Post() {
   const ICON_SIZE = 1.2;
@@ -21,7 +22,8 @@ export default function Post() {
 
   const LoggedInUser = useContext(LoggedInUserContext)[0];
   const [post, setPost] = useState(location.state.post);
-  const [openModal, setOpenModal] = useState(false);
+  const [openDeletePostModal, setOpenDeletePostModal] = useState(false);
+  const [openCommentModal, setOpenCommentModal] = useState(false);
 
   const changeLike = () => {
     if (post.isLiked) {
@@ -61,12 +63,13 @@ export default function Post() {
     <div className={styles.post}>
       <div className={styles.header}>
         <ToAccount
+          includeDP={true}
           userId={post.userId}
           username={post.username}
           dpPath={post.dpPath}
         />
         {LoggedInUser.userId === post.userId && (
-          <EmptyButton onClick={() => setOpenModal(true)}>
+          <EmptyButton onClick={() => setOpenDeletePostModal(true)}>
             <Icon path={mdiDotsHorizontal} size={ICON_SIZE} verticle="true" />
           </EmptyButton>
         )}
@@ -84,7 +87,12 @@ export default function Post() {
               verticle="true"
             />
           </EmptyButton>
-          <EmptyButton style={{ marginLeft: "5px" }}>
+          <EmptyButton
+            style={{ marginLeft: "5px" }}
+            onClick={() => {
+              setOpenCommentModal(true);
+            }}
+          >
             <Icon path={mdiCommentOutline} size={ICON_SIZE} verticle="true" />
           </EmptyButton>
         </div>
@@ -92,13 +100,20 @@ export default function Post() {
 
       <div className={styles.infoContainer}>
         {post.likes !== 0 && (
-          <EmptyButton style={{ color: "#706868", fontSize: "14px" }}>
+          <EmptyButton
+            style={{ color: "#706868", fontSize: "14px", marginBottom: "5px" }}
+          >
             View {millify(post.likes)} like{post.likes > 1 && "s"}
           </EmptyButton>
         )}
 
         {post.comments !== 0 && (
-          <EmptyButton style={{ color: "#706868", fontSize: "14px" }}>
+          <EmptyButton
+            style={{ color: "#706868", fontSize: "14px" }}
+            onClick={() => {
+              setOpenCommentModal(true);
+            }}
+          >
             View {millify(post.comments)} comment{post.comments > 1 && "s"}
           </EmptyButton>
         )}
@@ -116,8 +131,19 @@ export default function Post() {
         </div>
       </div>
 
-      {openModal && (
-        <DeletePostModal postId={post.postId} setOpenModal={setOpenModal} />
+      {openDeletePostModal && (
+        <DeletePostModal
+          postId={post.postId}
+          setOpenModal={setOpenDeletePostModal}
+        />
+      )}
+
+      {openCommentModal && (
+        <CommentModal
+          postId={post.postId}
+          setOpenModal={setOpenCommentModal}
+          setPost={setPost}
+        />
       )}
     </div>
   );
