@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import styles from "./Post.module.css";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Icon from "@mdi/react";
 import {
@@ -16,12 +15,11 @@ import EmptyButton from "../components/EmptyButton";
 import DeletePostModal from "../components/DeletePostModal";
 import CommentModal from "../components/CommentModal";
 
-export default function Post() {
+export default function Post(props) {
   const ICON_SIZE = 1.2;
-  const location = useLocation();
 
   const LoggedInUser = useContext(LoggedInUserContext)[0];
-  const [post, setPost] = useState(location.state.post);
+  const [post, setPost] = useState(props.post);
   const [openDeletePostModal, setOpenDeletePostModal] = useState(false);
   const [openCommentModal, setOpenCommentModal] = useState(false);
 

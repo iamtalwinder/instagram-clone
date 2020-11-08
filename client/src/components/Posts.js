@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import styles from "./Posts.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
+import PhotoModal from "./PhotoModal";
 
 export default function Posts(props) {
   const PER_PAGE = 6;
+
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-
-  const history = useHistory();
+  const [post, setPost] = useState(null);
+  const [openPhotoModal, setOpenPhotoModal] = useState(false);
 
   const fetchPosts = async () => {
     try {
@@ -41,27 +42,30 @@ export default function Posts(props) {
   }, []);
 
   return (
-    <InfiniteScroll
-      dataLength={posts.length}
-      next={fetchPosts}
-      hasMore={hasMore}
-    >
-      <div className={styles.imageGrid}>
-        {posts.map((post) => (
-          <img
-            key={post.postId}
-            className={styles.img}
-            src={`${post.path}_thumb.jpeg`}
-            alt=""
-            onClick={() => {
-              history.push({
-                pathname: "/photo",
-                state: { post: post },
-              });
-            }}
-          />
-        ))}
-      </div>
-    </InfiniteScroll>
+    <>
+      <InfiniteScroll
+        dataLength={posts.length}
+        next={fetchPosts}
+        hasMore={hasMore}
+      >
+        <div className={styles.imageGrid}>
+          {posts.map((post) => (
+            <img
+              key={post.postId}
+              className={styles.img}
+              src={`${post.path}_thumb.jpeg`}
+              alt=""
+              onClick={() => {
+                setPost(post);
+                setOpenPhotoModal(true);
+              }}
+            />
+          ))}
+        </div>
+      </InfiniteScroll>
+      {openPhotoModal && (
+        <PhotoModal post={post} setOpenModal={setOpenPhotoModal} />
+      )}
+    </>
   );
 }

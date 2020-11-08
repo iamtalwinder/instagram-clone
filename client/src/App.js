@@ -8,7 +8,6 @@ import Activity from "./pages/Activity";
 import Account from "./pages/Account";
 import EditProfile from "./pages/EditProfile";
 import NewPost from "./pages/NewPost";
-import Photo from "./pages/Photo";
 import { ContextProvider as LoggedInUserContextProvider } from "./context/LoggedInUser";
 import { ContextProvider as VisitedUserContextProvider } from "./context/VisitedUser";
 
@@ -42,9 +41,6 @@ function App() {
           </Route>
           <Route exact path="/new-post">
             <NewPost />
-          </Route>
-          <Route exact path="/photo">
-            <Photo />
           </Route>
         </LoggedInUserContextProvider>
       </Switch>
