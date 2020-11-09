@@ -13,6 +13,7 @@ import {
   Context as VisitedUserContext,
   actionTypes as VisitedUserActionTypes,
 } from "../context/VisitedUser";
+import { ContextProvider as PostsContextProvider } from "../context/Posts";
 import Spinner from "../components/Spinner";
 import Follow from "../components/Follow";
 import DpPreview from "../components/DpPreview";
@@ -136,10 +137,12 @@ export default function Account() {
         {loading ? (
           <Spinner />
         ) : (
-          <Posts
-            userId={visitedUser.userId}
-            refreshPosts={location.state.refreshPosts}
-          />
+          <PostsContextProvider>
+            <Posts
+              userId={visitedUser.userId}
+              refreshPosts={location.state.refreshPosts}
+            />
+          </PostsContextProvider>
         )}
       </DashboardContainer>
 

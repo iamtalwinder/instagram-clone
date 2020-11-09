@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import Modal from "./Modal";
 import Button from "./Button";
 import { useToast } from "../hooks";
+import {
+  Context as PostsContext,
+  actionTypes as PostsActionTypes,
+} from "../context/Posts";
 
-export default function DeletePostModal(props) {
+export default function DeletePostModal({
+  postId,
+  postIndex,
+  setOpenModal,
+  closePhotoModal,
+}) {
   const toast = useToast();
 
-  const history = useHistory();
+  const dispatchPosts = useContext(PostsContext)[1];
 
   const deletePost = async () => {
     try {
       const response = await axios.delete("api/post", {
-        params: { postId: props.postId },
+        params: { postId: postId },
       });
 
       toast.open({
@@ -21,8 +29,14 @@ export default function DeletePostModal(props) {
         message: response.data.msg,
       });
 
-      history.replace("/home");
-      history.goBack();
+      dispatchPosts({
+        type: PostsActionTypes.DELETE_POST,
+        postIndex: postIndex,
+      });
+
+      if (closePhotoModal) {
+        closePhotoModal();
+      }
     } catch (err) {
       console.log(err);
       toast.open({
@@ -33,7 +47,7 @@ export default function DeletePostModal(props) {
   };
   return (
     <Modal
-      setOpenModal={props.setOpenModal}
+      setOpenModal={setOpenModal}
       style={{ width: "250px", height: "80px" }}
     >
       <Button style={{ color: "red" }} onClick={deletePost}>

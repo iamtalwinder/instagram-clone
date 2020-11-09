@@ -11,17 +11,24 @@ import {
 import ToAccount from "./ToAccount";
 import millify from "millify";
 import { Context as LoggedInUserContext } from "../context/LoggedInUser";
+import {
+  Context as PostsContext,
+  actionTypes as PostsActionTypes,
+} from "../context/Posts";
 import EmptyButton from "../components/EmptyButton";
 import DeletePostModal from "../components/DeletePostModal";
 import CommentModal from "../components/CommentModal";
 
-export default function Post(props) {
+export default function Post({ postIndex, closePhotoModal }) {
   const ICON_SIZE = 1.2;
 
   const LoggedInUser = useContext(LoggedInUserContext)[0];
-  const [post, setPost] = useState(props.post);
+  const [posts, dispatchPosts] = useContext(PostsContext);
+
   const [openDeletePostModal, setOpenDeletePostModal] = useState(false);
   const [openCommentModal, setOpenCommentModal] = useState(false);
+
+  const [post, setPost] = useState(posts[postIndex]);
 
   const changeLike = () => {
     if (post.isLiked) {
@@ -36,10 +43,20 @@ export default function Post(props) {
       setPost((post) => {
         return { ...post, likes: post.likes + 1, isLiked: true };
       });
+
+      dispatchPosts({
+        type: PostsActionTypes.INCREMENT_LIKES,
+        postIndex: postIndex,
+      });
       await axios.post("/api/like", { postId: post.postId });
     } catch (err) {
       setPost((post) => {
         return { ...post, likes: post.likes - 1, isLiked: false };
+      });
+
+      dispatchPosts({
+        type: PostsActionTypes.DECREMENT_LIKES,
+        postIndex: postIndex,
       });
     }
   };
@@ -49,10 +66,20 @@ export default function Post(props) {
       setPost((post) => {
         return { ...post, likes: post.likes - 1, isLiked: false };
       });
+
+      dispatchPosts({
+        type: PostsActionTypes.DECREMENT_LIKES,
+        postIndex: postIndex,
+      });
       await axios.delete("/api/unlike", { params: { postId: post.postId } });
     } catch (err) {
       setPost((post) => {
         return { ...post, likes: post.likes + 1, isLiked: true };
+      });
+
+      dispatchPosts({
+        type: PostsActionTypes.INCREMENT_LIKES,
+        postIndex: postIndex,
       });
     }
   };
@@ -133,6 +160,8 @@ export default function Post(props) {
         <DeletePostModal
           postId={post.postId}
           setOpenModal={setOpenDeletePostModal}
+          postIndex={postIndex}
+          closePhotoModal={closePhotoModal}
         />
       )}
 
@@ -140,7 +169,7 @@ export default function Post(props) {
         <CommentModal
           postId={post.postId}
           setOpenModal={setOpenCommentModal}
-          setPost={setPost}
+          postIndex={postIndex}
         />
       )}
     </div>

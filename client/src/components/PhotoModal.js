@@ -4,13 +4,16 @@ import BottomNav from "./BottomNav";
 import PageModal from "./PageModal";
 import Post from "./Post";
 
-export default function PhotoModal(props) {
-  console.log(props.post);
+export default function PhotoModal({ postIndex, setOpenModal }) {
+  const closePhotoModal = () => {
+    setOpenModal(false);
+  };
+
   return (
     <>
-      <PageModal setOpenModal={props.setOpenModal} title="Photo">
-        <DashboardContainer style={{ marginTop: "55px" }}>
-          <Post post={props.post} />
+      <PageModal setOpenModal={setOpenModal} title="Photo">
+        <DashboardContainer style={{ margin: "15px auto 75px auto" }}>
+          <Post postIndex={postIndex} closePhotoModal={closePhotoModal} />
         </DashboardContainer>
         <BottomNav />
       </PageModal>

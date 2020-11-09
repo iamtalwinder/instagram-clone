@@ -7,6 +7,10 @@ import DpThumb from "../components/DpThumb";
 import { Context as LoggedInUserContext } from "../context/LoggedInUser";
 import TextButton from "./TextButton";
 import ToAccount from "./ToAccount";
+import {
+  Context as PostsContext,
+  actionTypes as PostsActionTypes,
+} from "../context/Posts";
 
 export default function CommentModal(props) {
   const [loading, setLoading] = useState(true);
@@ -16,6 +20,7 @@ export default function CommentModal(props) {
   const toast = useToast();
 
   const loggedInUser = useContext(LoggedInUserContext)[0];
+  const dispatchPosts = useContext(PostsContext)[1];
 
   const handleCommentChange = (e) => {
     if (e.target.value === "") {
@@ -67,11 +72,10 @@ export default function CommentModal(props) {
 
       setComments((comments) => [currentComment, ...comments]);
       setComment("");
-      props.setPost((post) => {
-        return {
-          ...post,
-          comments: post.comments + 1,
-        };
+
+      dispatchPosts({
+        type: PostsActionTypes.INCREMENT_COMMENTS,
+        postIndex: props.postIndex,
       });
     } catch (err) {
       console.log(err);
