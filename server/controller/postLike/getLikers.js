@@ -18,7 +18,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const likers = await PostLike.getLikers(req.con, req.query.postId);
+    const userId = req.session.user.userId;
+    const likers = await PostLike.getLikers(req.con, req.query.postId, userId);
     return res.status(200).send({ likers });
   } catch (err) {
     console.log(err);

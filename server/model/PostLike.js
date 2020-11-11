@@ -20,7 +20,7 @@ module.exports = {
     });
   },
 
-  getLikers: (con, postId) => {
+  getLikers: (con, postId, loggedInUser) => {
     return new Promise((resolve, reject) => {
       con.query(
         `
@@ -29,14 +29,20 @@ module.exports = {
             postLike.postId,
             postLike.dateAndTime AS likedOn,
             user.username,
-            user.dpPath 
+            user.dpPath,
+            follow.followerId AS isFollowing 
         FROM
             postLike
                 INNER JOIN
             user
-        WHERE
+        ON
             postLike.userId = user.userId
                 AND postLike.postId = "${postId}"
+                LEFT JOIN
+            follow
+        ON
+            follow.userId = user.userId
+              AND follow.followerId = ${loggedInUser}
         ORDER BY likedOn DESC   
         `,
         (err, result) => {
