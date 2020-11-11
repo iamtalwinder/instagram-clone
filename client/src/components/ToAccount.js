@@ -4,29 +4,36 @@ import { useHistory } from "react-router-dom";
 import DpThumb from "./DpThumb";
 import EmptyButton from "./EmptyButton";
 
-export default function ToAccount(props) {
+export default function ToAccount({
+  style,
+  userId,
+  includeDP,
+  dpPath,
+  username,
+  text,
+}) {
   const history = useHistory();
 
   return (
-    <div className={styles.container} style={props.style}>
+    <div className={styles.container} style={style}>
       <EmptyButton
         style={{ display: "flex" }}
         onClick={() => {
           history.push({
             pathname: "/account",
-            state: { userId: props.userId },
+            state: { userId: userId },
           });
         }}
       >
-        {props.includeDP && (
+        {includeDP && (
           <DpThumb
             style={{ height: "25px", width: "25px", marginRight: "10px" }}
-            dpPath={props.dpPath}
+            dpPath={dpPath}
           />
         )}
-        <p className={styles.username}>{props.username}</p>
+        <p className={styles.username}>{username}</p>
       </EmptyButton>
-      <p className={styles.text}>{props.text}</p>
+      <p className={styles.text}>{text}</p>
     </div>
   );
 }

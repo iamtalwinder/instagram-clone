@@ -6,7 +6,9 @@ import Button from "./Button";
 import Modal from "./Modal";
 
 export default function UnfollowModal({
-  user,
+  userId,
+  username,
+  dpPath,
   dispatch,
   actionTypes,
   setLoading,
@@ -17,7 +19,7 @@ export default function UnfollowModal({
     setOpenModal(false);
     try {
       await axios.delete("/api/unfollow", {
-        params: { userToUnfollow: user.userId },
+        params: { userToUnfollow: userId },
       });
 
       dispatch({ type: actionTypes.UNFOLLOW });
@@ -32,12 +34,12 @@ export default function UnfollowModal({
     <Modal setOpenModal={setOpenModal}>
       <div className={styles.dp}>
         <DpPreview
-          dpPath={user.dpPath}
+          dpPath={dpPath}
           style={{
             margin: "auto",
           }}
         />
-        <p>unfollow @{user.username}</p>
+        <p>unfollow @{username}</p>
       </div>
 
       <Button style={{ color: "red" }} onClick={unfollow}>

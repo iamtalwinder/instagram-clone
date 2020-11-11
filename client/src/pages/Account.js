@@ -117,7 +117,10 @@ export default function Account() {
               </Button>
             ) : (
               <Follow
-                user={visitedUser}
+                userId={visitedUser.userId}
+                username={visitedUser.username}
+                dpPath={visitedUser.dpPath}
+                isFollowing={visitedUser.isFollowing}
                 dispatch={visitedUserDispatch}
                 actionTypes={VisitedUserActionTypes}
               />

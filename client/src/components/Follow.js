@@ -3,14 +3,21 @@ import axios from "axios";
 import Button from "./Button";
 import UnfollowModal from "./UnfollowModal";
 
-export default function Follow({ user, dispatch, actionTypes }) {
+export default function Follow({
+  userId,
+  username,
+  dpPath,
+  isFollowing,
+  dispatch,
+  actionTypes,
+}) {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   const follow = async () => {
     setLoading(true);
     try {
-      await axios.post("/api/follow", { userToFollow: user.userId });
+      await axios.post("/api/follow", { userToFollow: userId });
 
       dispatch({ type: actionTypes.FOLLOW });
     } catch (err) {
@@ -22,7 +29,7 @@ export default function Follow({ user, dispatch, actionTypes }) {
 
   return (
     <>
-      {user.isFollowing ? (
+      {isFollowing ? (
         <Button
           style={{
             color: "black",
@@ -43,7 +50,9 @@ export default function Follow({ user, dispatch, actionTypes }) {
       )}
       {openModal && (
         <UnfollowModal
-          user={user}
+          userId={userId}
+          username={username}
+          dpPath={dpPath}
           dispatch={dispatch}
           actionTypes={actionTypes}
           setOpenModal={setOpenModal}
