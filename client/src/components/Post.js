@@ -18,6 +18,7 @@ import {
 import EmptyButton from "../components/EmptyButton";
 import DeletePostModal from "../components/DeletePostModal";
 import CommentModal from "../components/CommentModal";
+import LikesModal from "../components/LikesModal";
 
 export default function Post({ postIndex, closePhotoModal }) {
   const ICON_SIZE = 1.2;
@@ -27,6 +28,7 @@ export default function Post({ postIndex, closePhotoModal }) {
 
   const [openDeletePostModal, setOpenDeletePostModal] = useState(false);
   const [openCommentModal, setOpenCommentModal] = useState(false);
+  const [openLikesModal, setOpenLikesModal] = useState(false);
 
   const [post, setPost] = useState(posts[postIndex]);
 
@@ -50,6 +52,8 @@ export default function Post({ postIndex, closePhotoModal }) {
       });
       await axios.post("/api/like", { postId: post.postId });
     } catch (err) {
+      console.log(err.response);
+
       setPost((post) => {
         return { ...post, likes: post.likes - 1, isLiked: false };
       });
@@ -73,6 +77,8 @@ export default function Post({ postIndex, closePhotoModal }) {
       });
       await axios.delete("/api/unlike", { params: { postId: post.postId } });
     } catch (err) {
+      console.log(err.response);
+
       setPost((post) => {
         return { ...post, likes: post.likes + 1, isLiked: true };
       });
@@ -127,6 +133,9 @@ export default function Post({ postIndex, closePhotoModal }) {
         {post.likes !== 0 && (
           <EmptyButton
             style={{ color: "#706868", fontSize: "14px", marginBottom: "5px" }}
+            onClick={() => {
+              setOpenLikesModal(true);
+            }}
           >
             View {millify(post.likes)} like{post.likes > 1 && "s"}
           </EmptyButton>
@@ -171,6 +180,10 @@ export default function Post({ postIndex, closePhotoModal }) {
           setOpenModal={setOpenCommentModal}
           postIndex={postIndex}
         />
+      )}
+
+      {openLikesModal && (
+        <LikesModal postId={post.postId} setOpenModal={setOpenLikesModal} />
       )}
     </div>
   );
