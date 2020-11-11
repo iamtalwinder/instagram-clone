@@ -116,7 +116,11 @@ export default function Account() {
                 Edit Profile
               </Button>
             ) : (
-              <Follow loading={loading} />
+              <Follow
+                user={visitedUser}
+                dispatch={visitedUserDispatch}
+                actionTypes={VisitedUserActionTypes}
+              />
             )}
           </div>
         </div>

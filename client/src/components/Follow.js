@@ -1,24 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Button from "./Button";
 import UnfollowModal from "./UnfollowModal";
-import {
-  Context as VisitedUserContext,
-  actionTypes as VisitedUserActionTypes,
-} from "../context/VisitedUser";
 
-export default function Follow(props) {
+export default function Follow({ user, dispatch, actionTypes }) {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
-  const [visitedUser, visitedUserDispatch] = useContext(VisitedUserContext);
 
   const follow = async () => {
     setLoading(true);
     try {
-      await axios.post("/api/follow", { userToFollow: visitedUser.userId });
+      await axios.post("/api/follow", { userToFollow: user.userId });
 
-      visitedUserDispatch({ type: VisitedUserActionTypes.FOLLOW });
+      dispatch({ type: actionTypes.FOLLOW });
     } catch (err) {
       console.log(err);
       alert("Something went wrong!");
@@ -28,14 +22,14 @@ export default function Follow(props) {
 
   return (
     <>
-      {visitedUser.isFollowing ? (
+      {user.isFollowing ? (
         <Button
           style={{
             color: "black",
             background: "white",
             border: "1px solid #ccc",
           }}
-          loading={loading || props.loading}
+          loading={loading}
           onClick={() => {
             setOpenModal(true);
           }}
@@ -43,12 +37,18 @@ export default function Follow(props) {
           Following
         </Button>
       ) : (
-        <Button loading={loading || props.loading} onClick={follow}>
+        <Button loading={loading} onClick={follow}>
           Follow
         </Button>
       )}
       {openModal && (
-        <UnfollowModal setOpenModal={setOpenModal} setLoading={setLoading} />
+        <UnfollowModal
+          user={user}
+          dispatch={dispatch}
+          actionTypes={actionTypes}
+          setOpenModal={setOpenModal}
+          setLoading={setLoading}
+        />
       )}
     </>
   );
