@@ -13,12 +13,14 @@ import {
   Context as VisitedUserContext,
   actionTypes as VisitedUserActionTypes,
 } from "../context/VisitedUser";
+import { ContextProvider as PostsContextProvider } from "../context/Posts";
 import Spinner from "../components/Spinner";
 import Follow from "../components/Follow";
 import DpPreview from "../components/DpPreview";
 import Button from "../components/Button";
 import GoBack from "../components/GoBack";
 import Posts from "../components/Posts";
+import EmptyButton from "../components/EmptyButton";
 
 export default function Account() {
   const ICON_SIZE = 1.4;
@@ -63,9 +65,9 @@ export default function Account() {
     <>
       <Nav topNav={true}>
         {MY_ACCOUNT ? (
-          <button>
+          <EmptyButton>
             <Icon path={mdiCogOutline} size={ICON_SIZE} verticle="true" />
-          </button>
+          </EmptyButton>
         ) : (
           <GoBack ICON_SIZE={ICON_SIZE} />
         )}
@@ -75,13 +77,13 @@ export default function Account() {
         </h5>
 
         {MY_ACCOUNT ? (
-          <button>
+          <EmptyButton>
             <Icon
               path={mdiAccountPlusOutline}
               size={ICON_SIZE}
               verticle="true"
             />
-          </button>
+          </EmptyButton>
         ) : (
           <div></div>
         )}
@@ -114,7 +116,14 @@ export default function Account() {
                 Edit Profile
               </Button>
             ) : (
-              <Follow loading={loading} />
+              <Follow
+                userId={visitedUser.userId}
+                username={visitedUser.username}
+                dpPath={visitedUser.dpPath}
+                isFollowing={visitedUser.isFollowing}
+                dispatch={visitedUserDispatch}
+                actionTypes={VisitedUserActionTypes}
+              />
             )}
           </div>
         </div>
@@ -135,10 +144,12 @@ export default function Account() {
         {loading ? (
           <Spinner />
         ) : (
-          <Posts
-            userId={visitedUser.userId}
-            refreshPosts={location.state.refreshPosts}
-          />
+          <PostsContextProvider>
+            <Posts
+              visitedUserId={visitedUser.userId}
+              refreshPosts={location.state.refreshPosts}
+            />
+          </PostsContextProvider>
         )}
       </DashboardContainer>
 

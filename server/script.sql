@@ -100,6 +100,8 @@ CREATE TABLE following (
         ON DELETE CASCADE
 );
 
+SET autocommit = 0;
+
 /*Creating new database user*/
 
 CREATE USER 'instagram_clone'@'localhost' IDENTIFIED BY 'instagram_clone';

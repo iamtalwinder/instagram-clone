@@ -4,15 +4,16 @@ import DashboardContainer from "../components/DashboardContainer";
 import BottomNav from "../components/BottomNav";
 import Icon from "@mdi/react";
 import { mdiCameraOutline, mdiSendOutline } from "@mdi/js";
+import EmptyButton from "../components/EmptyButton";
 
 export default function Home() {
   const ICON_SIZE = 1.4;
   return (
     <>
       <Nav topNav={true}>
-        <button>
+        <EmptyButton>
           <Icon path={mdiCameraOutline} size={ICON_SIZE} verticle="true" />
-        </button>
+        </EmptyButton>
         <h5
           style={{
             fontFamily: "Yesteryear",
@@ -21,14 +22,14 @@ export default function Home() {
         >
           Instagram
         </h5>
-        <button>
+        <EmptyButton>
           <Icon
             path={mdiSendOutline}
             size={ICON_SIZE}
             verticle="true"
             rotate={-45}
           />
-        </button>
+        </EmptyButton>
       </Nav>
       <DashboardContainer></DashboardContainer>
       <BottomNav active="home" />

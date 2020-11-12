@@ -1,0 +1,40 @@
+.container {
+  width: 100%;
+}
+
+.postComment {
+  display: flex;
+  width: inherit;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #efefef;
+  height: 100px;
+  position: sticky;
+  margin-bottom: 25px;
+  top: 0;
+  left: 0;
+}
+
+.form {
+  display: flex;
+  width: 70%;
+  background-color: #ffffff;
+  border: 0.5px solid black;
+  padding: 10px 5px;
+  border-radius: 10px;
+}
+
+.form textarea {
+  cursor: text;
+  flex-grow: 1;
+  margin-right: 4px;
+  outline: none;
+  border: none;
+}
+
+@media (min-width: 400px) {
+  .container {
+    width: 400px;
+    margin: auto;
+  }
+}

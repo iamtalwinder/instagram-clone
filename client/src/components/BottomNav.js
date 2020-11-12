@@ -13,6 +13,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { Context as LoggedInUserContext } from "../context/LoggedInUser";
 import DpThumb from "./DpThumb";
+import EmptyButton from "../components/EmptyButton";
 
 export default function BottomNav({ active }) {
   const history = useHistory();
@@ -62,31 +63,31 @@ export default function BottomNav({ active }) {
         onChange={handleInputChange}
         style={{ display: "none" }}
       />
-      <button
+      <EmptyButton
         onClick={() => {
           history.push("/home");
         }}
       >
         <Icon path={homeIcon} size={ICON_SIZE} verticle="true" />
-      </button>
-      <button
+      </EmptyButton>
+      <EmptyButton
         onClick={() => {
           history.push("/explore");
         }}
       >
         <Icon path={searchIcon} size={ICON_SIZE} verticle="true" />
-      </button>
-      <button onClick={clickInput}>
+      </EmptyButton>
+      <EmptyButton onClick={clickInput}>
         <Icon path={plusBoxIcon} size={ICON_SIZE} verticle="true" />
-      </button>
-      <button
+      </EmptyButton>
+      <EmptyButton
         onClick={() => {
           history.push("/activity");
         }}
       >
         <Icon path={heartIcon} size={ICON_SIZE} verticle="true" />
-      </button>
-      <button
+      </EmptyButton>
+      <EmptyButton
         onClick={() => {
           history.push({
             pathname: "/account",
@@ -95,7 +96,7 @@ export default function BottomNav({ active }) {
         }}
       >
         <DpThumb style={dpStyle} dpPath={loggedInUser.dpPath} />
-      </button>
+      </EmptyButton>
     </Nav>
   );
 }

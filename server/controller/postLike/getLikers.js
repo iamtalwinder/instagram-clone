@@ -9,7 +9,7 @@ const validate = (data) => {
 };
 
 module.exports = async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validate(req.query);
   if (error) {
     return res.status(406).send({
       field: error.details[0].context.label,
@@ -18,7 +18,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const likers = await PostLike.getLikers(req.con, req.body.postId);
+    const userId = req.session.user.userId;
+    const likers = await PostLike.getLikers(req.con, req.query.postId, userId);
     return res.status(200).send({ likers });
   } catch (err) {
     console.log(err);

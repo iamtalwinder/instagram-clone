@@ -1,24 +1,25 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Button from "./Button";
 import UnfollowModal from "./UnfollowModal";
-import {
-  Context as VisitedUserContext,
-  actionTypes as VisitedUserActionTypes,
-} from "../context/VisitedUser";
 
-export default function Follow(props) {
+export default function Follow({
+  userId,
+  username,
+  dpPath,
+  isFollowing,
+  dispatch,
+  actionTypes,
+}) {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
-  const [visitedUser, visitedUserDispatch] = useContext(VisitedUserContext);
 
   const follow = async () => {
     setLoading(true);
     try {
-      await axios.post("/api/follow", { userToFollow: visitedUser.userId });
+      await axios.post("/api/follow", { userToFollow: userId });
 
-      visitedUserDispatch({ type: VisitedUserActionTypes.FOLLOW });
+      dispatch({ type: actionTypes.FOLLOW });
     } catch (err) {
       console.log(err);
       alert("Something went wrong!");
@@ -28,14 +29,14 @@ export default function Follow(props) {
 
   return (
     <>
-      {visitedUser.isFollowing ? (
+      {isFollowing ? (
         <Button
           style={{
             color: "black",
             background: "white",
             border: "1px solid #ccc",
           }}
-          loading={loading || props.loading}
+          loading={loading}
           onClick={() => {
             setOpenModal(true);
           }}
@@ -43,12 +44,20 @@ export default function Follow(props) {
           Following
         </Button>
       ) : (
-        <Button loading={loading || props.loading} onClick={follow}>
+        <Button loading={loading} onClick={follow}>
           Follow
         </Button>
       )}
       {openModal && (
-        <UnfollowModal setOpenModal={setOpenModal} setLoading={setLoading} />
+        <UnfollowModal
+          userId={userId}
+          username={username}
+          dpPath={dpPath}
+          dispatch={dispatch}
+          actionTypes={actionTypes}
+          setOpenModal={setOpenModal}
+          setLoading={setLoading}
+        />
       )}
     </>
   );
