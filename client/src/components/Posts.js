@@ -7,6 +7,7 @@ import {
   Context as PostsContext,
   actionTypes as PostsActionTypes,
 } from "../context/Posts";
+import { Context as LoggedInUserContext } from "../context/LoggedInUser";
 
 export default function Posts(props) {
   const PER_PAGE = 6;
@@ -15,7 +16,9 @@ export default function Posts(props) {
   const [hasMore, setHasMore] = useState(true);
   const [openPhotoModal, setOpenPhotoModal] = useState(false);
   const [postIndex, setPostIndex] = useState(null);
+
   const [posts, dispatchPosts] = useContext(PostsContext);
+  const loggedInUser = useContext(LoggedInUserContext);
 
   const fetchPosts = async () => {
     try {
@@ -23,8 +26,9 @@ export default function Posts(props) {
         params: {
           start: (page - 1) * PER_PAGE,
           offset: PER_PAGE,
-          userId: props.userId,
-          refresh: props.refreshPosts,
+          visitedUserId: props.visitedUserId,
+          visitorUserId: loggedInUser.userId,
+          refresh: !(page - 1),
         },
       });
 

@@ -53,9 +53,11 @@ module.exports = {
     });
   },
 
-  createTempPostTable: (con, userId) => {
+  createTempPostTable: (con, visitedUserId, visitorUserId) => {
     return new Promise((resolve, reject) => {
-      const TABLE_NAME = `post${userId.toString()}`;
+      const TABLE_NAME = `post${
+        visitedUserId.toString() + visitorUserId.toString()
+      }`;
 
       con.query(
         `
@@ -76,13 +78,13 @@ module.exports = {
           post
             INNER JOIN
           user ON user.userId = post.userId
-            AND post.userId = ${userId}
+            AND post.userId = ${visitedUserId}
             INNER JOIN
           postLikes ON postLikes.postId = post.postId
             INNER JOIN
           comments ON comments.postId = post.postId
             LEFT JOIN
-          postLike ON postLike.userId = post.userId
+          postLike ON postLike.userId = ${visitorUserId}
             AND postLike.postId = post.postId
         ORDER BY postedOn DESC;
         `,
@@ -94,9 +96,11 @@ module.exports = {
     });
   },
 
-  dropTempPostTable: (con, userId) => {
+  dropTempPostTable: (con, visitedUserId, visitorUserId) => {
     return new Promise((resolve, reject) => {
-      const TABLE_NAME = `post${userId.toString()}`;
+      const TABLE_NAME = `post${
+        visitedUserId.toString() + visitorUserId.toString()
+      }`;
       con.query(
         `
         DROP TABLE IF EXISTS 
@@ -110,9 +114,11 @@ module.exports = {
     });
   },
 
-  getPostsByUserId: (con, userId, start, offset) => {
+  getPostsByUserId: (con, visitedUserId, visitorUserId, start, offset) => {
     return new Promise((resolve, reject) => {
-      const TABLE_NAME = `post${userId.toString()}`;
+      const TABLE_NAME = `post${
+        visitedUserId.toString() + visitorUserId.toString()
+      }`;
       con.query(
         `
         SELECT

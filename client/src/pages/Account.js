@@ -146,7 +146,7 @@ export default function Account() {
         ) : (
           <PostsContextProvider>
             <Posts
-              userId={visitedUser.userId}
+              visitedUserId={visitedUser.userId}
               refreshPosts={location.state.refreshPosts}
             />
           </PostsContextProvider>
