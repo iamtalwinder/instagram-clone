@@ -11,27 +11,31 @@ export const actionTypes = {
 };
 
 export const ContextProvider = (props) => {
-  const reducer = (state, action) => {
-    switch (action.type) {
+  const reducer = (state, { type, newPosts, postIndex }) => {
+    switch (type) {
       case actionTypes.ADD_NEW_POSTS:
-        return [...state, ...action.newPosts];
+        return [...state, ...newPosts];
 
       case actionTypes.INCREMENT_LIKES:
-        state[action.postIndex].likes++;
-        state[action.postIndex].isLiked = true;
-        return state;
+        if (!state[postIndex].isLiked) {
+          state[postIndex].likes++;
+          state[postIndex].isLiked = true;
+        }
+        return [...state];
 
       case actionTypes.DECREMENT_LIKES:
-        state[action.postIndex].likes--;
-        state[action.postIndex].isLiked = false;
-        return state;
+        if (state[postIndex].isLiked) {
+          state[postIndex].likes--;
+          state[postIndex].isLiked = false;
+        }
+        return [...state];
 
       case actionTypes.INCREMENT_COMMENTS:
-        state[action.postIndex].comments++;
+        state[postIndex].comments++;
         return state;
 
       case actionTypes.DELETE_POST:
-        state.splice(action.postIndex, 1);
+        state.splice(postIndex, 1);
         return state;
 
       default:

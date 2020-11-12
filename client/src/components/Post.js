@@ -30,7 +30,7 @@ export default function Post({ postIndex, closePhotoModal }) {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [openLikesModal, setOpenLikesModal] = useState(false);
 
-  const [post, setPost] = useState(posts[postIndex]);
+  const post = posts[postIndex];
 
   const changeLike = () => {
     if (post.isLiked) {
@@ -42,10 +42,6 @@ export default function Post({ postIndex, closePhotoModal }) {
 
   const like = async () => {
     try {
-      setPost((post) => {
-        return { ...post, likes: post.likes + 1, isLiked: true };
-      });
-
       dispatchPosts({
         type: PostsActionTypes.INCREMENT_LIKES,
         postIndex: postIndex,
@@ -53,10 +49,6 @@ export default function Post({ postIndex, closePhotoModal }) {
       await axios.post("/api/like", { postId: post.postId });
     } catch (err) {
       console.log(err.response);
-
-      setPost((post) => {
-        return { ...post, likes: post.likes - 1, isLiked: false };
-      });
 
       dispatchPosts({
         type: PostsActionTypes.DECREMENT_LIKES,
@@ -67,10 +59,6 @@ export default function Post({ postIndex, closePhotoModal }) {
 
   const unlike = async () => {
     try {
-      setPost((post) => {
-        return { ...post, likes: post.likes - 1, isLiked: false };
-      });
-
       dispatchPosts({
         type: PostsActionTypes.DECREMENT_LIKES,
         postIndex: postIndex,
@@ -78,10 +66,6 @@ export default function Post({ postIndex, closePhotoModal }) {
       await axios.delete("/api/unlike", { params: { postId: post.postId } });
     } catch (err) {
       console.log(err.response);
-
-      setPost((post) => {
-        return { ...post, likes: post.likes + 1, isLiked: true };
-      });
 
       dispatchPosts({
         type: PostsActionTypes.INCREMENT_LIKES,
