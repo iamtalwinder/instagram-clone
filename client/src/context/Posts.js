@@ -4,8 +4,8 @@ export const Context = createContext({});
 
 export const actionTypes = {
   ADD_NEW_POSTS: "ADD_NEW_POSTS",
-  INCREMENT_LIKES: "INCREMENT_LIKES",
-  DECREMENT_LIKES: "DECREMENT_LIKES",
+  LIKE: "LIKE",
+  UNLIKE: "UNLIKE",
   INCREMENT_COMMENTS: "INCREMENT_COMMENTS",
   DELETE_POST: "DELETE_POST",
 };
@@ -16,14 +16,14 @@ export const ContextProvider = (props) => {
       case actionTypes.ADD_NEW_POSTS:
         return [...state, ...newPosts];
 
-      case actionTypes.INCREMENT_LIKES:
+      case actionTypes.LIKE:
         if (!state[postIndex].isLiked) {
           state[postIndex].likes++;
           state[postIndex].isLiked = true;
         }
         return [...state];
 
-      case actionTypes.DECREMENT_LIKES:
+      case actionTypes.UNLIKE:
         if (state[postIndex].isLiked) {
           state[postIndex].likes--;
           state[postIndex].isLiked = false;
