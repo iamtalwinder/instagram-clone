@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useRef, useState, useContext } from "react";
 import styles from "./Post.module.css";
 import axios from "axios";
 import Icon from "@mdi/react";
@@ -31,6 +31,7 @@ export default function Post({ postIndex, closePhotoModal }) {
   const [openLikesModal, setOpenLikesModal] = useState(false);
 
   const post = posts[postIndex];
+  const heart = useRef(null);
 
   const changeLike = () => {
     if (post.isLiked) {
@@ -43,24 +44,26 @@ export default function Post({ postIndex, closePhotoModal }) {
   const like = async () => {
     try {
       dispatchPosts({
-        type: PostsActionTypes.INCREMENT_LIKES,
+        type: PostsActionTypes.LIKE,
         postIndex: postIndex,
       });
       await axios.post("/api/like", { postId: post.postId });
     } catch (err) {
       console.log(err.response);
 
-      dispatchPosts({
-        type: PostsActionTypes.DECREMENT_LIKES,
-        postIndex: postIndex,
-      });
+      if (err.response.status !== 409) {
+        dispatchPosts({
+          type: PostsActionTypes.UNLIKE,
+          postIndex: postIndex,
+        });
+      }
     }
   };
 
   const unlike = async () => {
     try {
       dispatchPosts({
-        type: PostsActionTypes.DECREMENT_LIKES,
+        type: PostsActionTypes.UNLIKE,
         postIndex: postIndex,
       });
       await axios.delete("/api/unlike", { params: { postId: post.postId } });
@@ -68,10 +71,20 @@ export default function Post({ postIndex, closePhotoModal }) {
       console.log(err.response);
 
       dispatchPosts({
-        type: PostsActionTypes.INCREMENT_LIKES,
+        type: PostsActionTypes.LIKE,
         postIndex: postIndex,
       });
     }
+  };
+
+  const handleDoubleTap = () => {
+    heart.current.style.animationName = styles.like;
+    const end = () => {
+      heart.current.style.animationName = "";
+    };
+    heart.current.addEventListener("webkitAnimationEnd", end);
+    heart.current.addEventListener("animationend", end);
+    like();
   };
 
   if (!post) {
@@ -93,8 +106,16 @@ export default function Post({ postIndex, closePhotoModal }) {
           </EmptyButton>
         )}
       </div>
-      <div className={styles.imgContainer}>
+      <div onDoubleClick={handleDoubleTap} className={styles.imgContainer}>
         <img src={`${post.path}.jpeg`} alt="" />
+        <Icon
+          path={mdiHeart}
+          size={2}
+          color="white"
+          className={styles.heart}
+          ref={heart}
+          verticle="true"
+        />
       </div>
       <div className={styles.footer}>
         <div>
