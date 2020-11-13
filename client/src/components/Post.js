@@ -149,14 +149,13 @@ export default function Post({ postIndex, closePhotoModal }) {
         </div>
       </div>
 
-      {openDeletePostModal && (
-        <DeletePostModal
-          postId={post.postId}
-          setOpenModal={setOpenDeletePostModal}
-          postIndex={postIndex}
-          closePhotoModal={closePhotoModal}
-        />
-      )}
+      <DeletePostModal
+        postId={post.postId}
+        openModal={openDeletePostModal}
+        setOpenModal={setOpenDeletePostModal}
+        postIndex={postIndex}
+        closePhotoModal={closePhotoModal}
+      />
 
       {openCommentModal && (
         <CommentModal

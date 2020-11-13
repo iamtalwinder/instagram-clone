@@ -11,6 +11,7 @@ import {
 export default function DeletePostModal({
   postId,
   postIndex,
+  openModal,
   setOpenModal,
   closePhotoModal,
 }) {
@@ -47,6 +48,7 @@ export default function DeletePostModal({
   };
   return (
     <Modal
+      openModal={openModal}
       setOpenModal={setOpenModal}
       style={{ width: "250px", height: "80px" }}
     >
