@@ -12,7 +12,12 @@ import {
   actionTypes as PostsActionTypes,
 } from "../context/Posts";
 
-export default function CommentModal(props) {
+export default function CommentModal({
+  postId,
+  postIndex,
+  openModal,
+  setOpenModal,
+}) {
   const [loading, setLoading] = useState(true);
   const [postDisabled, setPostDisabled] = useState(true);
   const [comments, setComments] = useState([]);
@@ -37,7 +42,7 @@ export default function CommentModal(props) {
       try {
         const response = await axios.get("/api/comments", {
           params: {
-            postId: props.postId,
+            postId: postId,
           },
         });
 
@@ -52,14 +57,14 @@ export default function CommentModal(props) {
       setLoading(false);
     };
     fetch();
-  }, [props.postId, toast]);
+  }, [postId, toast]);
 
   const postComment = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const response = await axios.post("/api/comment", {
-        postId: props.postId,
+        postId: postId,
         comment: comment,
       });
 
@@ -75,7 +80,7 @@ export default function CommentModal(props) {
 
       dispatchPosts({
         type: PostsActionTypes.INCREMENT_COMMENTS,
-        postIndex: props.postIndex,
+        postIndex: postIndex,
       });
     } catch (err) {
       console.log(err);
@@ -89,9 +94,11 @@ export default function CommentModal(props) {
 
   return (
     <PageModal
-      setOpenModal={props.setOpenModal}
+      openModal={openModal}
+      setOpenModal={setOpenModal}
       title="Comments"
       loading={loading}
+      animation="left-in"
     >
       <div className={styles.container}>
         <div className={styles.postComment}>

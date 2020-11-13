@@ -74,6 +74,10 @@ export default function Post({ postIndex, closePhotoModal }) {
     }
   };
 
+  if (!post) {
+    return <></>;
+  }
+
   return (
     <div className={styles.post}>
       <div className={styles.header}>
@@ -157,17 +161,18 @@ export default function Post({ postIndex, closePhotoModal }) {
         closePhotoModal={closePhotoModal}
       />
 
-      {openCommentModal && (
-        <CommentModal
-          postId={post.postId}
-          setOpenModal={setOpenCommentModal}
-          postIndex={postIndex}
-        />
-      )}
+      <CommentModal
+        postId={post.postId}
+        openModal={openCommentModal}
+        setOpenModal={setOpenCommentModal}
+        postIndex={postIndex}
+      />
 
-      {openLikesModal && (
-        <LikesModal postId={post.postId} setOpenModal={setOpenLikesModal} />
-      )}
+      <LikesModal
+        postId={post.postId}
+        openModal={openLikesModal}
+        setOpenModal={setOpenLikesModal}
+      />
     </div>
   );
 }

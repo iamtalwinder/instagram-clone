@@ -54,7 +54,7 @@ function Liker({ userId, dpPath, username, isFollowing }) {
   );
 }
 
-export default function LikersModal({ postId, setOpenModal }) {
+export default function LikersModal({ postId, openModal, setOpenModal }) {
   const [loading, setLoading] = useState(true);
   const [likers, setLikers] = useState([]);
 
@@ -84,7 +84,13 @@ export default function LikersModal({ postId, setOpenModal }) {
     fetch();
   }, [postId, toast]);
   return (
-    <PageModal setOpenModal={setOpenModal} title="Likes" loading={loading}>
+    <PageModal
+      openModal={openModal}
+      setOpenModal={setOpenModal}
+      title="Likes"
+      loading={loading}
+      animation="left-in"
+    >
       <div className={styles.container}>
         {likers.map((liker) => (
           <Liker
