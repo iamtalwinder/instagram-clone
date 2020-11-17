@@ -82,7 +82,7 @@ export default function LikersModal({ postId, openModal, setOpenModal }) {
     };
 
     fetch();
-  }, [postId, toast]);
+  }, [postId, toast, openModal]);
   return (
     <PageModal
       openModal={openModal}
