@@ -20,7 +20,7 @@ import DeletePostModal from "../components/DeletePostModal";
 import CommentModal from "../components/CommentModal";
 import LikesModal from "../components/LikesModal";
 
-export default function Post({ postIndex, closePhotoModal }) {
+export default function Post({ postIndex, closePhotoModal, style }) {
   const ICON_SIZE = 1.2;
 
   const LoggedInUser = useContext(LoggedInUserContext)[0];
@@ -92,7 +92,7 @@ export default function Post({ postIndex, closePhotoModal }) {
   }
 
   return (
-    <div className={styles.post}>
+    <div className={styles.post} style={style}>
       <div className={styles.header}>
         <ToAccount
           includeDP={true}

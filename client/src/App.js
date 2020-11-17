@@ -10,6 +10,7 @@ import EditProfile from "./pages/EditProfile";
 import NewPost from "./pages/NewPost";
 import { ContextProvider as LoggedInUserContextProvider } from "./context/LoggedInUser";
 import { ContextProvider as VisitedUserContextProvider } from "./context/VisitedUser";
+import { ContextProvider as PostsContextProvider } from "./context/Posts";
 
 function App() {
   return (
@@ -23,7 +24,9 @@ function App() {
             <Signin />
           </Route>
           <Route exact path="/home">
-            <Home />
+            <PostsContextProvider>
+              <Home />
+            </PostsContextProvider>
           </Route>
           <Route exact path="/explore">
             <Explore />
