@@ -4,6 +4,7 @@ import styles from "./UnfollowModal.module.css";
 import DpPreview from "./DpPreview";
 import Button from "./Button";
 import Modal from "./Modal";
+import { useToast } from "../hooks";
 
 export default function UnfollowModal({
   userId,
@@ -12,8 +13,11 @@ export default function UnfollowModal({
   dispatch,
   actionTypes,
   setLoading,
+  openModal,
   setOpenModal,
 }) {
+  const toast = useToast();
+
   const unfollow = async () => {
     setLoading(true);
     setOpenModal(false);
@@ -25,13 +29,18 @@ export default function UnfollowModal({
       dispatch({ type: actionTypes.UNFOLLOW });
     } catch (err) {
       console.log(err.response);
-      alert("Something went wrong!");
+
+      toast.open({
+        type: "error",
+        message: "Something went wrong. Try again!",
+      });
     }
+    setOpenModal(false);
     setLoading(false);
   };
 
   return (
-    <Modal setOpenModal={setOpenModal}>
+    <Modal openModal={openModal} setOpenModal={setOpenModal}>
       <div className={styles.dp}>
         <DpPreview
           dpPath={dpPath}

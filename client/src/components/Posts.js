@@ -74,9 +74,12 @@ export default function Posts(props) {
           ))}
         </div>
       </InfiniteScroll>
-      {openPhotoModal && (
-        <PhotoModal postIndex={postIndex} setOpenModal={setOpenPhotoModal} />
-      )}
+
+      <PhotoModal
+        postIndex={postIndex}
+        openModal={openPhotoModal}
+        setOpenModal={setOpenPhotoModal}
+      />
     </>
   );
 }

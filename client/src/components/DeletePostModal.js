@@ -11,12 +11,13 @@ import {
 export default function DeletePostModal({
   postId,
   postIndex,
+  openModal,
   setOpenModal,
   closePhotoModal,
 }) {
   const toast = useToast();
 
-  const dispatchPosts = useContext(PostsContext)[1];
+  const postsDispatch = useContext(PostsContext)[1];
 
   const deletePost = async () => {
     try {
@@ -29,7 +30,7 @@ export default function DeletePostModal({
         message: response.data.msg,
       });
 
-      dispatchPosts({
+      postsDispatch({
         type: PostsActionTypes.DELETE_POST,
         postIndex: postIndex,
       });
@@ -47,6 +48,7 @@ export default function DeletePostModal({
   };
   return (
     <Modal
+      openModal={openModal}
       setOpenModal={setOpenModal}
       style={{ width: "250px", height: "80px" }}
     >

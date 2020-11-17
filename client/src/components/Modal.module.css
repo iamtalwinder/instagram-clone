@@ -9,6 +9,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .modalContent {
@@ -19,4 +23,17 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  -webkit-transition: inherit;
+  transition: inherit;
+  transform: scale(0.8);
+  z-index: 12;
+}
+
+.visible {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.visible .modalContent {
+  transform: scale(1);
 }

@@ -48,17 +48,16 @@ export default function Follow({
           Follow
         </Button>
       )}
-      {openModal && (
-        <UnfollowModal
-          userId={userId}
-          username={username}
-          dpPath={dpPath}
-          dispatch={dispatch}
-          actionTypes={actionTypes}
-          setOpenModal={setOpenModal}
-          setLoading={setLoading}
-        />
-      )}
+      <UnfollowModal
+        userId={userId}
+        username={username}
+        dpPath={dpPath}
+        dispatch={dispatch}
+        actionTypes={actionTypes}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        setLoading={setLoading}
+      />
     </>
   );
 }

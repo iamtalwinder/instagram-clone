@@ -34,7 +34,7 @@ module.exports = {
                 LEFT JOIN
             postLike ON postLike.userId = ${userId}
                 AND postLike.postId = post.postId
-        ORDER BY postedOn ASC
+        ORDER BY postedOn DESC
         `,
         (err, result) => {
           if (err) reject(err);
