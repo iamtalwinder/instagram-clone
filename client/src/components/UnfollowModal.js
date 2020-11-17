@@ -48,7 +48,7 @@ export default function UnfollowModal({
             margin: "auto",
           }}
         />
-        <p>unfollow @{username}</p>
+        <p className={styles.username}>unfollow @{username}</p>
       </div>
 
       <Button style={{ color: "red" }} onClick={unfollow}>

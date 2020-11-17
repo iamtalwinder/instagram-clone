@@ -5,7 +5,11 @@
   margin-top: 20px;
 }
 
-.dp p {
+.dp .username {
   font-size: 14px;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-top: 10px;
 }
