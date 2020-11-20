@@ -51,7 +51,7 @@ export default function NewPost() {
     }
     history.push({
       pathname: "/account",
-      state: { userId: loggedInUser.userId, refreshPosts: true },
+      state: { userId: loggedInUser.userId },
     });
   };
 
