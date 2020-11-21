@@ -10,7 +10,7 @@
   flex: 0 33.33%;
 }
 
-@media only screen and (min-width: 760px) {
+@media only screen and (min-width: 500px) {
   .img {
     height: 200px;
   }
