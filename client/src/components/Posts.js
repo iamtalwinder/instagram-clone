@@ -36,7 +36,6 @@ export default function Posts({ visitedUserId, postsPerPage }) {
       });
 
       const { data } = response;
-      console.log(data.posts.length);
 
       if (!data.posts.length) {
         setHasMore(false);
