@@ -15,7 +15,7 @@ import Post from "../components/Post";
 
 export default function Home() {
   const ICON_SIZE = 1.4;
-  const PER_PAGE = 6;
+  const PER_PAGE = 10;
 
   const [page, setPage] = useState(1);
   const [posts, dispatchPosts] = useContext(PostsContext);
@@ -51,6 +51,7 @@ export default function Home() {
   useEffect(() => {
     fetchFeeds();
   }, []);
+
   return (
     <>
       <Nav topNav={true}>
@@ -75,15 +76,17 @@ export default function Home() {
         </EmptyButton>
       </Nav>
       <DashboardContainer>
-        <InfiniteScroll
-          dataLength={posts.length}
-          next={fetchFeeds}
-          hasMore={hasMore}
-        >
-          {posts.map((post, index) => (
-            <Post postIndex={index} style={{ marginTop: "60px" }} />
-          ))}
-        </InfiniteScroll>
+        {posts.length && (
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={fetchFeeds}
+            hasMore={hasMore}
+          >
+            {posts.map((post, index) => (
+              <Post postIndex={index} style={{ marginTop: "60px" }} />
+            ))}
+          </InfiniteScroll>
+        )}
       </DashboardContainer>
       <BottomNav active="home" />
     </>

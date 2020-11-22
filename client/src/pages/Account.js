@@ -145,10 +145,7 @@ export default function Account() {
           <Spinner />
         ) : (
           <PostsContextProvider>
-            <Posts
-              visitedUserId={visitedUser.userId}
-              refreshPosts={location.state.refreshPosts}
-            />
+            <Posts visitedUserId={visitedUser.userId} postsPerPage={25} />
           </PostsContextProvider>
         )}
       </DashboardContainer>

@@ -113,6 +113,29 @@ module.exports = {
     });
   },
 
+  findUsers: (con, user) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `
+        SELECT DISTINCT
+          user.userId, user.username, user.fullname, user.dpPath
+        FROM
+          user
+            INNER JOIN
+          followers ON followers.userId = user.userId
+            AND user.username LIKE '${user}%'
+            OR user.fullname LIKE '${user}%'
+        ORDER BY followers.followers
+        LIMIT 20
+        `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
   createUser: (con, fullname, username, email, password) => {
     return new Promise((resolve, reject) => {
       con.query(

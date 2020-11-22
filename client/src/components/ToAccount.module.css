@@ -1,17 +1,16 @@
-.container {
-  display: flex;
-}
-
-.container .text {
-  margin-left: 10px;
+.text {
+  vertical-align: top;
   font-size: 14px;
-  line-height: 25px;
-  vertical-align: middle;
 }
 
 .username {
-  font-size: 15px;
-  line-height: 25px;
+  font-size: 14px;
   font-weight: bold;
-  vertical-align: middle;
+  text-align: left;
+}
+
+.fullname {
+  font-size: 12px;
+  color: #9c9691;
+  text-align: left;
 }

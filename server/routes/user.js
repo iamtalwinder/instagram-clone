@@ -11,6 +11,7 @@ router.post("/signin", userController.signin);
 router.delete("/signout", auth, userController.signout);
 router.get("/is-authorized", auth, userController.isAuthorized);
 router.get("/user-profile", auth, userController.getUserProfile);
+router.get("/users", auth, userController.findUsers);
 router.patch(
   "/change-dp",
   auth,
