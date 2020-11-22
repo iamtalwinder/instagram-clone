@@ -10,6 +10,9 @@ export default function ToAccount({
   includeDP,
   dpPath,
   username,
+  fullname,
+  dpWidth,
+  dpHeight,
   text,
 }) {
   const history = useHistory();
@@ -17,7 +20,11 @@ export default function ToAccount({
   return (
     <div className={styles.container} style={style}>
       <EmptyButton
-        style={{ display: "flex" }}
+        style={{
+          display: "inline-flex",
+          marginRight: "5px",
+          fontSize: "14px",
+        }}
         onClick={() => {
           history.push({
             pathname: "/account",
@@ -27,13 +34,20 @@ export default function ToAccount({
       >
         {includeDP && (
           <DpThumb
-            style={{ height: "25px", width: "25px", marginRight: "10px" }}
+            style={{
+              width: dpWidth || "25px",
+              height: dpHeight || "25px",
+              marginRight: "10px",
+            }}
             dpPath={dpPath}
           />
         )}
-        <p className={styles.username}>{username}</p>
+        <div>
+          <p className={styles.username}>{username}</p>
+          {fullname && <p className={styles.fullname}>{fullname}</p>}
+        </div>
       </EmptyButton>
-      <p className={styles.text}>{text}</p>
+      <span className={styles.text}>{text}</span>
     </div>
   );
 }
