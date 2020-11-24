@@ -90,7 +90,7 @@ export default function Explore() {
             ))}
 
             {!users.length && username !== "" && !loading && (
-              <p>No user found</p>
+              <p style={{ textAlign: "center" }}>No user found</p>
             )}
           </DashboardContainer>
         </div>
