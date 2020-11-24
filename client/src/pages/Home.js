@@ -76,7 +76,7 @@ export default function Home() {
         </EmptyButton>
       </Nav>
       <DashboardContainer>
-        {posts.length && (
+        {posts.length ? (
           <InfiniteScroll
             dataLength={posts.length}
             next={fetchFeeds}
@@ -86,6 +86,10 @@ export default function Home() {
               <Post postIndex={index} style={{ marginTop: "60px" }} />
             ))}
           </InfiniteScroll>
+        ) : (
+          <p style={{ textAlign: "center", marginTop: "60px" }}>
+            Follow other users to see their posts here.
+          </p>
         )}
       </DashboardContainer>
       <BottomNav active="home" />
