@@ -86,6 +86,7 @@ export default function Explore() {
                 dpPath={user.dpPath}
                 dpWidth="40px"
                 dpHeight="40px"
+                key={user.userId}
               />
             ))}
 
