@@ -12,11 +12,13 @@ import {
   actionTypes as PostsActionTypes,
 } from "../context/Posts";
 import Post from "../components/Post";
+import Spinner from "../components/Spinner";
 
 export default function Home() {
   const ICON_SIZE = 1.4;
   const PER_PAGE = 10;
 
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [posts, dispatchPosts] = useContext(PostsContext);
   const [hasMore, setHasMore] = useState(true);
@@ -34,18 +36,18 @@ export default function Home() {
       const { data } = response;
       if (!data.feeds.length) {
         setHasMore(false);
-        return;
+      } else {
+        dispatchPosts({
+          type: PostsActionTypes.ADD_NEW_POSTS,
+          newPosts: data.feeds,
+        });
+
+        setPage((page) => page + 1);
       }
-
-      dispatchPosts({
-        type: PostsActionTypes.ADD_NEW_POSTS,
-        newPosts: data.feeds,
-      });
-
-      setPage((page) => page + 1);
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -88,7 +90,11 @@ export default function Home() {
           </InfiniteScroll>
         ) : (
           <p style={{ textAlign: "center", marginTop: "60px" }}>
-            Follow other users to see their posts here.
+            {loading ? (
+              <Spinner />
+            ) : (
+              "Follow other users to see their posts here."
+            )}
           </p>
         )}
       </DashboardContainer>
