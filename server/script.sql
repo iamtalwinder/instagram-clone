@@ -1,5 +1,5 @@
 CREATE TABLE user (
-    userId INT NOT NULL AUTO_INCREMENT,
+    userId  BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     fullname VARCHAR(30) NOT NULL,
     username VARCHAR(15) NOT NULL UNIQUE,
     email VARCHAR(50) NOT NULL UNIQUE,
@@ -10,8 +10,8 @@ CREATE TABLE user (
 );
 
 CREATE TABLE follow (
-    userId INT NOT NULL,
-    followerId INT NOT NULL,
+    userId BIGINT UNSIGNED NOT NULL,
+    followerId BIGINT UNSIGNED NOT NULL,
     dateAndTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (userId , followerId),
     FOREIGN KEY (userId)
@@ -24,7 +24,7 @@ CREATE TABLE follow (
 					
 CREATE TABLE post (
     postId VARCHAR(50) NOT NULL,
-    userId INT NOT NULL,
+    userId BIGINT UNSIGNED NOT NULL,
     path VARCHAR(70) NOT NULL,
     caption VARCHAR(100) NOT NULL,
     dateAndTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -37,7 +37,7 @@ CREATE TABLE post (
 CREATE TABLE comment (
 	commentId VARCHAR(50) NOT NULL,
     postId VARCHAR(50) NOT NULL,
-    userId INT NOT NULL,
+    userId BIGINT UNSIGNED NOT NULL,
     comment VARCHAR(100) NOT NULL,
     dateAndTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (commentId),
@@ -50,7 +50,7 @@ CREATE TABLE comment (
 );
 
 CREATE TABLE postLike (
-	userId INT NOT NULL,
+	userId BIGINT UNSIGNED NOT NULL,
     postId VARCHAR(50) NOT NULL,
     dateAndTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (userId, postId),
@@ -83,7 +83,7 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE followers (
-	userId INT NOT NULL,
+	userId BIGINT UNSIGNED NOT NULL,
     followers INT UNSIGNED NOT NULL DEFAULT 0, 
     PRIMARY KEY(userId),
     FOREIGN KEY (userId)
@@ -92,7 +92,7 @@ CREATE TABLE followers (
 );
 
 CREATE TABLE following (
-	userId INT NOT NULL,
+	userId BIGINT UNSIGNED NOT NULL,
     following INT UNSIGNED NOT NULL DEFAULT 0, 
     PRIMARY KEY(userId),
     FOREIGN KEY (userId)

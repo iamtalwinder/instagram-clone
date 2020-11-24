@@ -10,6 +10,7 @@ import AppInfo from "../components/AppInfo";
 import { mdiFacebook } from "@mdi/js";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import FacebookRedirect from "../components/FacebookRedirect";
 
 export default function Signin(props) {
   let history = useHistory();
@@ -38,10 +39,8 @@ export default function Signin(props) {
       setError(true);
       if (err.response) {
         setMessage(err.response.data.msg);
-      } else if (err.request) {
-        setMessage("Something went wrong. Try again!");
       } else {
-        setMessage("Network error");
+        setMessage("Something went wrong. Try again!");
       }
     }
     setLoading(false);
@@ -81,17 +80,19 @@ export default function Signin(props) {
         <p className={styles.subHeading}>
           Sign up to see photos and videos from your friends.
         </p>
-        <IconButton
-          style={{
-            color: "#ffffff",
-            background: "#0095f6",
-            marginTop: "5px",
-          }}
-          path={mdiFacebook}
-          type="button"
-        >
-          Log In with Facebook
-        </IconButton>
+        <FacebookRedirect disabled={loading}>
+          <IconButton
+            style={{
+              color: "#ffffff",
+              background: "#0095f6",
+              marginTop: "5px",
+            }}
+            path={mdiFacebook}
+            type="button"
+          >
+            Log In with Facebook
+          </IconButton>
+        </FacebookRedirect>
         <FormDivider style={{ margin: "25px 0 0 0" }} />
         <FormInput
           name="email"
@@ -150,7 +151,9 @@ export default function Signin(props) {
       </form>
       <div className={styles.signin}>
         <p>Have an account?</p>
-        <TextButton onClick={() => history.push("/")}>Log in</TextButton>
+        <TextButton disabled={loading} onClick={() => history.push("/")}>
+          Log in
+        </TextButton>
       </div>
       <AppInfo />
     </div>
