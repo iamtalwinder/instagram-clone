@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.post("/signup", userController.signup);
 router.post("/signin", userController.signin);
+router.post("/login-with-facebook", userController.loginWithFacebook);
 router.delete("/signout", auth, userController.signout);
 router.get("/is-authorized", auth, userController.isAuthorized);
 router.get("/user-profile", auth, userController.getUserProfile);

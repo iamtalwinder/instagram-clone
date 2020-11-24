@@ -136,20 +136,28 @@ module.exports = {
     });
   },
 
-  createUser: (con, fullname, username, email, password) => {
+  createUser: (con, fullname, username, email, password, userId) => {
+    let query = `
+    INSERT INTO user 
+      (fullname, username, email, password) 
+    VALUES 
+      ("${fullname}", "${username}", "${email}", "${password}")
+    `;
+
+    if (userId) {
+      query = `
+      INSERT INTO user 
+        (userId, fullname, username, email, password) 
+      VALUES 
+        (${userId}, "${fullname}", "${username}", "${email}", "${password}")
+      `;
+    }
+
     return new Promise((resolve, reject) => {
-      con.query(
-        `
-        INSERT INTO user 
-          (fullname, username, email, password) 
-        VALUES 
-          ("${fullname}", "${username}", "${email}", "${password}")
-        `,
-        (err, result) => {
-          if (err) reject(err);
-          else resolve(result);
-        }
-      );
+      con.query(query, (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      });
     });
   },
 
