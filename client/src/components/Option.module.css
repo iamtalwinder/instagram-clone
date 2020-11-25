@@ -1,0 +1,21 @@
+.active,
+.disabled {
+  background: #ffffff;
+  width: 100%;
+  display: flex;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #cfccca;
+  padding: 7px 7px;
+  font-size: 16px;
+  color: #262626;
+  justify-content: space-between;
+}
+
+.active {
+  cursor: pointer;
+}
+
+.disabled {
+  color: #cfccca;
+}
