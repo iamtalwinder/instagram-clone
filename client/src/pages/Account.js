@@ -21,6 +21,7 @@ import Button from "../components/Button";
 import GoBack from "../components/GoBack";
 import Posts from "../components/Posts";
 import EmptyButton from "../components/EmptyButton";
+import SettingsModal from "../components/SettingsModal";
 import { useToast } from "../hooks";
 
 export default function Account() {
@@ -33,6 +34,7 @@ export default function Account() {
   const history = useHistory();
 
   const [loading, setLoading] = useState(true);
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
   const toast = useToast();
 
   const MY_ACCOUNT = loggedInUser.userId === location.state.userId;
@@ -66,7 +68,11 @@ export default function Account() {
     <>
       <Nav topNav={true}>
         {MY_ACCOUNT ? (
-          <EmptyButton>
+          <EmptyButton
+            onClick={() => {
+              setOpenSettingsModal(true);
+            }}
+          >
             <Icon path={mdiCogOutline} size={ICON_SIZE} verticle="true" />
           </EmptyButton>
         ) : (
@@ -151,6 +157,10 @@ export default function Account() {
         )}
       </DashboardContainer>
 
+      <SettingsModal
+        openModal={openSettingsModal}
+        setOpenModal={setOpenSettingsModal}
+      />
       <BottomNav active="account" />
     </>
   );
