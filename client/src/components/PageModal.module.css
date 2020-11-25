@@ -35,3 +35,11 @@
 [data-animation="left-in"].visible {
   left: 0;
 }
+
+[data-animation="right-in"].container {
+  left: -100vw;
+}
+
+[data-animation="right-in"].visible {
+  left: 0;
+}
