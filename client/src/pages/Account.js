@@ -21,6 +21,7 @@ import Button from "../components/Button";
 import GoBack from "../components/GoBack";
 import Posts from "../components/Posts";
 import EmptyButton from "../components/EmptyButton";
+import { useToast } from "../hooks";
 
 export default function Account() {
   const ICON_SIZE = 1.4;
@@ -32,6 +33,7 @@ export default function Account() {
   const history = useHistory();
 
   const [loading, setLoading] = useState(true);
+  const toast = useToast();
 
   const MY_ACCOUNT = loggedInUser.userId === location.state.userId;
 
@@ -48,18 +50,17 @@ export default function Account() {
           user: data.userProfile,
         });
       } catch (err) {
-        if (err.response) {
-          alert(err.response.data.msg);
-        } else if (err.request) {
-          alert("Something went wrong");
-        } else {
-          alert("Network error");
-        }
+        console.log(err);
+
+        toast.open({
+          type: "error",
+          message: "Something went wrong. Try again!",
+        });
       }
       setLoading(false);
     };
     fetchUserProfile();
-  }, [location.state.userId, visitedUserDispatch]);
+  }, [location.state.userId, visitedUserDispatch, toast]);
 
   return (
     <>
