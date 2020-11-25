@@ -93,7 +93,11 @@ export default function Home() {
             hasMore={hasMore}
           >
             {posts.map((post, index) => (
-              <Post postIndex={index} style={{ marginTop: "60px" }} />
+              <Post
+                key={post.postId}
+                postIndex={index}
+                style={{ marginTop: "60px" }}
+              />
             ))}
           </InfiniteScroll>
         ) : (
