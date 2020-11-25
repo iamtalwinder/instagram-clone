@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useRef,
+} from "react";
 import axios from "axios";
 import styles from "./Posts.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -9,21 +15,21 @@ import {
 } from "../context/Posts";
 
 export default function Posts({ visitedUserId, postsPerPage }) {
-  const [page, setPage] = useState(1);
+  const page = useRef(1);
   const [hasMore, setHasMore] = useState(true);
   const [openPhotoModal, setOpenPhotoModal] = useState(false);
   const [postIndex, setPostIndex] = useState(null);
 
   const [posts, dispatchPosts] = useContext(PostsContext);
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
       let url = "api/user-posts";
       let params = {
-        start: (page - 1) * postsPerPage,
+        start: (page.current - 1) * postsPerPage,
         offset: postsPerPage,
         visitedUserId: visitedUserId,
-        refresh: !(page - 1),
+        refresh: !(page.current - 1),
       };
 
       if (!visitedUserId) {
@@ -39,23 +45,22 @@ export default function Posts({ visitedUserId, postsPerPage }) {
 
       if (!data.posts.length) {
         setHasMore(false);
-        return;
+      } else {
+        dispatchPosts({
+          type: PostsActionTypes.ADD_NEW_POSTS,
+          newPosts: data.posts,
+        });
+
+        page.current++;
       }
-
-      dispatchPosts({
-        type: PostsActionTypes.ADD_NEW_POSTS,
-        newPosts: data.posts,
-      });
-
-      setPage((page) => ++page);
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [dispatchPosts, postsPerPage, visitedUserId]);
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   if (!posts.length) return <></>;
 

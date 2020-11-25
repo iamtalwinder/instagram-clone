@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useRef,
+} from "react";
 import axios from "axios";
 import Nav from "../components/Nav";
 import DashboardContainer from "../components/DashboardContainer";
@@ -18,22 +24,24 @@ export default function Home() {
   const ICON_SIZE = 1.4;
   const PER_PAGE = 10;
 
+  const page = useRef(1);
+
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const [posts, dispatchPosts] = useContext(PostsContext);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchFeeds = async () => {
+  const fetchFeeds = useCallback(async () => {
     try {
       const response = await axios.get("api/feeds", {
         params: {
-          start: (page - 1) * PER_PAGE,
+          start: (page.current - 1) * PER_PAGE,
           offset: PER_PAGE,
-          refresh: !(page - 1),
+          refresh: !(page.current - 1),
         },
       });
 
       const { data } = response;
+
       if (!data.feeds.length) {
         setHasMore(false);
       } else {
@@ -42,17 +50,17 @@ export default function Home() {
           newPosts: data.feeds,
         });
 
-        setPage((page) => page + 1);
+        page.current++;
       }
     } catch (err) {
       console.log(err);
     }
     setLoading(false);
-  };
+  }, [dispatchPosts]);
 
   useEffect(() => {
     fetchFeeds();
-  }, []);
+  }, [fetchFeeds]);
 
   return (
     <>
