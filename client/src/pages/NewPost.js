@@ -30,12 +30,18 @@ export default function NewPost() {
       const response = await axios.post("/api/post", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
       toast.open({
         type: "info",
         message: response.data.msg,
       });
+
+      history.push({
+        pathname: "/account",
+        state: { userId: loggedInUser.userId },
+      });
     } catch (err) {
-      console.log(err);
+      setLoading(false);
 
       if (err.response) {
         toast.open({
@@ -49,10 +55,6 @@ export default function NewPost() {
         });
       }
     }
-    history.push({
-      pathname: "/account",
-      state: { userId: loggedInUser.userId },
-    });
   };
 
   return (
