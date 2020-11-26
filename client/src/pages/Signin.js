@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./Signin.module.css";
 import FormInput from "../components/FormInput";
 import Button from "../components/Button";
@@ -9,7 +9,7 @@ import FormMessageBox from "../components/FormMessageBox";
 import AppInfo from "../components/AppInfo";
 import { mdiFacebook } from "@mdi/js";
 import axios from "axios";
-import { useLocation, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   Context as LoggedInUserContext,
   actionTypes as LoggedInUserActionTypes,
@@ -28,57 +28,27 @@ export default function Signin() {
 
   const loggedInUserDispatch = useContext(LoggedInUserContext)[1];
 
-  const location = useLocation();
-
-  const signinSuccess = useCallback(
-    (user) => {
-      loggedInUserDispatch({
-        type: LoggedInUserActionTypes.SET_USER,
-        user: user,
-      });
-
-      history.push("/home");
-    },
-    [history, loggedInUserDispatch]
-  );
-
-  const signinFail = useCallback((err) => {
-    console.log(err);
-    setError(true);
-    setLoading(false);
-    if (err.response) {
-      setMessage(err.response.data.msg);
-    } else {
-      setMessage("Something went wrong. Try again!");
-    }
-  }, []);
-
-  useEffect(() => {
-    const code = new URLSearchParams(location.search).get("code");
-    if (code) {
-      const handleLoginWithFacebook = async (code) => {
-        setLoading(true);
-        try {
-          const { data } = await axios.post("/api/login-with-facebook", {
-            code,
-          });
-          signinSuccess(data.user);
-        } catch (err) {
-          signinFail(err);
-        }
-      };
-      handleLoginWithFacebook(code);
-    }
-  }, [location.search, signinSuccess, signinFail]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const { data } = await axios.post("/api/signin", { user, password });
-      signinSuccess(data.user);
+
+      loggedInUserDispatch({
+        type: LoggedInUserActionTypes.SET_USER,
+        user: data.user,
+      });
+
+      localStorage.setItem("user-state", "logged-in");
+      history.push("/home");
     } catch (err) {
-      signinFail(err);
+      setError(true);
+      setLoading(false);
+      if (err.response) {
+        setMessage(err.response.data.msg);
+      } else {
+        setMessage("Something went wrong. Try again!");
+      }
     }
   };
 
@@ -131,7 +101,12 @@ export default function Signin() {
         </Button>
         <FormDivider style={{ marginTop: "20px" }} />
         <FacebookRedirect disabled={loading}>
-          <IconButton style={{ padding: "0" }} path={mdiFacebook} type="button">
+          <IconButton
+            style={{ padding: "0" }}
+            path={mdiFacebook}
+            type="button"
+            onClick={() => setLoading(true)}
+          >
             Log In with Facebook
           </IconButton>
         </FacebookRedirect>

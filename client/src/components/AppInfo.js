@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./AppInfo.module.css";
 import Button from "./Button";
-import AppStore from "../img/App-store.png";
-import GooglePlay from "../img/Google-play.png";
+import appStore from "../img/app-store.png";
+import googlePlay from "../img/google-play.png";
 
 export default function AppInfo() {
   return (
@@ -17,7 +17,7 @@ export default function AppInfo() {
             marginRight: "10px",
           }}
         >
-          <img className={styles.logoImg} src={AppStore} alt="App store" />
+          <img className={styles.logoImg} src={appStore} alt="App store" />
         </Button>
 
         <Button
@@ -27,7 +27,7 @@ export default function AppInfo() {
             width: "fit-content",
           }}
         >
-          <img className={styles.logoImg} src={GooglePlay} alt="Google Play" />
+          <img className={styles.logoImg} src={googlePlay} alt="Google Play" />
         </Button>
       </div>
     </div>
