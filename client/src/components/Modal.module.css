@@ -16,8 +16,8 @@
 }
 
 .modalContent {
-  width: 200px;
-  height: 250px;
+  width: fit-content;
+  height: fit-content;
   background-color: white;
   border-radius: 10px;
   display: flex;
@@ -27,6 +27,7 @@
   transition: inherit;
   transform: scale(0.8);
   z-index: 12;
+  margin: auto 20px;
 }
 
 .visible {

@@ -1,7 +1,8 @@
 import React from "react";
+import styles from "./LogoutModal.module.css";
 import axios from "axios";
-import Button from "./Button";
 import Modal from "./Modal";
+import ModalButton from "./ModalButton";
 import { useToast } from "../hooks";
 import { useHistory } from "react-router-dom";
 
@@ -25,14 +26,15 @@ export default function LogoutModal({ openModal, setOpenModal }) {
 
   return (
     <Modal openModal={openModal} setOpenModal={setOpenModal}>
-      <div>
+      <div className={styles.heading}>
         <h3>Log Out?</h3>
         <p>Are you sure you want to log out of your account?</p>
       </div>
 
-      <Button style={{ color: "#0095f6" }} onClick={logout}>
+      <ModalButton style={{ color: "#0095f6" }} onClick={logout}>
         Log Out
-      </Button>
+      </ModalButton>
+      <ModalButton id="close-modal">cancle</ModalButton>
     </Modal>
   );
 }

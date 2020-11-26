@@ -1,0 +1,13 @@
+.heading {
+  padding: 15px 15px;
+  text-align: center;
+}
+
+.heading h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.heading p {
+  font-size: 14px;
+}

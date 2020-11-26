@@ -1,13 +1,12 @@
-import React, { useEffect, useRef } from "react";
-import Button from "./Button";
+import React, { useEffect, useRef, useCallback } from "react";
 import styles from "./Modal.module.css";
 
 export default function Modal({ openModal, setOpenModal, children, style }) {
   const modal = useRef(null);
 
-  const close = () => {
+  const close = useCallback(() => {
     setOpenModal(false);
-  };
+  }, [setOpenModal]);
 
   useEffect(() => {
     if (openModal) {
@@ -17,22 +16,12 @@ export default function Modal({ openModal, setOpenModal, children, style }) {
     }
   }, [openModal]);
 
-  const buttonStyles = {
-    background: "none",
-    borderRadius: "none",
-    borderTop: "1px solid #ccc",
-    padding: "10px",
-    color: "black",
-  };
-
-  const buttons = React.Children.map(children, (child) => {
-    if (child.type.name === "Button") {
-      return React.cloneElement(child, {
-        style: { ...buttonStyles, ...child.props.style },
-      });
+  useEffect(() => {
+    const closeButton = document.getElementById("close-modal");
+    if (closeButton) {
+      closeButton.addEventListener("click", close);
     }
-    return child;
-  });
+  }, [close]);
 
   return (
     <div
@@ -43,10 +32,7 @@ export default function Modal({ openModal, setOpenModal, children, style }) {
       }}
     >
       <div className={styles.modalContent} style={style}>
-        {buttons}
-        <Button style={buttonStyles} onClick={close}>
-          Cancle
-        </Button>
+        {children}
       </div>
     </div>
   );

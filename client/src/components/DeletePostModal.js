@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import axios from "axios";
 import Modal from "./Modal";
-import Button from "./Button";
+import ModalButton from "./ModalButton";
 import { useToast } from "../hooks";
 import {
   Context as PostsContext,
@@ -50,11 +50,12 @@ export default function DeletePostModal({
     <Modal
       openModal={openModal}
       setOpenModal={setOpenModal}
-      style={{ width: "250px", height: "80px" }}
+      style={{ width: "250px" }}
     >
-      <Button style={{ color: "red" }} onClick={deletePost}>
+      <ModalButton style={{ color: "red" }} onClick={deletePost}>
         Delete
-      </Button>
+      </ModalButton>
+      <ModalButton id="close-modal">cancle</ModalButton>
     </Modal>
   );
 }
