@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Start from "./pages/Start";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
@@ -21,6 +22,9 @@ function App() {
         </Route>
         <LoggedInUserContextProvider>
           <Route exact path="/">
+            <Start />
+          </Route>
+          <Route exact path="/signin">
             <Signin />
           </Route>
           <Route exact path="/home">
