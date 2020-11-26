@@ -39,6 +39,7 @@ export default function Signin() {
         user: data.user,
       });
 
+      localStorage.setItem("user-state", "logged-in");
       history.push("/home");
     } catch (err) {
       setError(true);

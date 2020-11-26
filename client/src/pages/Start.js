@@ -15,6 +15,16 @@ export default function Start() {
   const toast = useToast();
   const loggedInUserDispatch = useContext(LoggedInUserContext)[1];
 
+  window.addEventListener("storage", () => {
+    const state = localStorage.getItem("user-state");
+
+    if (state === "logged-in") {
+      history.push("/home");
+    } else if (state === "logged-out") {
+      history.push("/signin");
+    }
+  });
+
   const signinSucess = useCallback(
     (user) => {
       loggedInUserDispatch({
@@ -22,6 +32,7 @@ export default function Start() {
         user: user,
       });
 
+      localStorage.setItem("user-state", "logged-in");
       history.push("/home");
     },
     [loggedInUserDispatch, history]

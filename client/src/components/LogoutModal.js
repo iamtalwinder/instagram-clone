@@ -13,7 +13,8 @@ export default function LogoutModal({ openModal, setOpenModal }) {
   const logout = async () => {
     try {
       await axios.delete("/api/signout");
-      history.push("/");
+      localStorage.setItem("user-state", "logged-out");
+      history.push("/signin");
     } catch (err) {
       console.log(err.response);
 
