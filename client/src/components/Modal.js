@@ -16,13 +16,6 @@ export default function Modal({ openModal, setOpenModal, children, style }) {
     }
   }, [openModal]);
 
-  useEffect(() => {
-    const closeButton = document.getElementById("close-modal");
-    if (closeButton) {
-      closeButton.addEventListener("click", close);
-    }
-  }, [close]);
-
   return (
     <div
       className={styles.container}

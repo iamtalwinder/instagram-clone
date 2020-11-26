@@ -20,6 +20,7 @@ export default function UnfollowModal({
 
   const unfollow = async () => {
     setLoading(true);
+
     setOpenModal(false);
     try {
       await axios.delete("/api/unfollow", {
@@ -54,7 +55,7 @@ export default function UnfollowModal({
       <ModalButton style={{ color: "red" }} onClick={unfollow}>
         Unfollow
       </ModalButton>
-      <ModalButton id="close-modal">cancle</ModalButton>
+      <ModalButton onClick={() => setOpenModal(false)}>cancle</ModalButton>
     </Modal>
   );
 }

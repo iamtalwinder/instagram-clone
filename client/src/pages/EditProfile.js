@@ -208,13 +208,14 @@ export default function () {
           </div>
         </div>
       </form>
-      {openModal && (
-        <DpModal
-          setOpenModal={setOpenModal}
-          clickFileInput={clickFileInput}
-          removeDP={removeDP}
-        />
-      )}
+
+      <DpModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        clickFileInput={clickFileInput}
+        removeDP={removeDP}
+      />
+
       <BottomNav active="account" />
     </>
   );

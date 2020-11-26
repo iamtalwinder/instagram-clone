@@ -55,7 +55,7 @@ export default function DeletePostModal({
       <ModalButton style={{ color: "red" }} onClick={deletePost}>
         Delete
       </ModalButton>
-      <ModalButton id="close-modal">cancle</ModalButton>
+      <ModalButton onClick={() => setOpenModal(false)}>cancle</ModalButton>
     </Modal>
   );
 }

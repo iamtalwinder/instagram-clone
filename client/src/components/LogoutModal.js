@@ -34,7 +34,7 @@ export default function LogoutModal({ openModal, setOpenModal }) {
       <ModalButton style={{ color: "#0095f6" }} onClick={logout}>
         Log Out
       </ModalButton>
-      <ModalButton id="close-modal">cancle</ModalButton>
+      <ModalButton onClick={() => setOpenModal(false)}>cancle</ModalButton>
     </Modal>
   );
 }

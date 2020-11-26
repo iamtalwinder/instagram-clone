@@ -1,23 +1,27 @@
 import React from "react";
 import styles from "./DpModal.module.css";
 import Modal from "./Modal";
-import Button from "./Button";
+import ModalButton from "./ModalButton";
 
-export default function UnfollowModal(props) {
+export default function UnfollowModal({
+  openModal,
+  setOpenModal,
+  clickFileInput,
+  removeDP,
+}) {
   return (
-    <Modal
-      setOpenModal={props.setOpenModal}
-      style={{ width: "250px", height: "200px" }}
-    >
+    <Modal openModal={openModal} setOpenModal={setOpenModal}>
       <h3 className={styles.heading}>Change Profile Photo</h3>
 
-      <Button style={{ color: "#0095f6" }} onClick={props.clickFileInput}>
+      <ModalButton style={{ color: "#0095f6" }} onClick={clickFileInput}>
         Upload Photo
-      </Button>
+      </ModalButton>
 
-      <Button style={{ color: "red" }} onClick={props.removeDP}>
+      <ModalButton style={{ color: "red" }} onClick={removeDP}>
         Remove Current Photo
-      </Button>
+      </ModalButton>
+
+      <ModalButton onClick={() => setOpenModal(false)}>cancle</ModalButton>
     </Modal>
   );
 }
