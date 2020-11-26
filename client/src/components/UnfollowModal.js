@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import styles from "./UnfollowModal.module.css";
 import DpPreview from "./DpPreview";
-import Button from "./Button";
+import ModalButton from "./ModalButton";
 import Modal from "./Modal";
 import { useToast } from "../hooks";
 
@@ -51,9 +51,10 @@ export default function UnfollowModal({
         <p className={styles.username}>unfollow @{username}</p>
       </div>
 
-      <Button style={{ color: "red" }} onClick={unfollow}>
+      <ModalButton style={{ color: "red" }} onClick={unfollow}>
         Unfollow
-      </Button>
+      </ModalButton>
+      <ModalButton id="close-modal">cancle</ModalButton>
     </Modal>
   );
 }

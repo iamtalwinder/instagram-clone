@@ -2,14 +2,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  padding: 30px 30px;
 }
 
 .dp .username {
   font-size: 14px;
   max-width: 200px;
+  margin-top: 10px;
+  margin-bottom: 0px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 10px;
 }
