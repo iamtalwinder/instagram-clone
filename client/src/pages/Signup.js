@@ -80,7 +80,7 @@ export default function Signin(props) {
         <p className={styles.subHeading}>
           Sign up to see photos and videos from your friends.
         </p>
-        <FacebookRedirect disabled={loading}>
+        <FacebookRedirect disabled={loading} onClick={() => setLoading(true)}>
           <IconButton
             style={{
               color: "#ffffff",

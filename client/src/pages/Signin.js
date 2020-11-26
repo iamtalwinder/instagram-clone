@@ -100,7 +100,12 @@ export default function Signin() {
         </Button>
         <FormDivider style={{ marginTop: "20px" }} />
         <FacebookRedirect disabled={loading}>
-          <IconButton style={{ padding: "0" }} path={mdiFacebook} type="button">
+          <IconButton
+            style={{ padding: "0" }}
+            path={mdiFacebook}
+            type="button"
+            onClick={() => setLoading(true)}
+          >
             Log In with Facebook
           </IconButton>
         </FacebookRedirect>

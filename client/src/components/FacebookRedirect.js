@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function FacebookRedirect({ children, disabled }) {
+export default function FacebookRedirect({ children, disabled, onClick }) {
   const params = {
     client_id: process.env.FACEBOOK_APP_ID || 1050934815332379,
     redirect_uri: process.env.FACEBOOK_REDIRECT_URI || "http://localhost:3000",
@@ -25,7 +25,7 @@ export default function FacebookRedirect({ children, disabled }) {
   }
 
   return (
-    <a style={style} href={url}>
+    <a style={style} href={url} onClick={onClick}>
       {children}
     </a>
   );
