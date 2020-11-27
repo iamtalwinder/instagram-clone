@@ -97,42 +97,57 @@ export default function Account() {
       </Nav>
       <DashboardContainer>
         <div className={styles.top}>
-          <div className={styles.dp}>
-            {loading ? (
-              <Spinner />
-            ) : (
-              <>
-                <DpPreview dpPath={visitedUser.dpPath} />
-                <p> {visitedUser.fullname} </p>
-              </>
-            )}
+          <div className={styles.row1}>
+            <div className={styles.dp}>
+              {loading ? (
+                <Spinner />
+              ) : (
+                <>
+                  <DpPreview dpPath={visitedUser.dpPath} />
+                </>
+              )}
+            </div>
+            <div className={styles.action}>
+              <p>{loading ? <Spinner /> : visitedUser.username}</p>
+              {MY_ACCOUNT ? (
+                <Button
+                  style={{
+                    background: "white",
+                    border: "1px solid #ccc",
+                    color: "black",
+                  }}
+                  onClick={() => {
+                    history.push("edit-profile");
+                  }}
+                >
+                  Edit Profile
+                </Button>
+              ) : (
+                <Follow
+                  userId={visitedUser.userId}
+                  username={visitedUser.username}
+                  dpPath={visitedUser.dpPath}
+                  isFollowing={visitedUser.isFollowing}
+                  dispatch={visitedUserDispatch}
+                  actionTypes={VisitedUserActionTypes}
+                />
+              )}
+            </div>
           </div>
-          <div className={styles.profile}>
-            <p>{loading ? <Spinner /> : visitedUser.username}</p>
-            {MY_ACCOUNT ? (
-              <Button
-                style={{
-                  background: "white",
-                  border: "1px solid #ccc",
-                  color: "black",
-                }}
-                onClick={() => {
-                  history.push("edit-profile");
-                }}
+
+          {!loading && (
+            <div className={styles.row2}>
+              <p className={styles.fullname}> {visitedUser.fullname} </p>
+              <p className={styles.bio}>{visitedUser.bio}</p>
+              <a
+                className={styles.website}
+                href={visitedUser.website}
+                target="_blanck"
               >
-                Edit Profile
-              </Button>
-            ) : (
-              <Follow
-                userId={visitedUser.userId}
-                username={visitedUser.username}
-                dpPath={visitedUser.dpPath}
-                isFollowing={visitedUser.isFollowing}
-                dispatch={visitedUserDispatch}
-                actionTypes={VisitedUserActionTypes}
-              />
-            )}
-          </div>
+                {visitedUser.website}
+              </a>
+            </div>
+          )}
         </div>
         <div className={styles.numbers}>
           <div>

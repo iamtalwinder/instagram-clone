@@ -1,35 +1,56 @@
 .top {
+  padding: 20px 10px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.row1 {
   display: flex;
-  padding: 10px;
+  justify-content: space-between;
+}
+
+.row2 {
+  margin-top: 20px;
+  line-height: 25px;
+}
+
+.fullname {
+  font-size: 16px;
+  color: #262626;
+  font-weight: bold;
+}
+
+.bio {
+  font-size: 15px;
+  color: #262626;
+  font-weight: 300;
+}
+
+.website {
+  font-weight: bold;
+  color: #00376b;
+  text-decoration: none;
 }
 
 .dp {
   flex: 1 1 40%;
   display: flex;
   flex-flow: column;
-  align-items: center;
 }
 
-.dp p {
-  font-size: 14px;
-  font-weight: 400;
-  margin-top: 20px;
-}
-
-.profile {
+.action {
   flex: 2 1 60%;
   display: flex;
   flex-flow: column;
   align-items: center;
 }
 
-.profile p {
+.action p {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
 .numbers {
-  margin-top: 40px;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   padding: 10px;
