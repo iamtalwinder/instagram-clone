@@ -12,6 +12,7 @@ router.post("/login-with-facebook", userController.loginWithFacebook);
 router.delete("/signout", auth, userController.signout);
 router.get("/current-user", auth, userController.getCurrentUser);
 router.get("/user-profile", auth, userController.getUserProfile);
+router.patch("/edit-profile", auth, userController.editProfile);
 router.get("/users", auth, userController.findUsers);
 router.patch(
   "/change-dp",

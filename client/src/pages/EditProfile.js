@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import styles from "./EditProfile.module.css";
 import Nav from "../components/Nav";
@@ -15,13 +15,51 @@ import Spinner from "../components/Spinner";
 import DpModal from "../components/DpModal";
 import { useToast } from "../hooks";
 
-export default function () {
+export default function EditProfile() {
   const [loggedInUser, loggedInUserDispatch] = useContext(LoggedInUserContext);
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const toast = useToast();
 
-  const upload = async (event) => {
+  const [fullname, setFullname] = useState(loggedInUser.fullname);
+  const [username, setUsername] = useState(loggedInUser.username);
+  const [website, setWebsite] = useState(loggedInUser.website || "");
+  const [bio, setBio] = useState(loggedInUser.bio || "");
+  const [email, setEmail] = useState(loggedInUser.email);
+  const [phoneNumber, setPhoneNumber] = useState(
+    loggedInUser.phoneNumber || ""
+  );
+
+  useEffect(() => {
+    if (
+      fullname === loggedInUser.fullname &&
+      username === loggedInUser.username &&
+      website === (loggedInUser.website || "") &&
+      bio === (loggedInUser.bio || "") &&
+      email === loggedInUser.email &&
+      phoneNumber === (loggedInUser.phoneNumber || "")
+    ) {
+      setIsSubmitDisabled(true);
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }, [
+    fullname,
+    username,
+    website,
+    bio,
+    email,
+    phoneNumber,
+    loggedInUser.fullname,
+    loggedInUser.username,
+    loggedInUser.website,
+    loggedInUser.bio,
+    loggedInUser.email,
+    loggedInUser.phoneNumber,
+  ]);
+
+  const uploadDP = async (event) => {
     setOpenModal(false);
     setLoading(true);
     const file = event.target.files[0];
@@ -77,7 +115,44 @@ export default function () {
     setLoading(false);
   };
 
-  const changeProfilePhoto = () => {
+  const editProfile = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.patch("/api/edit-profile", {
+        fullname: fullname,
+        username: username,
+        website: website === "" ? null : website,
+        bio: bio === "" ? null : bio,
+        email: email,
+        phoneNumber: phoneNumber === "" ? null : phoneNumber,
+      });
+
+      loggedInUserDispatch({
+        type: LoggedInUserActionTypes.SET_USER,
+        user: response.data.user,
+      });
+
+      toast.open({
+        type: "info",
+        message: response.data.msg,
+      });
+    } catch (err) {
+      if (err.response) {
+        toast.open({
+          type: "error",
+          message: err.response.data.msg,
+        });
+      } else {
+        toast.open({
+          type: "error",
+          message: "Something went wrong. Try again!",
+        });
+      }
+    }
+    setLoading(false);
+  };
+
+  const changeDP = () => {
     if (loggedInUser.dpPath) {
       setOpenModal(true);
     } else {
@@ -108,14 +183,10 @@ export default function () {
               type="file"
               name="file"
               accept="image/png, image/jpg, image/jpeg"
-              onChange={upload}
+              onChange={uploadDP}
               style={{ display: "none" }}
             />
-            <TextButton
-              type="button"
-              onClick={changeProfilePhoto}
-              disabled={loading}
-            >
+            <TextButton type="button" onClick={changeDP} disabled={loading}>
               Change Profile Photo
             </TextButton>
           </div>
@@ -123,7 +194,13 @@ export default function () {
         <div className={styles.row}>
           <label className={styles.label}>Name</label>
           <div>
-            <input className={styles.input} type="text" placeholder="Name" />
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Name"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+            />
           </div>
         </div>
 
@@ -144,6 +221,8 @@ export default function () {
               className={styles.input}
               type="text"
               placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
         </div>
@@ -151,14 +230,26 @@ export default function () {
         <div className={styles.row}>
           <label className={styles.label}>Website</label>
           <div>
-            <input className={styles.input} type="text" placeholder="Website" />
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Website"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
           </div>
         </div>
 
         <div className={styles.row}>
           <label className={styles.label}>Bio</label>
           <div>
-            <textarea className={styles.input} rows="2" cols="50" />
+            <textarea
+              className={styles.input}
+              rows="2"
+              cols="50"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+            />
           </div>
         </div>
 
@@ -177,7 +268,13 @@ export default function () {
         <div className={styles.row}>
           <label className={styles.label}>Email</label>
           <div>
-            <input className={styles.input} type="email" placeholder="Email" />
+            <input
+              className={styles.input}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
         </div>
 
@@ -188,6 +285,8 @@ export default function () {
               className={styles.input}
               type="tel"
               placeholder="Phone number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </div>
         </div>
@@ -198,7 +297,8 @@ export default function () {
             <Button
               type="submit"
               style={{ width: "fit-content" }}
-              disabled={true}
+              onClick={editProfile}
+              disabled={isSubmitDisabled || loading}
             >
               Submit
             </Button>

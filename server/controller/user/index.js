@@ -4,6 +4,7 @@ const loginWithFacebook = require("./loginWithFacebook");
 const signout = require("./signout");
 const getCurrentUser = require("./getCurrentUser");
 const getUserProfile = require("./getUserProfile");
+const editProfile = require("./editProfile");
 const findUsers = require("./findUsers");
 const changeDP = require("./changeDP");
 const removeDP = require("./removeDP");
@@ -15,6 +16,7 @@ module.exports = {
   signout,
   getCurrentUser,
   getUserProfile,
+  editProfile,
   findUsers,
   changeDP,
   removeDP,
