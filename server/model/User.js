@@ -9,6 +9,8 @@ module.exports = {
           user.username,
           user.dpPath,
           user.dateAndTime AS joinedOn,
+          user.website,
+          user.bio,
           followers.followers,
           following.following,
           posts.posts,
@@ -49,6 +51,9 @@ module.exports = {
           email,
           password,
           dpPath,
+          website,
+          bio,
+          phoneNumber,
           dateAndTime AS joinedOn
         FROM 
           user 
@@ -74,6 +79,9 @@ module.exports = {
           email,
           password,
           dpPath,
+          website,
+          bio,
+          phoneNumber,
           dateAndTime AS joinedOn 
         FROM 
           user 
@@ -99,6 +107,9 @@ module.exports = {
           email,
           password,
           dpPath,
+          website,
+          bio,
+          phoneNumber,
           dateAndTime AS joinedOn
         FROM 
           user 
@@ -128,6 +139,25 @@ module.exports = {
         ORDER BY followers.followers
         LIMIT 20
         `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
+  findOtherUserWithSameField: (con, userId, field, value) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `SELECT 
+          ${field}
+        FROM
+          user
+        WHERE
+          userId != ${userId}
+          AND ${field} = "${value}";
+      `,
         (err, result) => {
           if (err) reject(err);
           else resolve(result);
@@ -183,6 +213,39 @@ module.exports = {
         `
         UPDATE user
         SET dpPath = null
+          WHERE userId = ${userId}
+        `,
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+  },
+
+  updateProfile: (
+    con,
+    userId,
+    fullname,
+    username,
+    website,
+    bio,
+    email,
+    phoneNumber
+  ) => {
+    return new Promise((resolve, reject) => {
+      con.query(
+        `
+        UPDATE user
+        SET 
+            fullname="${fullname}",
+            username="${username}",
+            website=${typeof website === "string" ? `${website}` : website},
+            bio=${typeof bio === "string" ? `${bio}` : bio},
+            email="${email}",
+            phoneNumber=${
+              typeof phoneNumber === "string" ? `${phoneNumber}` : phoneNumber
+            }
           WHERE userId = ${userId}
         `,
         (err, result) => {
