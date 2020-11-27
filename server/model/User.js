@@ -240,12 +240,10 @@ module.exports = {
         SET 
             fullname="${fullname}",
             username="${username}",
-            website=${typeof website === "string" ? `${website}` : website},
-            bio=${typeof bio === "string" ? `${bio}` : bio},
+            website=${typeof website === "string" ? `"${website}"` : website},
+            bio=${typeof bio === "string" ? `"${bio}"` : bio},
             email="${email}",
-            phoneNumber=${
-              typeof phoneNumber === "string" ? `${phoneNumber}` : phoneNumber
-            }
+            phoneNumber=${phoneNumber}
           WHERE userId = ${userId}
         `,
         (err, result) => {
