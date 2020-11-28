@@ -1,3 +1,6 @@
+CREATE DATABASE instagram_clone;
+USE instagram_clone;
+
 CREATE TABLE user (
     userId  BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     fullname VARCHAR(30) NOT NULL,
