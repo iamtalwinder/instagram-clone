@@ -14,8 +14,7 @@ module.exports = async (req, res) => {
         params: {
           client_id: process.env.FACEBOOK_APP_ID,
           client_secret: process.env.FACEBOOK_APP_SECRET,
-          redirect_uri:
-            process.env.FACEBOOK_REDIRECT_URI || "http://localhost:3000/",
+          redirect_uri: process.env.FACEBOOK_REDIRECT_URI,
           code: code,
         },
       }

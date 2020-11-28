@@ -2,8 +2,8 @@ import React from "react";
 
 export default function FacebookRedirect({ children, disabled, onClick }) {
   const params = {
-    client_id: process.env.FACEBOOK_APP_ID || 1050934815332379,
-    redirect_uri: process.env.FACEBOOK_REDIRECT_URI || "http://localhost:3000",
+    client_id: process.env.REACT_APP_FACEBOOK_APP_ID,
+    redirect_uri: process.env.REACT_APP_FACEBOOK_REDIRECT_URI,
     scope: ["email"].join(","),
     response_type: "code",
     auth_type: "rerequest",
