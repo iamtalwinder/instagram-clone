@@ -183,9 +183,9 @@ Make sure you have these installed before moving on:
       npm install
       ```
 
-   2. Creating .env file
+   2. Creating `.env` file
 
-      1. Create .env file in client directory
+      1. Create `.env` file in client directory
       2. Add following variables in it:
 
          ```
@@ -248,9 +248,9 @@ Make sure you have these installed before moving on:
       USER_PASSWORD: instagram_clone
       ```
 
-   3. Creating .env file
+   3. Creating `.env` file
 
-      1. Create .env file in server directory
+      1. Create `.env` file in server directory
       2. Add following variables in it:
 
          ```
