@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./AppInfo.module.css";
 import Button from "./Button";
-import appStore from "../img/app-store.png";
-import googlePlay from "../img/google-play.png";
+import appStore from "../img/app_store.png";
+import googlePlay from "../img/google_play.png";
 
 export default function AppInfo() {
   return (
