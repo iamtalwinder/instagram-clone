@@ -1,0 +1,19 @@
+.active,
+.disabled {
+  width: 100%;
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 5px;
+  color: #ffffff;
+  background-color: #0095f6;
+  outline: none;
+  border: none;
+}
+
+.active {
+  cursor: pointer;
+}
+
+.disabled {
+  background-color: #acdbfa;
+}

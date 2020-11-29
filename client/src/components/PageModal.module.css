@@ -1,0 +1,45 @@
+.container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 12;
+  background-color: white;
+  padding-top: 45px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+[data-animation="bottom-up"].container {
+  top: 100vh;
+}
+
+[data-animation="bottom-up"].visible {
+  top: 0;
+}
+
+[data-animation="left-in"].container {
+  left: 100vw;
+}
+
+[data-animation="left-in"].visible {
+  left: 0;
+}
+
+[data-animation="right-in"].container {
+  left: -100vw;
+}
+
+[data-animation="right-in"].visible {
+  left: 0;
+}

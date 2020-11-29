@@ -1,0 +1,24 @@
+.container {
+  width: 100%;
+  background-color: #fafafa;
+  border: 1px solid #cfccca;
+  display: flex;
+  position: relative;
+  transition: 0.3s ease;
+}
+
+.input {
+  width: 100%;
+  font-size: 15px;
+  padding: 5px;
+  background: none;
+  border: none;
+  outline: none;
+  transition: inherit;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  padding: 0 3px;
+}

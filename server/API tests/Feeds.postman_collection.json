@@ -1,0 +1,470 @@
+{
+	"info": {
+		"_postman_id": "515161a6-2744-4854-a532-f63f25004603",
+		"name": "Feeds",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "aff2add1-295e-4f29-9692-37a16f4e7867",
+						"exec": [
+							"const date = Date.now();\r",
+							"const email = `test${date}@gmail.com`;\r",
+							"const username = `t${date}`;\r",
+							"\r",
+							"pm.environment.set(\"email\", email);\r",
+							"pm.environment.set(\"username\", username);\r",
+							"\r",
+							"/* \r",
+							"    set environment variables:\r",
+							"\r",
+							"    iteration       1           1\r",
+							"    password        talwinder   talwinder\r",
+							"    signinNext      follow      follow\r",
+							"    userFollowed    0           0\r",
+							"    imgsPosted      0           0\r",
+							"*/"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "17eae6e7-70a2-4926-9649-05330b569457",
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has all necessary properties\", () => {\r",
+							"    const schema = {\r",
+							"        \"type\": \"object\",\r",
+							"        \"properties\": {\r",
+							"            \"user\": {\r",
+							"                \"type\": \"object\",\r",
+							"                \"required\": [\"userId\", \"fullname\", \"username\", \"email\"]\r",
+							"            },\r",
+							"            \"msg\": {\r",
+							"                \"type\": \"string\"\r",
+							"            }\r",
+							"        },\r",
+							"        \"required\": [\"user\", \"msg\"]\r",
+							"    }\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Success msg is correct\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.msg).to.equals(\"Signup successful\");\r",
+							"});\r",
+							"\r",
+							"const users = pm.environment.get(\"users\") || [];\r",
+							"const user = pm.response.json().user;\r",
+							"users.push(user);\r",
+							"pm.environment.set(\"users\", users);\r",
+							"\r",
+							"let i = pm.environment.get(\"iteration\") || 1;\r",
+							"if (i < 4) {\r",
+							"    pm.environment.set(\"iteration\", ++i);\r",
+							"    postman.setNextRequest(\"signup\");\r",
+							"} else {\r",
+							"    pm.environment.set(\"iteration\", 1);\r",
+							"    postman.setNextRequest(\"signin\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullname\": \"test\",\r\n    \"username\": \"{{username}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/signup",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7b300232-6774-4896-bbd3-8651bab22160",
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has session cookie\", () => {\r",
+							"    pm.expect(pm.cookies.has('USER_SID')).to.be.true;\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(pm.environment.get(\"signinNext\"));\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2cbe3f4b-8b28-4716-8ca4-c33f006f2b95",
+						"exec": [
+							"let i = pm.environment.get(\"iteration\");\r",
+							"const user = pm.environment.get(\"users\")[i - 1];\r",
+							"\r",
+							"pm.environment.set(\"username\", user.username);\r",
+							"pm.environment.set(\"username\", user.email);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/signin",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "follow",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3da25df5-942e-4629-a3cb-86921bb5d924",
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Success msg is correct\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.msg).to.equals(\"Follow successful\");\r",
+							"});\r",
+							"\r",
+							"let uf = pm.environment.get(\"userFollowed\") + 1;\r",
+							"pm.environment.set(\"userFollowed\", uf);\r",
+							"\r",
+							"if (uf < 2) {\r",
+							"    postman.setNextRequest(\"follow\");\r",
+							"} else {\r",
+							"    pm.environment.set(\"userFollowed\", 0);\r",
+							"    postman.setNextRequest(\"post\");\r",
+							"}\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6309a0b9-d193-441c-9894-07d443fc864b",
+						"exec": [
+							"let i = pm.environment.get(\"iteration\");\r",
+							"const users = pm.environment.get(\"users\");\r",
+							"const uf = pm.environment.get(\"userFollowed\");\r",
+							"const userToFollow = users[ ( i + uf ) % 4 ].userId;\r",
+							"pm.environment.set(\"userToFollow\", userToFollow);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userToFollow\": {{userToFollow}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/follow",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"follow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb038deb-08f3-4c2a-8330-dbabc88179a7",
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Success msg is correct\", () => {\r",
+							"    pm.expect(response.msg).to.equals(\"Uploaded\");\r",
+							"});\r",
+							"\r",
+							"let i = pm.environment.get(\"iteration\");\r",
+							"const user = pm.environment.get(\"users\")[i - 1];\r",
+							"let ip = pm.environment.get(\"imgsPosted\") + 1;\r",
+							"pm.environment.set(\"imgsPosted\", ip);\r",
+							"\r",
+							"\r",
+							"if (i === 4) {\r",
+							"    pm.environment.set(\"signinNext\", \"feeds\");\r",
+							"}\r",
+							"\r",
+							"const post = {\r",
+							"    postId: response.postId,\r",
+							"    userId: user.userId\r",
+							"}\r",
+							"\r",
+							"const posts = pm.environment.get(\"posts\") || [];\r",
+							"posts.push(post);\r",
+							"pm.environment.set(\"posts\", posts);\r",
+							"\r",
+							"if (ip < 2) {\r",
+							"    postman.setNextRequest(\"post\");\r",
+							"} else {\r",
+							"    pm.environment.set(\"imgsPosted\", 0);\r",
+							"    postman.setNextRequest(\"signout\");\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"type": "file",
+							"src": "/C:/Users/intel.intel-PC/Pictures/test.jpg"
+						},
+						{
+							"key": "caption",
+							"value": "hmmm",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/post",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signout",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "caaa2985-2096-4e2d-bb00-22584905fadd",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfe42b60-6ffb-4105-bb6f-7b4f165eff11",
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Success msg is correct\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.msg).to.equals(\"Signout successful\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"let i = pm.environment.get(\"iteration\");\r",
+							"if (i < 4) {\r",
+							"    pm.environment.set(\"iteration\", ++i);\r",
+							"} else {\r",
+							"    pm.environment.set(\"iteration\", 1);\r",
+							"}\r",
+							"\r",
+							"postman.setNextRequest(\"signin\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/signout",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"signout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "feeds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a98c0f73-76f7-454a-b19b-8735e490d3a9",
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has all necessary properties\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    const schema = {\r",
+							"        type: \"object\",\r",
+							"        \"required\": [\"postId\", \"userId\", \"path\", \"caption\", \"postedOn\", \"username\", \"dpPath\", \"likes\", \"comments\", \"isLiked\"]\r",
+							"    };\r",
+							"\r",
+							"    if (response.feeds.length) {\r",
+							"        pm.expect(response.feeds[0]).to.have.jsonSchema(schema);\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(null);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/feeds?refresh=true&start=1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"feeds"
+					],
+					"query": [
+						{
+							"key": "refresh",
+							"value": "true"
+						},
+						{
+							"key": "start",
+							"value": "1"
+						},
+						{
+							"key": "offset",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "85409164-db87-42ed-9ddb-51d2f4f6289b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2a3688fb-c04d-411a-bfd8-d6b5f476ccce",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "40258a1d-4e53-4159-b97a-23052fc6912e",
+			"key": "baseURL",
+			"value": "http://localhost:4000/api"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

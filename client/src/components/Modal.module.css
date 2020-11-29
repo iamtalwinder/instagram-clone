@@ -1,0 +1,40 @@
+.container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.modalContent {
+  width: fit-content;
+  height: fit-content;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  -webkit-transition: inherit;
+  transition: inherit;
+  transform: scale(0.8);
+  z-index: 12;
+  margin: auto 20px;
+}
+
+.visible {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.visible .modalContent {
+  transform: scale(1);
+}

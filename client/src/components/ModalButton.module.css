@@ -1,0 +1,18 @@
+.active,
+.disabled {
+  background: #ffffff;
+  width: 100%;
+  text-align: center;
+  outline: none;
+  border: none;
+  border-top: 1px solid #cfccca;
+  padding: 7px;
+  background: none;
+  font-size: 16px;
+  color: #262626;
+  justify-content: space-between;
+}
+
+.active {
+  cursor: pointer;
+}

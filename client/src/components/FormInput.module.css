@@ -1,0 +1,57 @@
+.container {
+  width: 100%;
+  background-color: #fafafa;
+  border: 1px solid #cfccca;
+  display: flex;
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  font-size: 11px;
+  padding: 15px 6px 3px 6px;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.input:placeholder-shown {
+  font-size: 12px;
+  padding: 8px 6px;
+}
+
+.input:placeholder-shown + .label {
+  opacity: 0;
+  transform: translateY(10px);
+  visibility: hidden;
+}
+
+.input + .label {
+  visibility: visible;
+  flex: 1;
+  font-size: 11px;
+  color: #9c9691;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  transition: all 0.1s;
+  opacity: 1;
+  transform: translateY(3px);
+}
+
+.box {
+  display: flex;
+}
+
+.box > * {
+  margin-right: 4px;
+  align-self: center;
+  font-size: 12px;
+}
+
+.button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}

@@ -1,0 +1,16 @@
+.divider {
+  width: 100%;
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+}
+
+.text {
+  font-size: 14px;
+  position: relative;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 50%;
+  top: -18px;
+  color: #8a8787;
+}

@@ -1,0 +1,62 @@
+.topContainer {
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form h4 {
+  font-family: "Yesteryear";
+  font-size: 50px;
+  font-weight: 300;
+  padding: 20px 0 30px 0;
+}
+
+.form > * {
+  margin-bottom: 8px;
+}
+
+.signup {
+  width: fit-content;
+  margin: 40px 0;
+}
+
+.signup p {
+  display: inline;
+  font-size: 14px;
+  color: #706868;
+  font-weight: 400;
+  margin-right: 4px;
+}
+
+@media (min-width: 450px) {
+  .topContainer {
+    background-color: #fafafa;
+  }
+
+  .form,
+  .signup {
+    width: 350px;
+    background-color: #ffffff;
+    border: 1px solid #cfccca;
+    padding: 0 30px;
+  }
+
+  .form {
+    margin-top: 30px;
+  }
+
+  .signup {
+    text-align: center;
+    padding: 20px 0;
+  }
+}

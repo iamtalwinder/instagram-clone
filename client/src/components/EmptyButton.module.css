@@ -1,0 +1,7 @@
+.button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: fit-content;
+  outline: none;
+}

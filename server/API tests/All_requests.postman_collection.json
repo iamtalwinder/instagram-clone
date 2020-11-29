@@ -1,0 +1,2219 @@
+{
+	"info": {
+		"_postman_id": "ec38e897-539f-4f9b-9596-9ca4d59047ed",
+		"name": "All_requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "signup",
+					"item": [
+						{
+							"name": "signup success",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6897522d-87c9-4246-8687-d1ccfac9ee59",
+										"exec": [
+											"const date = Date.now();\r",
+											"const email = `test${date}@gmail.com`;\r",
+											"const username = `t${date}`;\r",
+											"\r",
+											"pm.environment.set(\"email\", email);\r",
+											"pm.environment.set(\"username\", username);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "623632db-d7bc-4a6f-b8b4-7995008097de",
+										"exec": [
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"user\": {\r",
+											"                \"type\": \"object\",\r",
+											"                \"required\": [\"userId\", \"fullname\", \"username\", \"email\"]\r",
+											"            },\r",
+											"            \"msg\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\"user\", \"msg\"]\r",
+											"    }\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.environment.set(\"userId\", response.user.userId);\r",
+											"    pm.expect(response.msg).to.equals(\"Signup successful\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fullname\": \"test\",\r\n    \"username\": \"{{username}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"talwinder\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/signup",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "username conflict",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "cd46865a-6d49-418d-9d7e-c57a9fe65162",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "3751d637-edc6-45e6-95a0-96f5917504f2",
+										"exec": [
+											"pm.test(\"Status code is 409\", () => {\r",
+											"    pm.response.to.have.status(409);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error field is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.field).to.equals(\"username\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Username already in use\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fullname\": \"test\",\r\n    \"username\": \"{{username}}\",\r\n    \"email\": \"r{{email}}\",\r\n    \"password\": \"talwinder\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/signup",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "email conflict",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "2f7b0370-969a-4edf-b8da-717cab7777ff",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "21cf06a5-1ee5-49a8-9a7d-24f41ff613fb",
+										"exec": [
+											"pm.test(\"Status code is 409\", () => {\r",
+											"    pm.response.to.have.status(409);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error field is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.field).to.equals(\"email\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Email already in use\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fullname\": \"test\",\r\n    \"username\": \"r{{username}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"talwinder\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/signup",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "signin",
+					"item": [
+						{
+							"name": "signin success username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c92f2ca5-c36b-4966-850e-2b314a6cc083",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"user\": {\r",
+											"                \"type\": \"object\",\r",
+											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"followers\", \"following\", \"posts\", \"email\"]\r",
+											"            },\r",
+											"            \"msg\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\"user\", \"msg\"]\r",
+											"    }\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has session cookie\", () => {\r",
+											"    pm.expect(pm.cookies.has('USER_SID')).to.be.true;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": \"{{username}}\",\r\n    \"password\": \"talwinder\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/signin",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"signin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signin success email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4fb0b342-4a76-47d6-9acf-8fefbb653a8d",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"user\": {\r",
+											"                \"type\": \"object\",\r",
+											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"followers\", \"following\", \"posts\", \"email\"]\r",
+											"            },\r",
+											"            \"msg\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\"user\", \"msg\"]\r",
+											"    }\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has session cookie\", () => {\r",
+											"    pm.expect(pm.cookies.has('USER_SID')).to.be.true;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": \"{{email}}\",\r\n    \"password\": \"talwinder\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/signin",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"signin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signin fail user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "58c869e6-7a63-4160-8398-ca5146b561a7",
+										"exec": [
+											"pm.test(\"Status code is 406\", () => {\r",
+											"    pm.response.to.have.status(406);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error field is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.field).to.equals(\"user\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"No such username or email exists\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": \"tt\",\r\n    \"password\": \"talwinder\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/signin",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"signin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signin fail password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f18aedc0-08c3-47be-ab10-2e32e8bbfc73",
+										"exec": [
+											"pm.test(\"Status code is 406\", () => {\r",
+											"    pm.response.to.have.status(406);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error field is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.field).to.equals(\"password\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Incorrect password\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": \"{{email}}\",\r\n    \"password\": \"t\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/signin",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"signin"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "isAuthorized",
+					"item": [
+						{
+							"name": "is-authorized success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "17a93423-0f56-427a-b970-5b083461160a",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Authorized\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/is-authorized",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"is-authorized"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "is-authorized fail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "aab6768f-b4fc-4801-b4d2-0701c6464126",
+										"exec": [
+											"pm.test(\"Status code is 401\", () => {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Unauthorized\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "69b6bea8-f1ea-4c1c-9c2c-cb2d4648aa16",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/is-authorized",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"is-authorized"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "signout",
+					"item": [
+						{
+							"name": "signout",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6d40e0bd-6ac0-44b8-9e02-824770f4196a",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "c05022cd-5379-468a-9fc6-51facd243f21",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Signout successful\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/signout",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"signout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "userProfile",
+					"item": [
+						{
+							"name": "user-profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "15d84af2-dbd2-4ce6-87c4-e1df820973ff",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"userProfile\": {\r",
+											"                \"type\": \"object\",\r",
+											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"followers\", \"following\", \"posts\", \"isFollowing\"]\r",
+											"            },\r",
+											"        },\r",
+											"        \"required\": [\"userProfile\"]\r",
+											"    }\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userToFind\": {{userId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/user-profile",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"user-profile"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "changeDP",
+					"item": [
+						{
+							"name": "change-dp success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2e24bdc6-11e2-4542-b880-cb32976afc6d",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"dpPath\": {\r",
+											"                \"type\": \"string\",\r",
+											"            },\r",
+											"            \"msg\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\"dpPath\", \"msg\"]\r",
+											"    }\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"DP changed\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "img",
+											"type": "file",
+											"src": "/C:/Users/intel.intel-PC/Pictures/dp.jpg"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/change-dp",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"change-dp"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "change-dp fail wrong-format",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "76670d65-38ae-4f5e-9178-9c3210418ca8",
+										"exec": [
+											"pm.test(\"Status code is 406\", () => {\r",
+											"    pm.response.to.have.status(406);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"jpeg, jpg or png only\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "img",
+											"type": "file",
+											"src": "/C:/Users/intel.intel-PC/Pictures/gif.gif"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/change-dp",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"change-dp"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "change-dp fail no-file",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "97088e8e-1d10-4681-b61e-d406da7015a8",
+										"exec": [
+											"pm.test(\"Status code is 406\", () => {\r",
+											"    pm.response.to.have.status(406);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Select a file\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "img",
+											"type": "file",
+											"src": "/C:/Users/intel.intel-PC/Pictures/gif.gif",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/change-dp",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"change-dp"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "removeDP",
+					"item": [
+						{
+							"name": "remove-dp success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "537362c3-92a7-4481-8ae2-dd03cfd5b508",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"DP removed\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/remove-dp",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"remove-dp"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Follow",
+			"item": [
+				{
+					"name": "follow",
+					"item": [
+						{
+							"name": "follow sucess",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bf5e16fd-cdd4-4e0a-9d0e-435fedc31332",
+										"exec": [
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Follow successful\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "24544713-4bfe-4b44-8577-f84ca501b414",
+										"exec": [
+											"pm.environment.set(\"userToFollow\", 4);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userToFollow\": {{userToFollow}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/follow",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"follow"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "follow conflict",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b36d1f6f-ba49-4625-93b8-c6e32c2f7c8d",
+										"exec": [
+											"pm.test(\"Status code is 409\", () => {\r",
+											"    pm.response.to.have.status(409);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Already following this user\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "701a5002-7218-4b9b-ab78-fbc7954e91a2",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userToFollow\": {{userToFollow}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/follow",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"follow"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "follow fail no-user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d6c4c031-10f7-461d-865e-28f09fa89584",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"No such user exists\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "c249c03a-b7bd-457b-ae22-5db3f39928e2",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userToFollow\": 1000000000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/follow",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"follow"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "follow fail same-follow",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d14dca59-48f3-4ad0-8183-c26f821c1774",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"You cannot follow yourself\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "e8fa9e79-4b37-4861-b4b5-13c166142796",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userToFollow\": {{userId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/follow",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"follow"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "unfollow",
+					"item": [
+						{
+							"name": "unfollow success",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userToUnfollow\": {{userToFollow}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/unfollow",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"unfollow"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "unfollow fail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "73fc92d7-5487-48e1-bc60-4b4a363f41c0",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"You're not following this user\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userToUnfollow\": 1000000000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/unfollow",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"unfollow"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "followers",
+					"item": [
+						{
+							"name": "followers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1f27c0ca-b77e-42f9-861a-4929a64ec372",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    const schema = {\r",
+											"        type: \"object\",\r",
+											"        \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\"]\r",
+											"    };\r",
+											"\r",
+											"    if (response.followers.length) {\r",
+											"        pm.expect(response.followers[0]).to.have.jsonSchema(schema);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/followers",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"followers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "following",
+					"item": [
+						{
+							"name": "following",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5203ce27-544a-4b68-aaae-5d27f1205b7b",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    const schema = {\r",
+											"        type: \"object\",\r",
+											"        \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\"]\r",
+											"    };\r",
+											"\r",
+											"    if (response.following.length) {\r",
+											"        pm.expect(response.following[0]).to.have.jsonSchema(schema);\r",
+											"    }\r",
+											"   \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/following",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"following"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "post",
+					"item": [
+						{
+							"name": "post success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5ec183e4-0e5a-4038-85b9-65d579f5d3d9",
+										"exec": [
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.environment.set(\"postId\", response.postId);\r",
+											"    pm.expect(response.msg).to.equals(\"Uploaded\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "img",
+											"type": "file",
+											"src": "/C:/Users/intel.intel-PC/Pictures/test.jpg"
+										},
+										{
+											"key": "caption",
+											"value": "hmmm",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/post",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"post"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "post fail caption",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2a924c5a-aee8-43e0-84df-505a9103c667",
+										"exec": [
+											"pm.test(\"Status code is 406\", () => {\r",
+											"    pm.response.to.have.status(406);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"\\\"caption\\\" length must be less than or equal to 100 characters long\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "img",
+											"type": "file",
+											"src": "/C:/Users/intel.intel-PC/Pictures/test.jpg"
+										},
+										{
+											"key": "caption",
+											"value": "hmmmlkdsnffhbvcknmnvcbvncxnvnbcncbvccvcnvbccmvbcnbvcvbcvncvmdsfdsfsdfsdsdfsdfsdfsdfsdfsdsdfsdfsdfsdfsdfsdfsdsdsdsdsdfsdsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfd",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/post",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"post"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "delete post",
+					"item": [
+						{
+							"name": "post success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cdf594ed-8f24-4945-beae-ab6917e66ff9",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Post has been deleted\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/post",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"post"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "user-posts",
+					"item": [
+						{
+							"name": "user-posts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "291909a7-5742-4ead-b5b1-912761e092d5",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    const schema = {\r",
+											"        type: \"object\",\r",
+											"        \"required\": [\"postId\", \"userId\", \"path\", \"caption\", \"postedOn\", \"username\", \"dpPath\", \"likes\", \"comments\", \"isLiked\"]\r",
+											"    };\r",
+											"\r",
+											"    if (response.posts.length) {\r",
+											"        pm.expect(response.posts[0]).to.have.jsonSchema(schema);\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/user-posts?refresh=false&start=0&offset=4",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"user-posts"
+									],
+									"query": [
+										{
+											"key": "refresh",
+											"value": "false"
+										},
+										{
+											"key": "start",
+											"value": "0"
+										},
+										{
+											"key": "offset",
+											"value": "4"
+										},
+										{
+											"key": "userId",
+											"value": "2",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "comment",
+					"item": [
+						{
+							"name": "comment sucess",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9c72746c-8cd5-459f-898a-bb160ea53ad0",
+										"exec": [
+											"pm.environment.set(\"comment\", \"nice\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "698642fe-f64a-4f1f-abd7-5d2dd958ff35",
+										"exec": [
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const schema = {\r",
+											"        type: \"object\",\r",
+											"        \"required\": [\"commentId\", \"postId\", \"comment\"]\r",
+											"    };\r",
+											"\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"    \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response comment is correct\", () => {\r",
+											"    const comment = pm.environment.get(\"comment\");\r",
+											"    const response = pm.response.json();\r",
+											"    pm.environment.set(\"commentId\", response.commentId);\r",
+											"    pm.expect(response.comment).to.equals(comment);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response postId is correct\", () => {\r",
+											"    const postId = pm.environment.get(\"postId\");\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.postId).to.equals(postId);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"{{postId}}\",\r\n    \"comment\": \"{{comment}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/comment",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"comment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "comment fail",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "5a739a57-c598-43a9-aecd-9a8936362534",
+										"exec": [
+											"pm.environment.set(\"comment\", \"nice\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "d10a03c4-8a97-4a42-bb1d-253946010250",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"No such post exists\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"dd\",\r\n    \"comment\": \"{{comment}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/comment",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"comment"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "delete comment",
+					"item": [
+						{
+							"name": "comment success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6aee3d04-c497-400a-b55c-c01665b01ffe",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Comment deleted\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"commentId\": \"{{commentId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/comment",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"comment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "comment fail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2840f2b3-8232-439d-94ac-afae492f3463",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"No such comment exists\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"commentId\": \"sd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/comment",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"comment"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "comments",
+					"item": [
+						{
+							"name": "comments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "85d5dc66-5996-4f15-9c3c-db1ccec21867",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    const schema = {\r",
+											"        type: \"object\",\r",
+											"        \"required\": [\"commentId\", \"userId\", \"comment\", \"commentedOn\", \"username\", \"dpPath\"]\r",
+											"    };\r",
+											"\r",
+											"    if (response.comments.length) {\r",
+											"        pm.expect(response.comments[0]).to.have.jsonSchema(schema);\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/comments",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"comments"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "postLike",
+			"item": [
+				{
+					"name": "like",
+					"item": [
+						{
+							"name": "like success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2d3161fe-1b5a-4ebc-8171-4c08d8964f30",
+										"exec": [
+											"pm.test(\"Status code is 201\", () => {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Post liked\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/like",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"like"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "like conflict",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "35173442-547f-466b-999d-142a5f7ced6a",
+										"exec": [
+											"pm.test(\"Status code is 409\", () => {\r",
+											"    pm.response.to.have.status(409);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Eoor msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"You've already liked this post\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/like",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"like"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "unlike",
+					"item": [
+						{
+							"name": "unlike success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9b0121ab-d2e9-4fb4-81a1-96d005534368",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Post unliked\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/unlike",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"unlike"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "unlike fail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e531c96e-cb8a-4f88-9a41-6dedbf1ebc98",
+										"exec": [
+											"pm.test(\"Status code is 409\", () => {\r",
+											"    pm.response.to.have.status(409);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"No such like exists\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/unlike",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"unlike"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "likers",
+					"item": [
+						{
+							"name": "likers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fe47dd40-e60f-42ba-97f7-1955bce21de6",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    const schema = {\r",
+											"        type: \"object\",\r",
+											"        \"required\": [\"userId\", \"postId\", \"likedOn\", \"username\", \"dpPath\"]\r",
+											"    };\r",
+											"\r",
+											"    if (response.likers.length) {\r",
+											"        pm.expect(response.likers[0]).to.have.jsonSchema(schema);\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/likers",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"likers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Feeds",
+			"item": [
+				{
+					"name": "feeds",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "acaa3f85-f086-4b57-9b2d-5413df2b9d58",
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has all necessary properties\", () => {\r",
+									"    const response = pm.response.json();\r",
+									"    const schema = {\r",
+									"        type: \"object\",\r",
+									"        \"required\": [\"postId\", \"userId\", \"path\", \"caption\", \"postedOn\", \"username\", \"dpPath\", \"likes\", \"comments\", \"isLiked\"]\r",
+									"    };\r",
+									"\r",
+									"    if (response.feeds.length) {\r",
+									"        pm.expect(response.feeds[0]).to.have.jsonSchema(schema);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(null);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/feeds?refresh=true&start=1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"feeds"
+							],
+							"query": [
+								{
+									"key": "refresh",
+									"value": "true"
+								},
+								{
+									"key": "start",
+									"value": "1"
+								},
+								{
+									"key": "offset",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a0d44b3a-7ae0-4be7-9691-4f36603b7fd1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "fe58eb5d-a62b-4c0b-acfc-b688d38db2d8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "492d3c5b-34d9-4f89-bd47-28d867d69691",
+			"key": "baseURL",
+			"value": "http://localhost:4000/api"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

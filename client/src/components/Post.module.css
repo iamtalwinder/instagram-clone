@@ -1,0 +1,62 @@
+.imgContainer {
+  position: relative;
+}
+
+.post,
+.imgContainer img {
+  width: 100%;
+}
+
+.header,
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.header {
+  border-top: 0.5px solid #ccc;
+}
+
+.footer {
+  border-bottom: 0.5px solid #ccc;
+}
+
+.infoContainer {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.heart {
+  position: absolute;
+  margin: auto;
+  z-index: 14;
+  top: 40%;
+  left: 40%;
+  transform: scale(0);
+  animation-duration: 0.4s;
+}
+
+@keyframes like {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(3);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@media (min-width: 400px) {
+  .post {
+    width: 400px;
+    margin: auto;
+  }
+
+  .imgContainer img {
+    height: 450px;
+  }
+}

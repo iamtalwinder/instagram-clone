@@ -1,0 +1,17 @@
+.imageGrid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.img {
+  width: 33.33%;
+  height: 150px;
+  flex: 0 33.33%;
+}
+
+@media only screen and (min-width: 500px) {
+  .img {
+    height: 200px;
+  }
+}
