@@ -234,7 +234,7 @@
 											"        \"properties\": {\r",
 											"            \"user\": {\r",
 											"                \"type\": \"object\",\r",
-											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"followers\", \"following\", \"posts\", \"email\"]\r",
+											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"email\", \"website\", \"bio\", \"phoneNumber\"]\r",
 											"            },\r",
 											"            \"msg\": {\r",
 											"                \"type\": \"string\"\r",
@@ -295,7 +295,7 @@
 											"        \"properties\": {\r",
 											"            \"user\": {\r",
 											"                \"type\": \"object\",\r",
-											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"followers\", \"following\", \"posts\", \"email\"]\r",
+											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"email\", \"website\", \"bio\", \"phoneNumber\"]\r",
 											"            },\r",
 											"            \"msg\": {\r",
 											"                \"type\": \"string\"\r",
@@ -443,10 +443,10 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "isAuthorized",
+					"name": "currentUser",
 					"item": [
 						{
-							"name": "is-authorized success",
+							"name": "current-user success",
 							"event": [
 								{
 									"listen": "test",
@@ -457,9 +457,25 @@
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Success msg is correct\", () => {\r",
-											"    const response = pm.response.json();\r",
-											"    pm.expect(response.msg).to.equals(\"Authorized\");\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const schema = {\r",
+											"        \"type\": \"object\",\r",
+											"        \"properties\": {\r",
+											"            \"user\": {\r",
+											"                \"type\": \"object\",\r",
+											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"email\", \"website\", \"bio\", \"phoneNumber\"]\r",
+											"            },\r",
+											"            \"msg\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        },\r",
+											"        \"required\": [\"user\"]\r",
+											"    }\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has session cookie\", () => {\r",
+											"    pm.expect(pm.cookies.has('USER_SID')).to.be.true;\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -470,19 +486,19 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/is-authorized",
+									"raw": "{{baseURL}}/current-user",
 									"host": [
 										"{{baseURL}}"
 									],
 									"path": [
-										"is-authorized"
+										"current-user"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "is-authorized fail",
+							"name": "current-user fail",
 							"event": [
 								{
 									"listen": "test",
@@ -516,12 +532,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/is-authorized",
+									"raw": "{{baseURL}}/current-user",
 									"host": [
 										"{{baseURL}}"
 									],
 									"path": [
-										"is-authorized"
+										"current-user"
 									]
 								}
 							},
@@ -605,7 +621,7 @@
 											"        \"properties\": {\r",
 											"            \"userProfile\": {\r",
 											"                \"type\": \"object\",\r",
-											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"followers\", \"following\", \"posts\", \"isFollowing\"]\r",
+											"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"followers\", \"following\", \"posts\", \"isFollowing\", \"website\", \"bio\"]\r",
 											"            },\r",
 											"        },\r",
 											"        \"required\": [\"userProfile\"]\r",
@@ -625,7 +641,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"userToFind\": {{userId}}\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -633,12 +649,18 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/user-profile",
+									"raw": "{{baseURL}}/user-profile?userToFind=1397742033909446",
 									"host": [
 										"{{baseURL}}"
 									],
 									"path": [
 										"user-profile"
+									],
+									"query": [
+										{
+											"key": "userToFind",
+											"value": "1397742033909446"
+										}
 									]
 								}
 							},
@@ -697,7 +719,7 @@
 										{
 											"key": "img",
 											"type": "file",
-											"src": "/C:/Users/intel.intel-PC/Pictures/dp.jpg"
+											"src": "/C:/Users/intel.intel-PC/Pictures/dp1.jpg"
 										},
 										{
 											"key": "",
@@ -883,6 +905,74 @@
 									],
 									"path": [
 										"remove-dp"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "findUsers",
+					"item": [
+						{
+							"name": "users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "54f1e5d6-7f2f-4405-a7e5-ac3005dc51df",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has all necessary properties\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    const schema = {\r",
+											"        type: \"object\",\r",
+											"        \"required\": [\"userId\", \"username\", \"dpPath\"]\r",
+											"    };\r",
+											"\r",
+											"    if (response.users.length) {\r",
+											"        pm.expect(response.users[0]).to.have.jsonSchema(schema);\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users?user=j",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "user",
+											"value": "j"
+										}
 									]
 								}
 							},
@@ -1130,12 +1220,31 @@
 					"item": [
 						{
 							"name": "unfollow success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d9ad3f62-4f4d-4c30-afaf-99c113fe0585",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Success msg is correct\", () => {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.expect(response.msg).to.equals(\"Unfollow successful\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "DELETE",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"userToUnfollow\": {{userToFollow}}\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1143,12 +1252,18 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/unfollow",
+									"raw": "{{baseURL}}/unfollow?userToUnfollow={{userId}}",
 									"host": [
 										"{{baseURL}}"
 									],
 									"path": [
 										"unfollow"
+									],
+									"query": [
+										{
+											"key": "userToUnfollow",
+											"value": "{{userId}}"
+										}
 									]
 								}
 							},
@@ -1341,7 +1456,7 @@
 											"pm.test(\"Success msg is correct\", () => {\r",
 											"    const response = pm.response.json();\r",
 											"    pm.environment.set(\"postId\", response.postId);\r",
-											"    pm.expect(response.msg).to.equals(\"Uploaded\");\r",
+											"    pm.expect(response.msg).to.equals(\"Post Shared\");\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -1520,7 +1635,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/user-posts?refresh=false&start=0&offset=4",
+									"raw": "{{baseURL}}/user-posts?refresh=false&start=0&offset=4&visitedUserId=2",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -1541,9 +1656,8 @@
 											"value": "4"
 										},
 										{
-											"key": "userId",
-											"value": "2",
-											"disabled": true
+											"key": "visitedUserId",
+											"value": "2"
 										}
 									]
 								}
@@ -1569,9 +1683,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9c72746c-8cd5-459f-898a-bb160ea53ad0",
+										"id": "e3a629b6-e226-41ac-a08f-58376a38898c",
 										"exec": [
-											"pm.environment.set(\"comment\", \"nice\");"
+											"pm.environment.set(\"comment\", \"good\");"
 										],
 										"type": "text/javascript"
 									}
@@ -1579,7 +1693,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "698642fe-f64a-4f1f-abd7-5d2dd958ff35",
+										"id": "b3aa0ddb-587e-4b86-8a85-0a4e8f60d743",
 										"exec": [
 											"pm.test(\"Status code is 201\", () => {\r",
 											"    pm.response.to.have.status(201);\r",
@@ -1828,10 +1942,17 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1839,12 +1960,18 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/comments",
+									"raw": "{{baseURL}}/comments?postId={{postId}}",
 									"host": [
 										"{{baseURL}}"
 									],
 									"path": [
 										"comments"
+									],
+									"query": [
+										{
+											"key": "postId",
+											"value": "{{postId}}"
+										}
 									]
 								}
 							},
@@ -1986,7 +2113,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1994,12 +2121,18 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/unlike",
+									"raw": "{{baseURL}}/unlike?postId={{postId}}",
 									"host": [
 										"{{baseURL}}"
 									],
 									"path": [
 										"unlike"
+									],
+									"query": [
+										{
+											"key": "postId",
+											"value": "{{postId}}"
+										}
 									]
 								}
 							},
@@ -2013,8 +2146,8 @@
 									"script": {
 										"id": "e531c96e-cb8a-4f88-9a41-6dedbf1ebc98",
 										"exec": [
-											"pm.test(\"Status code is 409\", () => {\r",
-											"    pm.response.to.have.status(409);\r",
+											"pm.test(\"Status code is 400\", () => {\r",
+											"    pm.response.to.have.status(400);\r",
 											"});\r",
 											"\r",
 											"pm.test(\"Error msg is correct\", () => {\r",
@@ -2073,7 +2206,7 @@
 											"    const response = pm.response.json();\r",
 											"    const schema = {\r",
 											"        type: \"object\",\r",
-											"        \"required\": [\"userId\", \"postId\", \"likedOn\", \"username\", \"dpPath\"]\r",
+											"        \"required\": [\"userId\", \"postId\", \"likedOn\", \"username\", \"dpPath\", \"isFollowing\"]\r",
 											"    };\r",
 											"\r",
 											"    if (response.likers.length) {\r",
@@ -2093,7 +2226,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"postId\": \"{{postId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2101,12 +2234,18 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/likers",
+									"raw": "{{baseURL}}/likers?postId={{postId}}",
 									"host": [
 										"{{baseURL}}"
 									],
 									"path": [
 										"likers"
+									],
+									"query": [
+										{
+											"key": "postId",
+											"value": "{{postId}}"
+										}
 									]
 								}
 							},
@@ -2184,6 +2323,140 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "explore",
+			"item": [
+				{
+					"name": "explore",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1d1de411-2756-43d6-9a25-3d83fa44ac89",
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has all necessary properties\", () => {\r",
+									"    const response = pm.response.json();\r",
+									"    const schema = {\r",
+									"        type: \"object\",\r",
+									"        \"required\": [\"postId\", \"userId\", \"path\", \"caption\", \"postedOn\", \"username\", \"dpPath\", \"likes\", \"comments\", \"isLiked\"]\r",
+									"    };\r",
+									"\r",
+									"    if (response.feeds.length) {\r",
+									"        pm.expect(response.feeds[0]).to.have.jsonSchema(schema);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(null);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/explore?refresh=true&start=0",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"explore"
+							],
+							"query": [
+								{
+									"key": "refresh",
+									"value": "true"
+								},
+								{
+									"key": "start",
+									"value": "0"
+								},
+								{
+									"key": "offset",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "EditProfile",
+			"item": [
+				{
+					"name": "edit-profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b088f988-504c-4768-b24e-24aae9b6b0f0",
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has all necessary properties\", () => {\r",
+									"    const schema = {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"            \"user\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"required\": [\"userId\", \"fullname\", \"username\", \"dpPath\", \"joinedOn\", \"email\", \"website\", \"bio\", \"phoneNumber\"]\r",
+									"            },\r",
+									"            \"msg\": {\r",
+									"                \"type\": \"string\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"required\": [\"user\", \"msg\"]\r",
+									"    }\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullname\": \"jass singh\",\r\n    \"username\": \"jtysingh\",\r\n    \"website\": null,\r\n    \"bio\": null,\r\n    \"email\": \"jass367@yahoo.com\",\r\n    \"phoneNumber\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/edit-profile",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"edit-profile"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"event": [
@@ -2210,7 +2483,7 @@
 	],
 	"variable": [
 		{
-			"id": "492d3c5b-34d9-4f89-bd47-28d867d69691",
+			"id": "85652505-020c-475b-815b-c782aecde6fd",
 			"key": "baseURL",
 			"value": "http://localhost:4000/api"
 		}
