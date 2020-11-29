@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import styles from "./Start.module.css";
-import instagramIcon from "../img/instagram-icon.png";
+import instagramIcon from "../img/instagram_icon.png";
 import {
   Context as LoggedInUserContext,
   actionTypes as LoggedInUserActionTypes,
